@@ -24,6 +24,7 @@ const Side = () => {
 useEffect(() => {
   subscribe()
   console.log("Unread count updated:", unreadCount);
+  return () => unsubscribeFromMessages()
  
 }, []);
 
