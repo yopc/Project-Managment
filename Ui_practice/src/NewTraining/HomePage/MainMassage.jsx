@@ -7,7 +7,8 @@ import { useMessage } from '../Store/useMessage.jsx'
 
 const MainMassage = () => {
   const { employees, getAllEmployee } = Authenticatioin()
-  const {setSelectedUser, clearUnread} = useMessage()
+  const {setSelectedUser, clearUnread , unreadBySender} = useMessage()
+
 
 
 
@@ -22,23 +23,38 @@ const MainMassage = () => {
       {/* Sidebar */}
      <div className='w-1/4 h-screen overflow-y-auto'>
        <div >
-        {employees.map((employee) => (
+        {employees.map((employee) =>
+        
+       {  
+         const perChat = unreadBySender[employee._id] || 0
+        return (
+         
           <Link
             key={employee._id}
             to={`/message/detail/${employee._id}`}  // ✅ relative link
-            className="flex gap-1 border border-gray-400 rounded-lg p-2 items-center hover:bg-gray-100"
+            className="flex border border-gray-400 rounded-lg p-2 items-center justify-between hover:bg-gray-100"
             onClick={() => {setSelectedUser(employee._id)
               }
             }
           >
-            <Profile imageSrc={employee.profilePicture} styleProp={'w-10 h-10'} />
+           <div className='flex'>
+               <Profile imageSrc={employee.profilePicture} styleProp={'w-10 h-10'} />
             <div>
               <p>{employee.fullName}</p>
               <p>{employee.JobTitle}</p>
+
+              
              
             </div>
+           </div>
+ 
+             {perChat > 0 && (
+              <span className="bg-blue-500 text-white text-xs px-2 py-0.5 rounded-full">
+                {perChat} 
+              </span>
+            )}
           </Link>
-        ))}
+        )})}
       </div>
      </div>
 

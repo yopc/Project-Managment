@@ -18,13 +18,14 @@ const Side = () => {
   const { toggle } = useContext(ToggleContext);
   const {currentEmployee , getCurrentEmployee} = Authenticatioin();
 
-  const { unreadCount , subscribe,clearUnread} = useMessage();
+  const { unreadCount , subscribe,unreadTotal} = useMessage();
 // const unreadCount = useMessage((state) => state.unreadCount);
 
 useEffect(() => {
   subscribe()
   console.log("Unread count updated:", unreadCount);
-  return () => unsubscribeFromMessages()
+  
+  // return () => unsubscribeFromMessages()
  
 }, []);
 
@@ -75,11 +76,11 @@ return (
           
           <div>
                
-            {unreadCount >  0 && item.label === "Messege"  && (
-          <span className="bg-red-500 text-xs px-2 py-1 rounded-full">
-            {unreadCount} 
-          </span>
-           )}
+              {item.label === 'Messege' && unreadTotal > 0 && (
+                <span className="ml-auto bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">
+                  {unreadTotal}
+                </span>
+              )}
           </div>
 
          

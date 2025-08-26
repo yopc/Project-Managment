@@ -17,6 +17,7 @@ const Message = () => {
 
   return (
     <div>
+
       {
         activities.map((a) => (
           <h1>{a.action}</h1>

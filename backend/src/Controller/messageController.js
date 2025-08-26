@@ -57,7 +57,7 @@ export const sendMessage = async (req, res) => {
         `${file.originalname}data:${file.mimetype};base64,${file.buffer.toString('base64')}`
       ))
 
-      console.log('list of string array ' + stringFiles)
+    
 
       const message = new Message({
       senderId: senderId,

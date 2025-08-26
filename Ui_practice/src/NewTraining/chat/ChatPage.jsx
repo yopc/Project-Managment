@@ -17,17 +17,30 @@ const ChatPage = () => {
      const messageEndRef = useRef(null);
 
 
-   useEffect(() => {
-     getEmployee(id)
-     getMessage(id)
+  //  useEffect(() => {
+  //    getEmployee(id)
+  //    getMessage(id)
 
-     subscribe()
+  //    subscribe()
     
 
-    return () => unsubscribeFromMessages();
+  //   return () => unsubscribeFromMessages();
 
      
-    }, [id]);
+  //   }, [id]);
+
+
+   useEffect(() => {
+    setSelectedUser(id)       // mark this conversation as active & clear its unread
+    getEmployee(id)
+    getMessage(id)
+
+    subscribe()
+    return () => {
+      setSelectedUser(null)   // leaving chat => future msgs become unread again
+      // unsubscribeFromMessages() 
+    }
+  }, [id])
 
  
 
@@ -73,9 +86,12 @@ const ChatPage = () => {
     // TODO: send message + files to backend
 
     // Clear inputs
+
+    console.log('after sending the file')
     setMessage("");
     selectedFiles.forEach(f => f.preview && URL.revokeObjectURL(f.preview));
     setSelectedFile([]);
+    setFileToSend([]); 
   };
 
 

@@ -159,11 +159,13 @@ export const useMessage = create((set, get) => ({
 
   // Subscribe ONCE to socket events
   subscribe: () => {
+  
     if (get().isSubscribed) return
 
     const socket = Authenticatioin.getState().socket
 
     const handler = (message) => {
+      console.log('inside the handler')
       const active = get().selectedUser  // always fresh
       // Append message to current view if it belongs to the open chat
       if (message.senderId === active || message.receiverId === active) {
@@ -172,6 +174,7 @@ export const useMessage = create((set, get) => ({
 
       // If message is from someone else, bump unread
       if (message.senderId !== active) {
+        console.log('pump the message ')
         set((state) => {
           const prev = state.unreadBySender[message.senderId] || 0
           return {
