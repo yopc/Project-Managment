@@ -5,20 +5,62 @@ import CreateProject from './CreateProject'
 import { ProjectCreator } from './Store/ProjectCreator';
 import LinearProgress from "@mui/material/LinearProgress";
 
-import Box from "@mui/material/Box";
+
 import Card from '../component/Card';
 import HomePage from './HomePage';
 import { convertToString } from './lib/dateCorrector.jsx';
 import MainMassage from './HomePage/MainMassage.jsx';
-
-
+import { toast } from 'react-toastify';
+import { Authenticatioin } from './Store/AuthenticateUser.jsx';
+import { useActivityLog } from './Store/useActivityLog.jsx';
 
 const HomeP = () =>  { 
  const {projects , getProject} =  ProjectCreator();
+ const [notification , setNotifications] = useState([])
+//  const {unreadCount , getUnreadCount} = useActivityLog();
+ const unreadCount = useActivityLog((state) => state.unreadCount);
+
+  const {socket} = Authenticatioin();
+ const {getNotification , leaveNotification } = useActivityLog();
+//  const socket = useActivityLog(state => state.socket);
+
 
    useEffect(() => {
     getProject();
   }, [getProject]);
+
+
+
+
+//  useEffect(() => {
+//     getNotification(projects)
+
+//     return () => leaveNotification(projects)
+//  }, [projects])
+
+
+ useEffect(() => {
+  console.log('INSIDE MAINBODY')
+
+    
+  
+
+  if (!socket) return; // wait for socket
+  if (!projects || projects.length === 0) return; // wait for projects
+  
+  console.log('SOCKET' + socket)
+  console.log('PROJECTS' + projects)
+  getNotification(projects , socket);
+
+  return () => leaveNotification(projects);
+}, [projects, socket]);
+
+
+
+  // console.log('unread count ' + unreadCount)
+
+
+
 
   return (<div className='flex-1'>
         this is the main part of the application
@@ -37,6 +79,7 @@ const HomeP = () =>  {
                    status={project.status}
                    createdBy={project.createdBy.fullName} 
                    progress={25}
+                   unreadCount={unreadCount?.[project._id] || 0}
                     />
             </li>
           ))}
@@ -106,16 +149,16 @@ const MainBody = () => {
 
  <button onClick={() => console.log('IMAGE'+ image)}>log Image</button> */}
 
-     <Routes>
-      <Route path='/' element = {<HomeP/>}/>
-      <Route path='/home' element = {<HomeP/>}/>
-      <Route path="/home/detail/:id/*" element={<HomePage/>} />
-      <Route path='/create_project' element = {<CreateProject/>}/>
-      <Route path='/message/*' element = {<MainMassage/>}/>
-     </Routes>
-     </div>
+      <Routes>
+       <Route path='/' element = {<HomeP/>}/>
+       <Route path='/home' element = {<HomeP/>}/>
+       <Route path="/home/detail/:id/*" element={<HomePage/>} />
+       <Route path='/create_project' element = {<CreateProject/>}/>
+       <Route path='/message/*' element = {<MainMassage/>}/>
+      </Routes>
+      </div>
 
-   
+    
 
   )
 }

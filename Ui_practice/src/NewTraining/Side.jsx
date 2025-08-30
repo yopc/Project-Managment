@@ -29,12 +29,23 @@ useEffect(() => {
  
 }, []);
 
+
+
+
   
 
   useEffect(()=> {
     getCurrentEmployee();
     
   }, [getCurrentEmployee])
+
+
+
+   const { getUnreadCounts } = useMessage();
+
+  useEffect(() => {
+    getUnreadCounts();  // 👈 fetch unread counts when sidebar mounts
+  }, []);
   
 // const src = `data:${currentEmployee.profilePicture.contentType};base64,${currentEmployee.profilePicture.data}`
 // const src = `data:${currentEmployee?.profilePicture.contentType};base64,${currentEmployee?.profilePicture.data}`

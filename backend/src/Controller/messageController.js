@@ -63,7 +63,8 @@ export const sendMessage = async (req, res) => {
       senderId: senderId,
       receiverId: receiverId,
       text,
-      files: stringFiles
+      files: stringFiles,
+       read: false  
     });
 
     await message.save();

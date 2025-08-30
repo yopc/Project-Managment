@@ -43,9 +43,10 @@ export function getReceiverSocketId(receiverId) {
   return userSocketMap[receiverId];
 }
 
+const projectMembers = {};  
+
 io.on("connection", (socket) => {
-  console.log("✅ A user connected:", socket.id);
-  
+  console.log("✅ A user connected:", socket.id);  
 
   console.log('user id for io from frontend' + socket.handshake.auth.userId)
 
@@ -54,6 +55,31 @@ io.on("connection", (socket) => {
     userSocketMap[userId] = socket.id;
     console.log(`Mapped user ${userId} -> socket ${socket.id}`);
   }
+
+
+
+  socket.on("joinProject", (projectId) => {
+    socket.join(projectId);
+
+    console.log(`Socket ${socket.id} joined project ${projectId}`);
+
+    if (!projectMembers[projectId]) projectMembers[projectId] = [];
+    if (!projectMembers[projectId].includes(socket.id)) {
+      projectMembers[projectId].push(socket.id);
+    }
+  });
+
+  // Leave a project room
+  socket.on("leaveProject", (projectId) => {
+    socket.leave(projectId);
+    console.log(`Socket ${socket.id} left project ${projectId}`);
+
+    if (projectMembers[projectId]) {
+      projectMembers[projectId] = projectMembers[projectId].filter(
+        (id) => id !== socket.id
+      );
+    }
+  });
 
   socket.emit("data", "hey frontend 👋");
 
@@ -79,14 +105,17 @@ app.use(express.json());
 
 app.use(cookieParser());
 
+
+
 app.use('/user', authRoute)
-app.use('/upload', imageRouter)
+// app.use('/upload', imageRouter)
 app.use('/employee', employeeRoute)
 app.use('/project', projectRouter)
 app.use('/task', taskRouter)  
 app.use('/activity', activityRouter)  
 app.use('/message', messageRouter)  
 
+console.log('a server in side the server ')
 
 
 

@@ -146,16 +146,36 @@ export const useMessage = create((set, get) => ({
   },
 
   // When you enter a chat, set active user and clear that chat's unread
-  setSelectedUser: (userId) => {
-    const { unreadBySender, unreadTotal } = get()
-    const n = unreadBySender[userId] || 0
-    const { [userId]: _drop, ...rest } = unreadBySender
-    set({
-      selectedUser: userId,
-      unreadBySender: rest,
-      unreadTotal: unreadTotal - n
-    })
-  },
+  // setSelectedUser: (userId) => {
+  //   const { unreadBySender, unreadTotal } = get()
+  //   const n = unreadBySender[userId] || 0
+  //   const { [userId]: _drop, ...rest } = unreadBySender
+  //   set({
+  //     selectedUser: userId,
+  //     unreadBySender: rest,
+  //     unreadTotal: unreadTotal - n
+  //   })
+  // },
+
+
+  setSelectedUser: async (userId) => {
+  const { unreadBySender, unreadTotal } = get()
+  const n = unreadBySender[userId] || 0
+  const { [userId]: _drop, ...rest } = unreadBySender
+  set({
+    selectedUser: userId,
+    unreadBySender: rest,
+    unreadTotal: unreadTotal - n
+  })
+
+  // also mark as read in DB
+  try {
+    await axiosInstance.post(`/message/markRead/${userId}`)
+  } catch (err) {
+    console.log("Failed to mark messages as read", err)
+  }
+},
+
 
   // Subscribe ONCE to socket events
   subscribe: () => {
@@ -208,4 +228,19 @@ export const useMessage = create((set, get) => ({
     const { [senderId]: _drop, ...rest } = unreadBySender
     set({ unreadBySender: rest, unreadTotal: unreadTotal - n })
   },
+  getUnreadCounts: async () => {
+  try {
+    const res = await axiosInstance.get('/message/unreadCounts');
+    const unreadMap = {}
+    let total = 0
+    res.data.forEach((u) => {
+      unreadMap[u._id] = u.count
+      total += u.count
+    })
+    set({ unreadBySender: unreadMap, unreadTotal: total })
+  } catch (err) {
+    console.log("Error fetching unread counts", err)
+  }
+},
+
 }))

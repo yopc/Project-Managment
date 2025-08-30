@@ -3,6 +3,8 @@ import Task from "../model/Task.js";
 import { recordActivity } from "../lib/recordActivity.js";
 import { correctImageSting } from "../utils/imageStringCorrector.js";
 import Employee from "../model/employee.js";
+import {getReceiverSocketId , io} from '../../server.js'
+
 const createTask = async (req, res) => {
   try {
     const { projectId } = req.params;
@@ -216,9 +218,13 @@ export const updateTaskTitle = async (req, res) => {
     await task.save();
 
     // record activity
-    await recordActivity(req.user._id, "updated_task", "Task", taskId, {
+    const update = await recordActivity(project._id,req.user._id, "updated_task", "Task", taskId, {
       description: `updated task title from ${oldTitle} to ${value}`,
     });
+
+
+    //  io.to(project._id.toString()).emit("projectNotification", update.toObject());
+     io.to(project._id.toString()).emit("projectNotification");
 
     res.status(200).json(task);
   } catch (error) {
@@ -268,7 +274,7 @@ export const updateTaskStatus = async (req, res) => {
     await task.save();
       console.log('task status updated successfully')
     // record activity
-    await recordActivity(req.user._id, "updated_task", "Task", taskId, {
+    await recordActivity(project._id,req.user._id, "updated_task", "Task", taskId, {
       description: `updated task status from ${oldStatus} to ${value}`,
     });
 
@@ -324,7 +330,7 @@ export const updateTaskDescription = async (req, res) => {
     await task.save();
 
     // record activity
-    await recordActivity(req.user._id, "updated_task", "Task", taskId, {
+    await recordActivity(project._id,req.user._id, "updated_task", "Task", taskId, {
       description: `updated task description from ${oldDescription} to ${newDescription}`,
     });
 
@@ -477,8 +483,8 @@ export const updateTaskAssignees = async (req, res) => {
     await task.save();
 
     // record activity
-    await recordActivity(req.user._id, "updated_task", "Task", taskId, {
-      description: `updated task assignees from ${oldAssignees.length} to ${assignees.length}`,
+    await recordActivity(project._id,req.user._id, "updated_task", "Task", taskId, {
+      description: `updated task assignees from " ${oldAssignees.length} " to " ${assignees.length} " `,
     });
 
     res.status(200).json(task);
@@ -526,7 +532,7 @@ export const updateTaskPriority = async (req, res) => {
     await task.save();
 
     // record activity
-    await recordActivity(req.user._id, "updated_task", "Task", taskId, {
+    await recordActivity(project._id, req.user._id, "updated_task", "Task", taskId, {
       description: `updated task priority from ${oldPriority} to ${value}`,
     });
 

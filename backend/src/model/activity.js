@@ -2,6 +2,10 @@ import mongoose, { Schema } from "mongoose";
 
 const activityLogSchema = new Schema(
   {
+    parentProject:{
+      type:Schema.Types.ObjectId,
+      ref:"Project"      
+    },
     user: {
       type: Schema.Types.ObjectId,
       ref: "Employee",
@@ -39,9 +43,28 @@ const activityLogSchema = new Schema(
     details: {
       type: Object,
     },
+    readBy: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Employee",
+      },
+    ],
   },
   { timestamps: true }
 );
+
+
+activityLogSchema.virtual("resource", {
+  ref: (doc) => doc.resourceType, // dynamically choose model
+  localField: "resourceId",
+  foreignField: "_id",
+  justOne: true
+});
+
+// Ensure virtuals are included in JSON
+activityLogSchema.set("toObject", { virtuals: true });
+activityLogSchema.set("toJSON", { virtuals: true });
+
 
 const ActivityLog = mongoose.model("ActivityLog", activityLogSchema);
 

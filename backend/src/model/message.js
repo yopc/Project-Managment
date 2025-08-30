@@ -18,6 +18,7 @@ const messageSchema = new mongoose.Schema(
     image: {
       type: String,
     },
+    read: { type: Boolean, default: false },
     files: [{
       type: String,
     }],

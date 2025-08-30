@@ -26,7 +26,7 @@ const HomePage = () => {
 
   const {projectDetail , getProjectById} =  ProjectCreator();
   const {currentEmployee , getCurrentEmployee} = Authenticatioin();
-  const [image , setImage] = useState("")
+  const [image , setImage] = useState("");
 
 
 
@@ -83,7 +83,7 @@ const HomePage = () => {
             <Route path={`/calendar`} element={<Calendar />} />
             <Route path={`/plan`} element={<Plan />} />
             <Route path={`/workflow`}element={<WorkflowPage />} />
-            <Route path={`/message`} element={<Message />} />
+            <Route path={`/message`} element={<Message  id = {id}/>} />
             <Route path={`/files`} element={<Files />} />
             <Route path={`/member`} element={<Member />} />
             <Route path={`/taskDetail/:taskId`} element={<TaskDetail/>} />

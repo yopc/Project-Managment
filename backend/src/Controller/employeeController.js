@@ -5,7 +5,6 @@ import bcrypt from 'bcrypt'
 
 
 export async function register(req, res) {
-
  const {  
   fullName,
   email,
@@ -27,7 +26,7 @@ export async function register(req, res) {
  
 
   try {
-
+     
     const allFieldValue =  [
       Directorate,
       JobTitle,

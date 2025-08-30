@@ -13,10 +13,17 @@ const MainMassage = () => {
 
 
   useEffect(() => {
-    getAllEmployee()
+      getAllEmployee()
 
 
-  }, [])
+    }, [])
+
+
+   const { getUnreadCounts } = useMessage();
+
+  useEffect(() => {
+    getUnreadCounts();  // 👈 fetch unread counts when sidebar mounts
+  }, []);
 
   return (
     <div className="flex">

@@ -2,6 +2,7 @@ import ActivityLog from "../model/activity.js";
 
 
 const recordActivity = async (
+  projectId,
   userId,
   action,
   resourceType,
@@ -9,13 +10,16 @@ const recordActivity = async (
   details
 ) => {
   try {
-    await ActivityLog.create({
+  const  activity =  await ActivityLog.create({
+      parentProject:projectId,
       user: userId,
       action,
       resourceType,
       resourceId,
       details,
     });
+
+   return activity
   } catch (error) {
     console.log(error);
   }

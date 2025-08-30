@@ -7,8 +7,8 @@ import { Authenticatioin } from '../Store/AuthenticateUser.jsx';
 import {io} from 'socket.io-client'
 
 
-const socket = io('http://localhost:5000', 
-     { transports: ["websocket"],})
+// const socket = io('http://localhost:5000', 
+//      { transports: ["websocket"],})
 
 const Overview = ({id}) => {
    
@@ -16,31 +16,31 @@ const Overview = ({id}) => {
   const {loadDetail , projectDetail , getProjectById} = ProjectCreator();
   
 
-  console.log('id inside the overview' , id)
+  // console.log('id inside the overview' , id)
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    socket.emit("joinProject", id);
-    getProjectById(id)
+  //   socket.emit("joinProject", id);
+  //   getProjectById(id)
 
-    socket.on("memberAdded", (projectId) => {
-         console.log('incoming project id' + projectId)
-         console.log('current project id' + id)
-       getProjectById()
-       console.log('new Project member is added so it fetched in realtime')
+  //   socket.on("memberAdded", (projectId) => {
+  //        console.log('incoming project id' + projectId)
+  //        console.log('current project id' + id)
+  //      getProjectById()
+  //      console.log('new Project member is added so it fetched in realtime')
       
-    });
+  //   });
 
-    socket.on("isbackendListened" , (m) => {
-       console.log(m)
-    })
+  //   socket.on("isbackendListened" , (m) => {
+  //      console.log(m)
+  //   })
 
 
-    return () => {
-      socket.off('memberAdded')
-    }
+  //   return () => {
+  //     socket.off('memberAdded')
+  //   }
 
-  }, [id])
+  // }, [id])
 
 
 

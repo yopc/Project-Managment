@@ -19,6 +19,7 @@ export const Authenticatioin = create((set , get ) => ({
          console.log("Login response:", res.data);
          toast.success(res.data.message || "Login successfulLLLLLLLL");
          set({authUser:res.data})
+         console.log('=====>'+ res.data)
          get().connectSocket(); 
        }catch(error){
          console.log('error while loggin' + error)
@@ -115,7 +116,7 @@ export const Authenticatioin = create((set , get ) => ({
     },
   });
 
-  newSocket.connect();
+  // newSocket.connect();
   set({ socket: newSocket });
 },
 

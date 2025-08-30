@@ -54,7 +54,7 @@ export  const  validateData = (colName , value) => {
         case "submitedFile":
               return "submited file"
         case "description":
-             return (value.toString().substring(0, 10) + "...")
+             return () =>  {console.log('description ' + value.toString()) (value.toString().substring(0, 10) || " "+ "...")}
         case "assignees":
              return assignedEmployee(value)
         case "status":

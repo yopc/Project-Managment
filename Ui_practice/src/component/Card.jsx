@@ -2,7 +2,7 @@ import React from 'react'
 import LinearProgress from "@mui/material/LinearProgress";
 import { Link } from 'react-router-dom';
 
-const Card = ({id , title , dueDate , description , status , createdBy , progress}) => {
+const Card = ({id , title , dueDate , description , status , createdBy , progress, unreadCount}) => {
   return (
     
       <div className="bg-white rounded-xl shadow-lg border border-gray-200 w-96 p-4 m-3 transition-transform duration-200 hover:shadow-2xl hover:-translate-y-1">
@@ -38,6 +38,8 @@ const Card = ({id , title , dueDate , description , status , createdBy , progres
     },
   }}
 />
+
+{unreadCount > 0 && <h1>{unreadCount}</h1>}
 
 
       {/* Footer Actions */}
