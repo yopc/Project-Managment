@@ -264,23 +264,57 @@ const TrainingTable = ({ projectId }) => {
                 {data.map((row) => (
                   <tr key={row._id} className="hover:bg-gray-50 transition-colors">
                             {selectedColumns.map((col) => (
-                              <td
-                                key={col}
-                                className={
-                                  showInput ? `text-sm text-gray-700` : `px-6 py-3 text-sm text-gray-700  whitespace-nowrap`
-                                }
-                              >
-                                {["title", "description", "status", "priority"].includes(col) && showInput ? (
-                                  <input
-                                    type="text"
-                                    value={editingValues[row._id]?.[col] ?? row[col] ?? ""}
-                                    onChange={(e) => handleCellChange(row._id, col, e.target.value)}
-                                    className="border p-1 rounded w-fit h-14 text-sm border-none outline-blue-600 "
-                                  />
-                                ) : (
-                                  validateData(col, row[col])
-                                )}
-                              </td>
+<td
+  key={col}
+  className={
+    showInput
+      ? `text-sm text-gray-700`
+      : `px-6 py-3 text-sm text-gray-700 whitespace-nowrap`
+  }
+>
+  {["title", "description", "status", "priority", "dueDate"].includes(col) && showInput ? (
+    col === "status" ? (
+      <select
+        value={editingValues[row._id]?.[col] ?? row[col] ?? ""}
+        onChange={(e) => handleCellChange(row._id, col, e.target.value)}
+        className="border p-1 rounded w-fit h-14 text-sm border-none outline-blue-600"
+      >
+        <option value="To Do">To Do</option>
+        <option value="In Progress">In Progress</option>
+        <option value="Review">Review</option>
+        <option value="Completed">Completed</option>
+      </select>
+    ) : col === "priority" ? (
+      <select
+        value={editingValues[row._id]?.[col] ?? row[col] ?? ""}
+        onChange={(e) => handleCellChange(row._id, col, e.target.value)}
+        className="border p-1 rounded w-fit h-14 text-sm border-none outline-blue-600"
+      >
+        <option value="Low">Low</option>
+        <option value="Medium">Medium</option>
+        <option value="High">High</option>
+      </select>
+    ) : col === "dueDate" ? (
+      <input
+        type="date"
+        value={editingValues[row._id]?.[col] ?? row[col] ?? ""}
+        onChange={(e) => handleCellChange(row._id, col, e.target.value)}
+        className="border p-1 rounded w-fit h-14 text-sm border-none outline-blue-600"
+      />
+    ) : (
+      <input
+        type="text"
+        value={editingValues[row._id]?.[col] ?? row[col] ?? ""}
+        onChange={(e) => handleCellChange(row._id, col, e.target.value)}
+        className="border p-1 rounded w-fit h-14 text-sm border-none outline-blue-600"
+      />
+    )
+  ) : (
+    validateData(col, row[col])
+  )}
+</td>
+
+
                             ))}
 
                                 {/* Add extra column for Detail button */}

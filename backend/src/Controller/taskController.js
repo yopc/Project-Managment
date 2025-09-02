@@ -235,6 +235,60 @@ export const updateTaskTitle = async (req, res) => {
   }
 };
 
+export const updateTaskDueDate = async (req , res) => {
+  try {
+     const {taskId, value} = req.body
+
+     const task = await Task.findById(taskId)
+
+
+      if (!task) {
+      return res.status(404).json({
+        message: "Task not found",
+      });
+    }
+
+    const project = await Project.findById(task.project);
+
+    if (!project) {
+      return res.status(404).json({
+        message: "Project not found",
+      });
+    }
+
+    const isMember = project.members.some(
+      (member) => member.user.toString() === req.user._id.toString()
+    );
+
+    if (!isMember) {
+      return res.status(403).json({
+        message: "You are not a member of this project",
+      });
+    }
+
+    const OldDueDate = task.dueDate;
+
+    task.dueDate = value
+    await task.save();
+
+     const update = await recordActivity(project._id,req.user._id, "updated_task", "Task", taskId, {
+      description: `updated task Due Date from ${OldDueDate} to ${value}`,
+    });
+   
+     io.to(project._id.toString()).emit("projectNotification");
+   
+    res.status(200).json(task);
+
+
+
+  } catch (error) {
+    console.log('error while updating due date' + error)
+     return res.status(500).json({
+      message: "Internal server error",
+    });
+  }
+}
+
 
 export const updateTaskStatus = async (req, res) => {
   try {
@@ -807,3 +861,89 @@ const watchTask = async (req, res) => {
     });
   }
 };
+
+
+
+
+
+
+//////////STATSTICS//////////
+
+
+
+// Get priority counts by projectId
+export const getPriorityCountByProject = async (req, res) => {
+  console.log('start getting priority count')
+  try {
+    const { projectId } = req.params;
+
+    if (!projectId) {
+      return res.status(400).json({ message: "Project ID is required" });
+    }
+
+    // Find tasks under this project
+    // const tasks = await Task.find({ projectId });
+    const tasks = await Task.find({ project: projectId });
+
+
+    // Initialize counts
+    let counts = { Low: 0, Medium: 0, High: 0 };
+
+    tasks.forEach((task) => {
+      if (task.priority && counts.hasOwnProperty(task.priority)) {
+        counts[task.priority] += 1;
+      }
+    });
+
+    // Convert to recharts format
+    const result = [
+      { name: "Low", value: counts.Low },
+      { name: "Medium", value: counts.Medium },
+      { name: "High", value: counts.High },
+    ];
+
+    result.forEach(
+      (r) => console.log(r.name +  r.value)
+    )
+
+    res.json(result);
+  } catch (err) {
+    console.error("Error fetching priority counts:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+export const  getStatusCountByProject = async (req , res) => {
+  try {
+    const {projectId} = req.params;
+
+
+     if (!projectId) {
+      return res.status(400).json({ message: "Project ID is required" });
+    }
+
+     const tasks = await Task.find({ project: projectId });
+
+     let counts = {"To Do":0, "In Progress":0, "Review":0, "Completed":0}
+
+     tasks.forEach((task) => {
+      if(task.status && counts.hasOwnProperty(task.status)){
+        counts[task.status] += 1;
+      }
+     })
+
+     const result = [
+      {name: "To Do", value:counts["To Do"]}, 
+      {name: "In Progress" ,value:counts["In Progress"]}, 
+      {name: "Review", value:counts.Review},
+      {name: "Completed",value:counts.Completed}
+     ]
+
+
+     res.json(result)
+  } catch (error) {
+    console.log("Error while fetching count status" + error);
+    res.status(200).json({message:"server error"})
+  }
+}
+

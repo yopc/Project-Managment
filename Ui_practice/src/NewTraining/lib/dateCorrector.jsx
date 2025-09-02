@@ -19,25 +19,36 @@ export const getProfileImageUrl = (profilePicture) => {
 function assignedEmployee(value){
    return <div className="flex gap-1">{value.map((v) => <Profile imageSrc={v.profilePicture} styleProp={'h-8 min-w-8'}/>)}</div>
 }
+   
+function decorePriority(value){
+   switch(value){
+      case "High":
+         return  <div className="bg-red-100 text-red-800 text-sm font-roboto rounded-lg flex items-center justify-center px-2 py-1">{value}</div>
+      case "Medium":
+         return  <div className="bg-yellow-100 text-yellow-800 text-sm font-roboto rounded-lg flex items-center justify-center px-2 py-1">{value}</div>
+      case "Low":
+         return  <div className="bg-blue-100 text-blue-800 text-sm font-roboto rounded-lg flex items-center justify-center px-2 py-1">{value}</div>
 
-const AssgineMember = ({id}) => {
-   const  {projectDetail , getProjectById} = ProjectCreator();
-   //   console.log(projectDetail)
-   useEffect(() => {
-       getProjectById(id)
-   }, [])
-   return (
-      <div> 
-{/*      
-     { projectDetail.members.map((m) => (
-      <Profile imageSrc={m.profilePicture} />
-         <h4>{m.fullName}</h4>
-       ))
-      } */}
-      </div>
-   )
+
+   }
 }
 
+function decoreStatus(value){
+   switch(value){
+      case "To Do":
+         return  <div className="bg-blue-100 text-blue-800 text-sm font-roboto rounded-lg flex items-center justify-center px-2 py-1">{value}</div>
+
+      case  "In Progress":
+          return <div className="bg-purple-100 text-blue-800 text-sm font-roboto rounded-lg flex items-center justify-center px-2 py-1">{value}</div>
+ 
+      case  "Review":
+         return <div className="bg-red-100 text-red-800 text-sm font-roboto rounded-lg flex items-center justify-center px-2 py-1">{value}</div>
+
+      case  "Completed":
+          return <div className="bg-green-100 text-green-800 text-sm font-roboto rounded-lg flex items-center justify-center px-2 py-1">{value}</div>
+
+   }
+}
 
 export  const  validateData = (colName , value) => {
   
@@ -58,8 +69,10 @@ export  const  validateData = (colName , value) => {
         case "assignees":
              return assignedEmployee(value)
         case "status":
-             return <div className="bg-blue-100 text-blue-800 text-sm font-roboto rounded-lg flex items-center justify-center px-2 py-1">{value}</div>
-      //   case "assignees":
+               return decoreStatus(value)
+        case "priority":
+             return decorePriority(value)
+             //   case "assignees":
       //        return <Profile imageSrc={value.assignees.profilePicture} styleProp={'h-8 w-8'}/>
 
         default:

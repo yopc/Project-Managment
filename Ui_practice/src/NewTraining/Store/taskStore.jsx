@@ -6,6 +6,8 @@ const useTaskStore = create((set, get) => ({
   task:null,
   tasks:[],
   taskTitles: [""], // Default with one empty input
+  priorityCount:{},
+  statusCount:{},
 
   addTaskTitle: () => {
     set((state) => ({ taskTitles: [...state.taskTitles, ""] }));
@@ -85,6 +87,9 @@ const useTaskStore = create((set, get) => ({
         case "assignees":
           route = `task/add/assigne/${projectId}`;
           break;
+        case "dueDate":
+          route = `task/dueDate/update/${projectId}`;
+          break;
         default:
           return;
       }
@@ -130,7 +135,26 @@ const useTaskStore = create((set, get) => ({
   } catch (error) {
     console.error("Error while adding submission file", error);
   }
+},
+getPriorityCountByProject: async (projectId) => {
+
+  try {
+    const res = await axiosInstance.get(`/task/getPriorityCountByProject/${projectId}`)
+    set({priorityCount:res.data})
+  } catch (error) {
+    console.log('error while getting priority count'+ error)
+  }
+},
+getStatusCountByProject: async (projectId) => {
+
+  try {
+    const res = await axiosInstance.get(`/task/getStatusCountByProject/${projectId}`)
+    set({statusCount:res.data})
+  } catch (error) {
+    console.log('error while getting priority count'+ error)
+  }
 }
+
 
 }));
 

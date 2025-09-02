@@ -72,7 +72,7 @@ export const useActivityLog = create((set , get) => ({
     set({ handler: h });
 
     // listen
-    socket.on("projectNotification", h);
+    s.on("projectNotification", h);
   },
 
   leaveNotification: (projects) => {

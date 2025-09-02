@@ -80,9 +80,9 @@ const HomePage = () => {
           <Routes>
             <Route path={`/overview`}element={<Overview id={id} />} />
             <Route path={`/tasks`} element={<Tasks />} />
-            <Route path={`/calendar`} element={<Calendar />} />
+            <Route path={`/calendar`} element={<Calendar id={id}/>} />
             <Route path={`/plan`} element={<Plan />} />
-            <Route path={`/workflow`}element={<WorkflowPage />} />
+            <Route path={`/workflow`}element={<WorkflowPage id = {id} />} />
             <Route path={`/message`} element={<Message  id = {id}/>} />
             <Route path={`/files`} element={<Files />} />
             <Route path={`/member`} element={<Member />} />
