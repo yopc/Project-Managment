@@ -13,7 +13,11 @@ import { createMultipleTasks,
         submiteFileToTask,
         getPriorityCountByProject,
         getStatusCountByProject,
-        updateTaskDueDate} from "../Controller/taskController.js";
+        updateTaskDueDate,
+        numberOfTaskByCreator,
+        numberOfTaskByCreatedAt,
+        numberOfTaskByDueDate,
+        projectProgress} from "../Controller/taskController.js";
 
 const router = express.Router();
 
@@ -42,5 +46,9 @@ router.post(
 
 router.get('/getPriorityCountByProject/:projectId' , getPriorityCountByProject)
 router.get('/getStatusCountByProject/:projectId' , getStatusCountByProject)
+router.get('/getCreatedByCountByProject/:projectId' , numberOfTaskByCreator) 
+router.get('/getNumberOfTaskByCreatedAtProject/:projectId' , numberOfTaskByCreatedAt)
+router.get('/getNumberOfTaskByDueDateProject/:projectId' , numberOfTaskByDueDate)
+router.get('/getProjectProgressProject/:projectId' , projectProgress)
 
 export default router;

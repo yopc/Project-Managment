@@ -1,7 +1,6 @@
     import React, { useRef } from 'react'
     import { useEffect } from 'react';
-    import { useParams } from 'react-router-dom'
-    
+    import { useParams } from 'react-router-dom'    
     import useTaskStore from '../Store/taskStore';
     import { ProjectCreator } from '../Store/ProjectCreator';
     import Profile from '../../component/Profile';
@@ -18,7 +17,10 @@ import { Calendar,
   AlertCircle,
   CheckCircle,
   Timer,
-  CircleX} from 'lucide-react'
+  CircleX,
+  Pencil,
+  Check} from 'lucide-react'
+import Dialog from '../components/ui/Dialog.jsx';
 
  const assignees = [
     {
@@ -154,13 +156,17 @@ import { Calendar,
     const TaskDetail = () => {
     const {id, taskId} = useParams();
     console.log('task id is ' + taskId)
-    const {task , getTaskById, assignEmployeeToTask , addSubmition} = useTaskStore()
+    const {task , getTaskById, assignEmployeeToTask , addSubmition , updateTaskField} = useTaskStore()
     const {projectDetail , getProjectById} = ProjectCreator();
     const [selectedMember , setSelectedMember] = useState([]);
     const [selectedFiles , setSelectedFiles] = useState([])
     const fileInputRef = useRef(null);
     const [toggleSelectEmployee, setToggleSelectEmployee] = useState(false);
-
+    const [showSave , setShowSave] = useState(false);
+    const [description, setDescription] = useState(task?.description);
+    const [fileType,setFileType] = useState("attach")
+    const [showDialog, setShowDialog] = useState(false);
+    
         // useEffect(() => {
         //   getTaskById(taskId)
         // }, [taskId])
@@ -172,6 +178,10 @@ import { Calendar,
         useEffect(() => {
             getTaskById(taskId)
         },[])
+  
+    const updateDescription = async (value) => {       
+       await updateTaskField(id, taskId, "description", value);
+    }
     
     projectDetail.members.map((m) => (
         console.log('logged id of member '+m.user._id)
@@ -198,80 +208,7 @@ import { Calendar,
    })
     
     return (
-//         <div>
-//             <button
-//              className = "bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md text-xs"
-//              onClick={() => (assignEmployeeToTask(taskId , selectedMember))}>assigne</button>
-//             <input type="file" 
-//               name='submmitedFiles'
-//               onChange={(e) => (setSelectedFiles((prev) => [...prev, ...Array.from(e.target.files)]))}
-//               multiple
-//             />
-//              <div>
-//                    {selectedFiles.length > 0 && (
-//                     <button onClick={() => addSubmition(taskId, selectedFiles)}>
-//                        Submmit File
-//                     </button>
-//                 )}
-//              </div>
-//             {selectedFiles.map((file, index) => 
-//              <div> <h1>{file.name}</h1>
-//              <button onClick={() => handleRemoveFile(index)}>remove</button>
-//              </div>
-//              )}
 
-//                 <h1>{task?.title}</h1>
-//                 <h1>{task?._id}</h1>
-//              {Array.isArray(task?.submitedFile) && task.submitedFile.length > 0 ? (
-//   task.submitedFile.map((file, index) => {
-//     if (!file?.data) return null; // skip empty files
-
-//     const keyIndex = file.data.indexOf("data");
-//     const fileName =
-//       keyIndex !== -1 ? file.data.substring(0, keyIndex).trim() : `file-${index}`;
-//     const data =
-//       keyIndex !== -1 ? file.data.substring(keyIndex).trim() : file.data;
-
-//     return (
-//       <div key={index}>
-//         <a href={data} download={fileName || `file-${index}`}>
-//           {fileName}
-//         </a>
-//         <h1>{file?.uploadedBy.fullName}</h1>
-//         <h1>{convertToString(file?.date)}</h1>
-//       </div>
-//     );
-//   })
-// ) : (
-//   <p>No submitted files</p>
-// )}
-
-
-//             {projectDetail?.members.map((m) => (
-            
-//               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-//             <div className="flex items-center gap-4 p-4 border rounded-lg hover:shadow-md transition-shadow">
-//                 <input
-//                      name='memberid'
-//                      type='checkbox'
-//                      checked = {selectedMember.some((memId) => memId === m.user._id)}
-//                      onChange={(e) => toggleSelection(m.user._id,e.target.checked)}/>
-//                 <Profile imageSrc={m.user.profilePicture} styleProp={'w-8 h-8'}/>
-//                  <div>
-//                   <p className="text-lg font-semibold text-gray-800">{m.user.fullName}</p>
-//                   <p className="text-sm text-gray-500">{m.role || "Member"}</p>
-//                  </div>
-
-//              </div>
-//              </div>
-            
-//             // <img src={m.user.profilePicture}/>
-            
-            
-            
-//             ))} 
-            
-//         </div>
 
 
    <div className="max-w-6xl mx-auto p-6 space-y-6">
@@ -314,13 +251,48 @@ import { Calendar,
          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
              <div className="lg:col-span-2 space-y-6">
                     <Card>
-                        <CardHeader>
+                        <CardHeader className="flex flex-row justify-between items-center">
                           <CardTitle>Description</CardTitle>
+                          <div>
+                          <Button variant='outline' className='border-none' 
+                          onClick={() => setShowSave(!showSave)}>
+                           { showSave ? <CircleX /> : <Pencil/>}</Button>
+                         {showSave &&
+                          <Button variant='outline' className='border-none' 
+                          onClick={() => updateDescription(description)}><Check/></Button>}
+
+                          </div>
+                 
                         </CardHeader>
                         <CardContent>
+                          {showSave ?  
+                          
+                          <textarea
+
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            className="
+                              w-full
+                              min-h-[150px] md:min-h-[250px]
+                              resize-y
+                              rounded-2xl
+                              border border-gray-300
+                              bg-white
+                              p-4
+                              text-sm md:text-base
+                              leading-6
+                              shadow-sm
+                              outline-none
+                              focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200
+                              placeholder:text-gray-400
+                            "/> : 
+
                           <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-                           {task?.description}
+                           {description}
                           </p>
+                          }
+                        
+                         
                         </CardContent>
                       </Card>
 
@@ -364,55 +336,119 @@ import { Calendar,
                           </div>
                         ))}
 
-                                             {selectedFiles.length > 0 && (
-                         <Button variant="gohst" className="w-fit" onClick={() => addSubmition(taskId, selectedFiles)}>
+                         {selectedFiles.length > 0 && (
+                          <div className='flex justify-between items-center'>
+                          <Button variant="gohst" className="w-fit" onClick={ async () => { await addSubmition(taskId, selectedFiles); setSelectedFiles([])}}>
                           <Upload className="h-4 w-4 mr-2" />
                           Submit Files
-                        </Button>
+                         </Button>
+                          <Button variant="gohst" className="w-fit" onClick={() => setShowDialog(!showDialog)                         
+                           }>
+                          <Upload className="h-4 w-4 mr-2" />
+                          Attach Report Files
+                         </Button>
+
+                         <Dialog
+                            isOpen={showDialog}
+                            onClose={() => setShowDialog(false)}
+                            title="Select visible fields"
+                            footer={
+                              <div className="flex items-center justify-end gap-2">
+                                <Button variant="ghost" size="sm" onClick={() => setShowDialog(false)}>
+                                  Close
+                                </Button>
+                                <Button variant="primary" size="sm" 
+                                         onClick={() => {
+                                          addSubmition(taskId, selectedFiles, fileType);
+                                          setShowDialog(false);                                         
+                                          setSelectedFiles([])
+                                        }}>
+                                 Attach
+                                </Button>
+                              </div>
+                            }
+                          >
+                            {/* Modal main content */}
+                           you can attach file to task if your are the creator of the taskDetai if you assigned these task please submmit report file to task instead
+                          </Dialog>
+                        
+                          </div>
+                     
                           )}
                        </CardContent>
  
+                    
+
                       <CardContent className="space-y-4">
-                        {Array.isArray(task?.submitedFile) && task.submitedFile.length > 0  ?  
-                        (
-                        
-                        task.submitedFile.map((file) => {
-                          console.log('jop title'+ task?.createdBy.JopTitle)
-                          console.log('fullName title'+ task?.createdBy.fullName)
+  {/* Attach Files */}
+                              <h4>Attached Files</h4>
+                              {Array.isArray(task?.submitedFile) && task.submitedFile.some(f => f.fileType === 'attach') ? (
+                                task.submitedFile
+                                  .filter(file => file.fileType === 'attach')
+                                  .map((file, index) => {
+                                    if (!file?.data) return null;
+                                    const keyIndex = file.data.indexOf("data");
+                                    const fileName = keyIndex !== -1 ? file.data.substring(0, keyIndex).trim() : `file-${index}`;
+                                    const data = keyIndex !== -1 ? file.data.substring(keyIndex).trim() : file.data;
+                                    return (
+                                      <div key={file.id} className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+                                        <div className="flex items-center gap-3">
+                                          <div className="h-10 w-10 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+                                            <FileText className="h-5 w-5 text-gray-600 dark:text-gray-400" />
+                                          </div>
+                                          <div>
+                                            <p className="font-medium text-gray-900 dark:text-gray-100">{fileName}</p>
+                                            <p className="text-sm text-gray-600 dark:text-gray-400">
+                                              Uploaded by {file.uploadedBy.fullName} on {convertToString(file.date)}
+                                            </p>
+                                          </div>
+                                        </div>
+                                        <a href={data} download={fileName || `file-${index}`}>
+                                          <Download className="h-4 w-4" />
+                                        </a>
+                                      </div>
+                                    );
+                                  })
+                              ) : (
+                                <p>No attached files</p>
+                              )}
 
-                          if (!file?.data) return null; // skip empty files
+                              {/* Submitted Files */}
+                              <h4>Submitted Files</h4>
+                              {Array.isArray(task?.submitedFile) && task.submitedFile.some(f => f.fileType === 'submit') ? (
+                                task.submitedFile
+                                  .filter(file => file.fileType === 'submit')
+                                  .map((file, index) => {
+                                    if (!file?.data) return null;
+                                    const keyIndex = file.data.indexOf("data");
+                                    const fileName = keyIndex !== -1 ? file.data.substring(0, keyIndex).trim() : `file-${index}`;
+                                    const data = keyIndex !== -1 ? file.data.substring(keyIndex).trim() : file.data;
+                                    return (
+                                      <div key={file.id} className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+                                        <div className="flex items-center gap-3">
+                                          <div className="h-10 w-10 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+                                            <FileText className="h-5 w-5 text-gray-600 dark:text-gray-400" />
+                                          </div>
+                                          <div>
+                                            <p className="font-medium text-gray-900 dark:text-gray-100">{fileName}</p>
+                                            <p className="text-sm text-gray-600 dark:text-gray-400">
+                                              Uploaded by {file.uploadedBy.fullName} on {convertToString(file.date)}
+                                            </p>
+                                          </div>
+                                        </div>
+                                        <a href={data} download={fileName || `file-${index}`}>
+                                          <Download className="h-4 w-4" />
+                                        </a>
+                                      </div>
+                                    );
+                                  })
+                              ) : (
+                                <p>No submitted files</p>
+                              )}
+                        </CardContent>
 
-                          const keyIndex = file.data.indexOf("data");
-                          const fileName = keyIndex !== -1 ? file.data.substring(0, keyIndex).trim() : `file-${index}`;
-                          const data = keyIndex !== -1 ? file.data.substring(keyIndex).trim() : file.data;
-
-                          return (
-                          <div key={file.id} className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
-                            <div className="flex items-center gap-3">
-                              <div className="h-10 w-10 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
-                                <FileText className="h-5 w-5 text-gray-600 dark:text-gray-400" />
-                              </div>
-                              <div>
-                                <p className="font-medium text-gray-900 dark:text-gray-100">{fileName}</p>
-                                <p className="text-sm text-gray-600 dark:text-gray-400">
-                                    Uploaded by {file.uploadedBy.fullName} on {convertToString(file.date)}
-                                </p>
-                              </div>
-                            </div>
-                            {/* <Button variant="ghost" size="sm">
-                              <Download className="h-4 w-4" />
-                            </Button> */}
-                            <a href={data} download={fileName || `file-${index}`}>
-                              <Download className="h-4 w-4" />                      
-                            </a>
-                          </div>
-                          )
-                          })
-                        ): (
-            <p>No submitted files</p>
-          ) }
-                  
-                      </CardContent>
+                   
+                   
                     </Card>
               </div>
 

@@ -4,15 +4,21 @@ import TrainingTable from '../TrainingTable'
 import DynamicInputList from '../DynamicInputList '
 import BulkTaskCreator from '../BulkTaskCreator'
 import { useParams } from 'react-router-dom'
+import { useState } from 'react'
 
 const Tasks = () => {
   const {id} =  useParams();
+  const [createTask , setCreateTask] = useState(false)
   return (
-    <div>
+    <div className='space-y-3'>
       {/* <DynamicTable/> */}
+<button className='bg-blue-700 text-white px-2 py-1 rounded-md'
+onClick={() => setCreateTask(!createTask)}>{
+  createTask ? <span>Remove</span> : <span> Create Task</span>
+}</button>
+{createTask && <BulkTaskCreator projectId={id}/>}
+
 <TrainingTable projectId={id}/>
-{/* <DynamicInputList/> */}
-<BulkTaskCreator projectId={id}/>
     </div>
   )
 }

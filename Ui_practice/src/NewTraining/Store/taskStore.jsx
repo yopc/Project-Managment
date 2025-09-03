@@ -8,6 +8,10 @@ const useTaskStore = create((set, get) => ({
   taskTitles: [""], // Default with one empty input
   priorityCount:{},
   statusCount:{},
+  taskCreatedBy:{},
+  taskCreatedAt:{},
+  taskDueDate:{},
+  progress:{},
 
   addTaskTitle: () => {
     set((state) => ({ taskTitles: [...state.taskTitles, ""] }));
@@ -41,7 +45,7 @@ const useTaskStore = create((set, get) => ({
         return;
       }
       const res = await axiosInstance.post(`task/multipleTask/${projectId}` , {tasks})     
-      
+      get().getTaskByProject(projectId)
       alert(`${res.data.message}`);
     } catch (err) {
       console.error("Error creating tasks", err);
@@ -99,10 +103,11 @@ const useTaskStore = create((set, get) => ({
       console.log('value ==============' + value)
       
       const res = await axiosInstance.post(route, { taskId, value });
-      
+      toast.success("task updated successfully")
       // await getTaskByProject(projectId)
 
       return res.data;
+
     } catch (err) {
       console.log(err);
       alert(err.response?.data?.message || "Error updating task");
@@ -114,11 +119,12 @@ const useTaskStore = create((set, get) => ({
     try {
      const res = await axiosInstance.post(`/task/assigne/${taskId}`, {assignees:selectedEmployee})
      toast.success('Successfully Assigned')
+     get().getTaskById(taskId)
     } catch (error) {
       console.log('error while assingne employee to task' + error)
     }
   },
- addSubmition: async (taskId, selectedFiles) => {
+ addSubmition: async (taskId, selectedFiles , fileType) => {
   console.log("TASK ID:", taskId);
   console.log("SELECTED FILES:", selectedFiles);
 
@@ -126,12 +132,20 @@ const useTaskStore = create((set, get) => ({
   selectedFiles.forEach((file) => {
     data.append("submmitedFiles", file);
   });
+  console.log('file type is ' + fileType)
+  
+  if(fileType)  data.append("fileType", fileType)
+  
 
   try {
+    console.log('before submit the task')
     const res = await axiosInstance.post(`/task/submitFile/${taskId}`, data, {
       headers: { "Content-Type": "multipart/form-data" },
     });
+   console.log('after saving task')
     toast.success("Successfully added submitted file");
+
+    get().getTaskById(taskId)
   } catch (error) {
     console.error("Error while adding submission file", error);
   }
@@ -153,8 +167,41 @@ getStatusCountByProject: async (projectId) => {
   } catch (error) {
     console.log('error while getting priority count'+ error)
   }
-}
+},
+getTaskCreatedBy: async (projectId) => {
 
+  try {
+    const res = await axiosInstance.get(`/task/getCreatedByCountByProject/${projectId}`)
+    set({taskCreatedBy:res.data})
+  } catch (error) {
+    console.log('error while getting taskCreatedBy count'+ error)
+  }
+},
+getNumberOfTaskByCreatedAt: async (projectId) => {
+
+  try {
+    const res = await axiosInstance.get(`/task/getNumberOfTaskByCreatedAtProject/${projectId}`)
+    set({taskCreatedAt:res.data})
+  } catch (error) {
+    console.log('error while getting taskCreatedBy count'+ error)
+  }
+},
+getNumberOfTaskByDueDate: async (projectId) => {
+  try {
+    const res = await axiosInstance.get(`/task/getNumberOfTaskByDueDateProject/${projectId}`)
+    set({taskDueDate:res.data})
+  } catch (error) {
+    console.log('error while getting taskCreatedBy count'+ error)
+  }
+},
+getProjectProgress: async (projectId) => {
+  try {
+    const res = await axiosInstance.get(`/task/getProjectProgressProject/${projectId}`)
+    set({progress:res.data})
+  } catch (error) {
+    console.log('error while getting taskCreatedBy count'+ error)
+  }
+},
 
 }));
 

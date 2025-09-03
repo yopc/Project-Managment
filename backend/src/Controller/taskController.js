@@ -455,8 +455,9 @@ export const submiteFileToTask = async (req , res) => {
   try {
       const {taskId} = req.params;
       const submittedFiles = req.files.submmitedFiles || [];
-      
+      const {fileType} = req.body;
       console.log('Submited files' + submittedFiles)
+      console.log('file type' + fileType);
 
       const task =   await Task.findById(taskId);
 
@@ -474,7 +475,7 @@ export const submiteFileToTask = async (req , res) => {
           task.submitedFile.push({
             data:`${file.originalname}data:${file.mimetype};base64,${file.buffer.toString('base64')}`,
             uploadedBy:req.user._id,
-            fileType:'submit',          
+            fileType:fileType,          
           })}
  
       );
@@ -489,6 +490,8 @@ export const submiteFileToTask = async (req , res) => {
 
 
       task.save()
+
+      res.status(200).json({message:"file submitted successfully"});
       } catch (error) {
         console.log('you have error while submmting the file' + error)
         return res.status(500).json({ message: "Internal server error" });
@@ -946,4 +949,128 @@ export const  getStatusCountByProject = async (req , res) => {
     res.status(200).json({message:"server error"})
   }
 }
+
+export const numberOfTaskByCreator = async (req, res) => {
+
+  console.log('number of task created by ')
+  try {
+    const { projectId } = req.params;
+
+    if (!projectId) {
+      return res.status(400).json({ message: "Project ID is required" });
+    }
+
+    // Fetch tasks for the given project
+    const tasks = await Task.find({ project: projectId }).populate("createdBy", "fullName");
+
+    // Count tasks per creator
+    const taskCount = tasks.reduce((acc, task) => {
+      const creatorName = task.createdBy?.fullName || "Unknown"; // fallback if no creator
+      acc[creatorName] = (acc[creatorName] || 0) + 1;
+      return acc;
+    }, {});
+
+     const result = Object.entries(taskCount).map(([name, value]) => ({
+      name,
+      value
+    }));
+
+   
+
+    return res.status(200).json(result);
+  } catch (error) {
+    console.error("Error in numberOfTaskByCreator:", error);
+    return res.status(500).json({ message: "Server error", error });
+  }
+};
+
+
+// 1. Number of tasks per createdAt date
+export const numberOfTaskByCreatedAt = async (req, res) => {
+
+  console.log('number of task created at')
+  try {
+    const { projectId } = req.params;
+
+    if (!projectId) {
+      return res.status(400).json({ message: "Project ID is required" });
+    }
+
+    const tasks = await Task.find({ project: projectId });
+
+    // Group by createdAt (date only, without time)
+    const counts = tasks.reduce((acc, task) => {
+      const date = task.createdAt.toISOString().split("T")[0]; // YYYY-MM-DD
+      acc[date] = (acc[date] || 0) + 1;
+      return acc;
+    }, {});
+
+    const result = Object.entries(counts).map(([date, value]) => ({
+      date,
+      value
+    }));
+
+    return res.status(200).json(result);
+  } catch (error) {
+    console.error("Error in numberOfTaskByCreatedAt:", error);
+    return res.status(500).json({ message: "Server error", error });
+  }
+};
+
+// 2. Number of tasks per dueDate
+export const numberOfTaskByDueDate = async (req, res) => {
+  console.log('number ot task created due date')
+  try {
+    const { projectId } = req.params;
+
+    if (!projectId) {
+      return res.status(400).json({ message: "Project ID is required" });
+    }
+
+    const tasks = await Task.find({ project: projectId });
+
+    // Group by dueDate (date only)
+    const counts = tasks.reduce((acc, task) => {
+      if (!task.dueDate) return acc; // skip if no dueDate
+      const date = task.dueDate.toISOString().split("T")[0];
+      acc[date] = (acc[date] || 0) + 1;
+      return acc;
+    }, {});
+
+    const result = Object.entries(counts).map(([date, value]) => ({
+      date,
+      value
+    }));
+
+    return res.status(200).json(result);
+  } catch (error) {
+    console.error("Error in numberOfTaskByDueDate:", error);
+    return res.status(500).json({ message: "Server error", error });
+  }
+};
+
+// 3. Calculate project progress (completed %)
+export const projectProgress = async (req, res) => {
+  try {
+    const { projectId } = req.params;
+
+    if (!projectId) {
+      return res.status(400).json({ message: "Project ID is required" });
+    }
+
+    const totalTasks = await Task.countDocuments({ project: projectId });
+    const completedTasks = await Task.countDocuments({ project: projectId, status: "Completed" });
+
+    const progress = totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0;
+
+    return res.status(200).json({
+      totalTasks,
+      completedTasks,
+      progress: `${progress.toFixed(2)}%`
+    });
+  } catch (error) {
+    console.error("Error in projectProgress:", error);
+    return res.status(500).json({ message: "Server error", error });
+  }
+};
 

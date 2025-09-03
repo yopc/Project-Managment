@@ -36,7 +36,8 @@ const taskSchema = new Schema(
       },
       fileType:{
         type:String,
-        enum:['attach','submit']
+        enum:['attach','submit'],
+        default: "submit",
       }        
     }],
     // subtasks: [

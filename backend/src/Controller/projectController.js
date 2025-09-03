@@ -117,8 +117,8 @@ export const getProjectDetails = async (req, res) => {
     const { projectId } = req.params;
 
     if (!projectId || !mongoose.Types.ObjectId.isValid(projectId)) {
-  return res.status(400).json({ message: "Invalid project ID" });
-}
+        return res.status(400).json({ message: "Invalid project ID" });
+    }
 
     let project = await Project.findById(projectId)
       .populate('members.user', 'fullName email _id profilePicture')
@@ -167,6 +167,13 @@ export const getProjectDetails = async (req, res) => {
     if (createdBuffer) {
       project.createdBy.profilePicture = `data:${createdPic.contentType || 'image/png'};base64,${createdBuffer.toString('base64')}`;
     }
+
+
+        const totalTasks = await Task.countDocuments({ project: projectId });
+        const completedTasks = await Task.countDocuments({ project: projectId, status: "Completed" });
+    
+        const calculatedProgress = totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0;
+      project.progress = calculatedProgress
 
     res.status(200).json(project);
   } catch (error) {
