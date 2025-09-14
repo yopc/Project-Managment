@@ -5,6 +5,7 @@ import Profile from '../../component/Profile';
 import { useState } from 'react';
 import { useRef } from 'react';
 import { useMessage } from '../Store/useMessage';
+import { Download, Paperclip , File } from 'lucide-react';
 
 const ChatPage = () => {
     const {id} = useParams();
@@ -16,20 +17,6 @@ const ChatPage = () => {
 
      const messageEndRef = useRef(null);
 
-
-  //  useEffect(() => {
-  //    getEmployee(id)
-  //    getMessage(id)
-
-  //    subscribe()
-    
-
-  //   return () => unsubscribeFromMessages();
-
-     
-  //   }, [id]);
-
-
    useEffect(() => {
     setSelectedUser(id)       // mark this conversation as active & clear its unread
     getEmployee(id)
@@ -38,7 +25,7 @@ const ChatPage = () => {
     subscribe()
     return () => {
       setSelectedUser(null)   // leaving chat => future msgs become unread again
-      // unsubscribeFromMessages() 
+     
     }
   }, [id])
 
@@ -97,8 +84,28 @@ const ChatPage = () => {
 
   return (
 
-     <div className="flex flex-col h-screen bg-gray-100">
-         <Profile imageSrc={employee?.profilePicture} styleProp={'h-8 w-8'}/>
+     <div className="flex flex-col h-screen bg-gray-100 relative p-0">
+       <div className="sticky top-0 left-0 right-0 bg-gradient-to-r from-blue-500 to-indigo-400 shadow-md p-3 flex items-center justify-between rounded-b-2xl z-10">
+  {/* Left side: Profile & name */}
+  <div className="flex items-center gap-3">
+    <Profile imageSrc={employee?.profilePicture} styleProp={'h-10 w-10 rounded-full border-2 border-white shadow-sm'} />
+    <div>
+      <span className="block text-white font-semibold">{employee?.fullName}</span>
+     
+    </div>
+  </div>
+
+  {/* Right side: actions (example icons) */}
+  <div className="flex items-center gap-4 text-white">
+    <button className="hover:text-blue-200 transition-colors">
+      <i className="fas fa-search"></i>
+    </button>
+    <button className="hover:text-blue-200 transition-colors">
+      <i className="fas fa-ellipsis-v"></i>
+    </button>
+  </div>
+</div>
+
 
       {/* Chat messages */}
       <div className="flex-1 p-4 overflow-y-auto  space-y-4 scrollbar-hide">        
@@ -125,7 +132,17 @@ const ChatPage = () => {
                 if(data.startsWith('data:image/')){
                    return <img src={data} className='size-96 border border-gray-200 rounded'/>
                 }else{
-                  return <div className='flex justify-between '> <h1 >{fileName}</h1> <a href={data} download={fileName}>download</a></div>
+                  return <div className='flex gap-10 bg-blue-500 text-white font-roboto rounded-lg p-2'>
+                    <div className='flex gap-1'>
+                     <File />
+                     <h1 >{fileName}</h1>
+                    </div>
+                    
+                     
+                    <a href={data} download={fileName}>                         
+                    <Download/></a>
+                        
+                        </div>
                 }
                 
                 
@@ -166,7 +183,7 @@ const ChatPage = () => {
       )}
 
       {/* Input Section */}
-      <div className="flex items-center p-3 border-t bg-white gap-2">
+      <div className="flex items-center p-3 border-t bg-white gap-2 sticky left-0 bottom-0 right-0">
         <input
           type="file"
           name='file'
@@ -179,7 +196,7 @@ const ChatPage = () => {
           htmlFor="fileInput"
           className="cursor-pointer px-3 py-2 bg-gray-200 rounded-lg hover:bg-gray-300"
         >
-          📎
+          <Paperclip/>
         </label>
 
         <input

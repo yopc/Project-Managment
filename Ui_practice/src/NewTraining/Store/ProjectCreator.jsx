@@ -7,15 +7,42 @@ export const ProjectCreator = create((set ,get) => ({
    projectDetail:null,
    loadProject:false,
    loadAddMember:false,
+   errorMessage:null,
+   projectDataForEmployee:null,
+   allProjectData:null,
 
 
+   setErrorMessage: (newMessage) => set({ errorMessage: newMessage }),
 
+
+    updateProjectDescription: async (id , value) => {
+      try {
+        const res = await axiosInstance.put(`/project/updateDescription/${id}`, value)
+      } catch (error) {
+        console.log('error while update description')
+      }
+    },
     createProject:async (formData) => {
         try{
           const res = await axiosInstance.post('/project/createProject',formData)
         }catch(error){
             console.log('error while creating project' + error)
         }
+    },
+
+    updateProject: async (formData, id) => {
+      console.log('id in the update project' + id)
+      try {
+        console.log('before request')
+        const res = await axiosInstance.put(`/project/update/${id}` , formData);
+
+        toast.success(res.data.message)
+        console.log('log info' + res.data.message)
+      } catch (error) {
+        set({errorMessage:error.response.data.message})
+        console.log("Error response:", error.response.data.message);
+        console.log('error while creating project' + error)
+      }
     },
 
 
@@ -54,5 +81,24 @@ export const ProjectCreator = create((set ,get) => ({
      } finally{
       set({loadAddMember:false})
      }
+    },
+
+    getProjectDataForEmployee: async () => {
+      try {
+        const res = await axiosInstance.get('/project/projectDataForEmployee')
+        set({projectDataForEmployee:res.data})
+      } catch (error) {
+        console.log('erro while getting project data for employee' + error)
+      }
+    },
+    getAllProjectData: async () => {
+      try {
+       const res = await axiosInstance.get('/project/allProjectData')
+       set({allProjectData:res.data})
+      } catch (error) {
+        console.log('error while getting all projet data for employee' + error)
+      }
     }
+
+    
 }))

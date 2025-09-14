@@ -10,12 +10,27 @@ const Message = ({id}) => {
 
   const {activities , activityForProject,markAsRead, getUnreadCount, getActivityByProjectId} =  useActivityLog();
   const {authUser} = Authenticatioin();
-  useEffect(() => {
-    // getActivityForCurrentUser();   
-    getActivityByProjectId(id)
 
-    markAsRead(id).then(() => getUnreadCount())
-  }, [id])
+
+  // useEffect(() => {
+  //   console.log('chech useEffact')
+  //   // getActivityForCurrentUser();   
+  //   getActivityByProjectId(id)
+
+  //   markAsRead(id).then(() => getUnreadCount())
+  // }, [id,activityForProject])
+
+
+  useEffect(() => {
+  // fetch activities when project changes
+  getActivityByProjectId(id);
+
+  // cleanup runs when leaving page (or id changes)
+  return () => {
+    markAsRead(id).then(() => getUnreadCount());
+  };
+}, [id]);
+
 
 
   
@@ -43,11 +58,13 @@ const Message = ({id}) => {
 //     };
 //   }, [id, socket]);
 
+   console.log('the id is ' + id)
+   console.log('auth user mm' + authUser.employee.fullName)
    console.log('parent project id  ' + activityForProject.readBy)
 
    activityForProject.map((a) => {
     a.readBy.forEach(
-      (a) => console.log('reader' + a + "userId" + authUser?._id)
+      (a) => console.log('reader' + a + "userId" + authUser?.employee._id)
     )
    })
 
@@ -72,7 +89,7 @@ const Message = ({id}) => {
             
 {Array.isArray(a.readBy) && authUser?.employee._id ? (
   !a.readBy.some(userId => userId?.toString() === authUser?.employee._id.toString()) ? (
-    <h1>new</h1>
+    <h1 className='bg-red-300 rounded-lg px-2 py-1 w-fit'>new</h1>
   ) : null
 ) : null}
 

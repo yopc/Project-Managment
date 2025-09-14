@@ -1,14 +1,15 @@
 // Modal.jsx
 import React from "react";
 
-const Dialog = ({ isOpen, onClose, title, children, footer }) => {
+const Dialog = ({ isOpen, onClose, title, children, footer , style }) => {
   if (!isOpen) return null; // Do not render if closed
 
   const stopPropagation = (e) => e.stopPropagation();
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center"
+      
+      className={`fixed inset-0 z-50 flex items-center justify-center `}
       aria-modal="true"
       role="dialog"
       aria-labelledby="modalTitle"
@@ -23,7 +24,7 @@ const Dialog = ({ isOpen, onClose, title, children, footer }) => {
 
       {/* Modal content */}
       <div
-        className="relative w-full max-w-md mx-4 overflow-hidden rounded-2xl border border-slate-200 bg-white/90 shadow-2xl backdrop-blur-md"
+        className={`relative   mx-4 overflow-hidden rounded-2xl border border-slate-200 bg-white/90 shadow-2xl backdrop-blur-md ${style}`}
         onClick={stopPropagation}
       >
         {/* Header */}

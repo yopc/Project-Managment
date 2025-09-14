@@ -35,12 +35,7 @@ const Navbar = () => {
 
         <div className='flex items-center'>
 
-          <div>
-
-            <button className='mx-1  border px-3 rounded bg-blue-600 text-white'>setting</button>
-            <button className='mx-1 border px-3 rounded bg-blue-600 text-white'>discover</button>
-           
-          </div>
+        
           
             <Profile styleProp={'w-12 h-12'} imageSrc={currentEmployee?.profilePicture}/>
          

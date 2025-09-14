@@ -73,7 +73,7 @@ return(
 
               <h2 className="text-sm font-roboto mb-2">Task Status Counts</h2>
               <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={statusCount}>
+                <BarChart data={Array.isArray(statusCount) ? statusCount : []}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="name" />
                   <YAxis allowDecimals={false} />
@@ -90,7 +90,7 @@ return(
 
             <h2 className="text-sm font-roboto mb-2">Number of Tasks by Employee</h2>
         
-            <BarChart width={500} height={300} data={taskCreatedBy}>
+            <BarChart width={500} height={300} data={Array.isArray(taskCreatedBy) ? taskCreatedBy : []}>
             <CartesianGrid strokeDasharray="2 2" />
             <XAxis dataKey="name" />
             <YAxis allowDecimals={false} />
@@ -110,7 +110,7 @@ return(
   <ResponsiveContainer width="100%" height={240}>
     <PieChart>
       <Pie
-        data={priorityCount}
+        data={Array.isArray(priorityCount) ? priorityCount : []}
         cx="50%"
         cy="50%"
         outerRadius={60}

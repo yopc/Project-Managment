@@ -298,3 +298,206 @@ export const addMamberToProject = async (req , res) => {
    }
 
 }
+
+export const editProjectDescription = async (req , res) => {
+  try {
+    const {projectId} = req.params;
+    const {description} = req.body
+
+    const project = Project.findById(projectId);
+
+    if (!project) {
+      return res.status(404).json({
+        success: false,
+        message: "project not found",
+      });
+    }
+
+    if (description) project.description = description;
+    await project.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Project updated successfully",
+      project,
+    });
+  } catch (error) {
+    console.error("Error updating project:", error);
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+      error: error.message,
+    });
+  }
+}
+
+
+
+export const updateProject = async (req, res) => {
+  console.log('INSIDE PROJECT UPDATE')
+  try {
+    const { projectId } = req.params; // project _id from URL
+    const { title, status, startDate , description } = req.body;
+   console.log('PROJECT ID' + projectId)
+   console.log("START DATE" + startDate)
+   console.log("STATUS" + status)
+
+    // Find project and check ownership
+    const project = await Project.findOne({ _id: projectId, createdBy: req.user });
+
+    if (!project) {
+      return res.status(404).json({
+        success: false,
+        message: "To update the project you must be creator of these project",
+      });
+    }
+
+    // Update allowed fields
+    if (title) project.title = title;
+    if (status) project.status = status;
+    if (startDate) project.startDate = startDate;
+    if (description) project.description = description;
+
+    project.updatedAt = new Date();
+
+    await project.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Project updated successfully",
+      project,
+    });
+  } catch (error) {
+    console.error("Error updating project:", error);
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+      error: error.message,
+    });
+  }
+};
+
+
+
+
+
+/// PROJECT STATISTICS 
+
+export const  allProjectData = async (req , res) => {  
+  console.log('inside all project data')
+  try {
+    
+     const NumOfTotalProject = await Project.countDocuments();
+
+     const statusCount = await Project.aggregate([
+        {
+          $group: {
+            _id: "$status",
+            count: { $sum: 1 },
+          },
+        },
+        {
+          $project: {
+            _id: 0,
+            name: "$_id",
+            value: "$count",
+          },
+        },
+      ]);
+
+      const projectProgressCount = await Project.aggregate([
+      {
+        $project: {
+          _id: 0,
+          name: "$title",
+          value: "$progress",
+        },
+      },
+    ]);
+
+    res.status(200).json({
+      NumOfTotalProject,
+      statusCount,
+      projectProgressCount
+    })
+  } catch (error) {
+    console.log('error while count for total project' + error)
+  }
+}
+
+
+export const projectDataForEmployee = async (req , res) => {
+
+  try {
+      
+      const employeeId = new  mongoose.Types.ObjectId(req.user);
+      const totalProjectForEmployee = await Project.countDocuments({
+        "members.user": employeeId,   // employeeId = ObjectId of Employee
+      });
+
+
+      const statusCountsForEmployee = await Project.aggregate([
+        {
+          $match: {
+            "members.user": employeeId,
+          },
+        },
+        {
+          $group: {
+            _id: "$status",
+            count: { $sum: 1 },
+          },
+        },
+        {
+          $project: {
+            _id: 0,
+            name: "$_id",
+            value: "$count",
+          },
+        },
+      ]);
+
+
+      const projectProgressForEmployee = await Project.aggregate([
+        {
+          $match: {
+            "members.user": employeeId,
+          },
+        },
+        {
+          $project: {
+            _id: 0,
+            name: "$title",
+            value: "$progress",
+          },
+        },
+      ]);
+
+
+      const projectTitleVsDueDate = await Project.aggregate([
+      { $match: { "members.user": employeeId } },
+      {
+        $project: {
+          _id: 0,
+          title: "$title",
+          dueDate: 1,
+        },
+      },
+    ]);
+
+
+      res.status(200)
+      .json({
+        totalProjectForEmployee,
+        statusCountsForEmployee,
+        projectProgressForEmployee,
+        projectTitleVsDueDate
+      })
+
+
+
+  } catch (error) {
+    console.log('error while count for employee' + error)
+  }
+
+}

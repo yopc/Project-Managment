@@ -20,6 +20,7 @@ export const useActivityLog = create((set , get) => ({
         }
     },
     getActivityByProjectId: async (projectId) => {
+      console.log('PROJECT ID IS ' + projectId)
       try {
         const res = await axiosInstance.get(`/activity/${projectId}`)
         set({activityForProject: res.data.activities})

@@ -4,30 +4,6 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction"; 
 import useTaskStore from "../Store/taskStore";
 
-// ✅ Local seed data
-const seedTasks = [
-  {
-    id: 1,
-    title: "Design Homepage",
-    createdBy: "Alice",
-    createdAt: "2025-08-01",
-    dueDate: "2025-08-05",
-  },
-  {
-    id: 2,
-    title: "API Integration",
-    createdBy: "Bob",
-    createdAt: "2025-08-03",
-    dueDate: "2025-08-10",
-  },
-  {
-    id: 3,
-    title: "Testing Phase",
-    createdBy: "Charlie",
-    createdAt: "2025-08-06",
-    dueDate: "2025-08-12",
-  },
-];
 
 // ✅ Component
 export default function Calendar({id}) {

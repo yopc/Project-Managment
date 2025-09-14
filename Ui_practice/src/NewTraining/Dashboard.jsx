@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link, Route, Routes, useParams } from 'react-router-dom'
 import { project } from '../data.js'
+import Catalog from './main/Catalog.jsx';
 
 
 const Home = () => (
@@ -19,7 +20,6 @@ const Home = () => (
   </div>
 );
 
-const Catalog = () => <div className='flex-1 h-screen  bg-pink-300 flex justify-center items-center'>catalog</div>
 const About= () => <div className='flex-1 h-screen  bg-orange-300 flex justify-center items-center'>about</div>
 const Detail= () => {
   const {id} =   useParams();

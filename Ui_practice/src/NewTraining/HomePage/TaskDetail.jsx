@@ -21,27 +21,9 @@ import { Calendar,
   Pencil,
   Check} from 'lucide-react'
 import Dialog from '../components/ui/Dialog.jsx';
+import TextArea from '../components/ui/TextArea.jsx';
 
- const assignees = [
-    {
-      id: "emp-1",
-      name: "Michael Chen",
-      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face",
-      role: "Senior Developer"
-    },
-    {
-      id: "emp-2", 
-      name: "Emily Rodriguez",
-      avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=40&h=40&fit=crop&crop=face",
-      role: "UI/UX Designer"
-    },
-    {
-      id: "emp-3",
-      name: "David Park",
-      avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face", 
-      role: "Backend Developer"
-    }
-  ];
+
 
   
   const Avatar = ({ src, alt, fallback }) => {
@@ -267,26 +249,9 @@ import Dialog from '../components/ui/Dialog.jsx';
                         <CardContent>
                           {showSave ?  
                           
-                          <textarea
-
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                            className="
-                              w-full
-                              min-h-[150px] md:min-h-[250px]
-                              resize-y
-                              rounded-2xl
-                              border border-gray-300
-                              bg-white
-                              p-4
-                              text-sm md:text-base
-                              leading-6
-                              shadow-sm
-                              outline-none
-                              focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200
-                              placeholder:text-gray-400
-                            "/> : 
-
+                          <TextArea description={description}
+                          handleChange={(e) => setDescription(e.target.value)}/>
+                          : 
                           <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
                            {description}
                           </p>
@@ -492,7 +457,7 @@ import Dialog from '../components/ui/Dialog.jsx';
           {/* Assignees Card */}
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle>Assignees ({assignees.length})</CardTitle>
+              <CardTitle>Assignees ({task?.assignees.length})</CardTitle>
               <Button variant="outline" size="sm" onClick={() => setToggleSelectEmployee(!toggleSelectEmployee)}>
                 <UserPlus className="h-4 w-4 mr-2" />
                 Assign

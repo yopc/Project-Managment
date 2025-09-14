@@ -10,7 +10,7 @@ import { useMessage } from './Store/useMessage';
 
 const navItems = [
   { label: 'Home', icon: <House size={20} />, to: '/home' },
-  { label: 'My Task', icon: <FolderCheck size={20} />, to: '/catalog' },
+  { label: 'Report', icon: <FolderCheck size={20} />, to: '/catalog' },
   { label: 'Messege', icon: <MessageCircleMore size={20} />, to: '/message' },
 ];
 

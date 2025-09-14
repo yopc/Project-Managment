@@ -17,7 +17,7 @@ export const Authenticatioin = create((set , get ) => ({
        try{
          const res = await axiosInstance.post('/employee/login' , formData)
          console.log("Login response:", res.data);
-         toast.success(res.data.message || "Login successfulLLLLLLLL");
+         toast.success(res.data.message || "Login successfull");
          set({authUser:res.data})
          console.log('=====>'+ res.data)
          get().connectSocket(); 

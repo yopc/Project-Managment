@@ -325,7 +325,26 @@ export const updateTaskStatus = async (req, res) => {
     const oldStatus = task.status;
 
     task.status = value;
+
     await task.save();
+
+    const totalTasks = await Task.countDocuments({ project: project._id });
+    const completedTasks = await Task.countDocuments({ project: project._id, status: "Completed" });
+
+    const progress = totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0;
+
+    console.log('total task' + totalTasks)
+    console.log('completedTask' + completedTasks)
+    console.log('calculated progress =  ' + progress)
+    console.log('project.progress progress =  ' + project.progress)
+    if(project.progress !== progress){
+      console.log('inside project progress')
+      project.progress = Math.round(progress)
+
+      await project.save();
+    }
+    
+  
       console.log('task status updated successfully')
     // record activity
     await recordActivity(project._id,req.user._id, "updated_task", "Task", taskId, {
