@@ -523,6 +523,7 @@ import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Cell } from 
 import Button from '../components/ui/Button.jsx';
 import TextArea from '../components/ui/TextArea.jsx';
 import Dialog from '../components/ui/Dialog.jsx';
+import LinearProgress from '@mui/material/LinearProgress';
 
 const statusStyles = {
   Active: 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200',
@@ -577,6 +578,7 @@ const Overview = ({ id }) => {
   }, [projectDetail?.progress]);
 
   const createdAt = projectDetail?.createdAt ? convertToString(projectDetail.createdAt) : '—';
+  const dueDate = projectDetail?.createdAt ? convertToString(projectDetail.dueDate) : '—';
   const updatedAt = projectDetail?.updatedAt ? convertToString(projectDetail.updatedAt) : '—';
   const startDate = projectDetail?.startDate ? convertToString(projectDetail.startDate) : '—';
   const owner = projectDetail?.createdBy;
@@ -713,19 +715,33 @@ const Overview = ({ id }) => {
                     <div>
                       <div className="flex items-center justify-between">
                         <h3 className="text-sm font-medium text-gray-600">Progress</h3>
-                        <span className="text-xs font-semibold text-indigo-600">{progress}%</span>
+                        <span className="text-xs font-semibold text-indigo-600">{projectDetail?.progress}%</span>
                       </div>
                       <div className="mt-3 w-full rounded-xl bg-indigo-50 p-3">
-                        <div className="h-24 w-full">
+                        <div className="h-24 w-full items-center justify-center">
                           {/* <-- use memoized ProgressChart with fixed height */}
-                          <ProgressChart progress={progress} />
+                          {/* <ProgressChart progress={progress} /> */}
+
+                           <LinearProgress
+                                    variant="determinate"
+                                    value={projectDetail?.progress}
+                                    sx={{
+                                      height: 50,
+                                    
+                                      borderRadius: 6,
+                                      backgroundColor: "#f1f5f9",
+                                      "& .MuiLinearProgress-bar": {
+                                        backgroundColor: "#3b82f6",
+                                      },
+                                    }}
+                                  />
                         </div>
                       </div>
                     </div>
 
                     <div>
-                      <h3 className="text-sm font-medium text-gray-600">Description</h3>
-                      <p className="mt-2 text-sm leading-6 text-gray-800">{description}</p>
+                      <h3 className="text-sm font-medium text-gray-600">Due Date</h3>
+                      <p className="mt-2 text-sm leading-6 text-gray-800">{dueDate}</p>
                     </div>
                   </div>
 
@@ -771,7 +787,7 @@ const Overview = ({ id }) => {
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-gray-500">Progress</span>
-                    <span className="text-sm font-semibold text-gray-900">{progress}%</span>
+                    <span className="text-sm font-semibold text-gray-900">{projectDetail?.progress}%</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-gray-500">Members</span>

@@ -275,7 +275,7 @@ export const updateTaskDueDate = async (req , res) => {
       description: `updated task Due Date from ${OldDueDate} to ${value}`,
     });
    
-     io.to(project._id.toString()).emit("projectNotification");
+    io.to(project._id.toString()).emit("projectNotification");
    
     res.status(200).json(task);
 
@@ -341,8 +341,14 @@ export const updateTaskStatus = async (req, res) => {
       console.log('inside project progress')
       project.progress = Math.round(progress)
 
+      if(project.progress === 100){
+        project.status = "Completed"
+      }
+
       await project.save();
     }
+
+    
     
   
       console.log('task status updated successfully')
@@ -351,9 +357,11 @@ export const updateTaskStatus = async (req, res) => {
       description: `updated task status from ${oldStatus} to ${value}`,
     });
 
+    io.to(project._id.toString()).emit("projectNotification");
+
     res.status(200).json({ success: true, message: "Task updated successfully" });
 
-
+    
   
   } catch (error) {
     console.log(error);
@@ -407,6 +415,7 @@ export const updateTaskDescription = async (req, res) => {
       description: `updated task description from ${oldDescription} to ${newDescription}`,
     });
 
+    io.to(project._id.toString()).emit("projectNotification");
     res.status(200).json(task);
   } catch (error) {
     console.log(error);
@@ -459,7 +468,7 @@ console.log('insidee assigne Task to employee page ')
     }
 
     await task.save();
-
+    io.to(project._id.toString()).emit("projectNotification");
     return res.status(200).json({
       message: "Employees assigned successfully",
       task,
@@ -509,7 +518,7 @@ export const submiteFileToTask = async (req , res) => {
 
 
       task.save()
-
+      io.to(project._id.toString()).emit("projectNotification");
       res.status(200).json({message:"file submitted successfully"});
       } catch (error) {
         console.log('you have error while submmting the file' + error)
@@ -563,6 +572,8 @@ export const updateTaskAssignees = async (req, res) => {
       description: `updated task assignees from " ${oldAssignees.length} " to " ${assignees.length} " `,
     });
 
+     io.to(project._id.toString()).emit("projectNotification");
+
     res.status(200).json(task);
   } catch (error) {
     console.log(error);
@@ -611,6 +622,8 @@ export const updateTaskPriority = async (req, res) => {
     await recordActivity(project._id, req.user._id, "updated_task", "Task", taskId, {
       description: `updated task priority from ${oldPriority} to ${value}`,
     });
+
+    io.to(project._id.toString()).emit("projectNotification");
 
     res.status(200).json(task);
   } catch (error) {

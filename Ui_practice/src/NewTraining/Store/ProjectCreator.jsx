@@ -10,6 +10,7 @@ export const ProjectCreator = create((set ,get) => ({
    errorMessage:null,
    projectDataForEmployee:null,
    allProjectData:null,
+   creationMsg,
 
 
    setErrorMessage: (newMessage) => set({ errorMessage: newMessage }),
@@ -25,7 +26,12 @@ export const ProjectCreator = create((set ,get) => ({
     createProject:async (formData) => {
         try{
           const res = await axiosInstance.post('/project/createProject',formData)
+           set({creationMsg:res.data.message})
+           toast.success(res.data.message)
         }catch(error){
+             set({creationMsg:error.response?.data.message})
+             toast.error(error.response?.data.message) 
+
             console.log('error while creating project' + error)
         }
     },
@@ -37,6 +43,7 @@ export const ProjectCreator = create((set ,get) => ({
         const res = await axiosInstance.put(`/project/update/${id}` , formData);
 
         toast.success(res.data.message)
+        get().getProjectById(id)
         console.log('log info' + res.data.message)
       } catch (error) {
         set({errorMessage:error.response.data.message})

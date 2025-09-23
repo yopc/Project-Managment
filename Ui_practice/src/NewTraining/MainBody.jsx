@@ -16,107 +16,22 @@ import { useActivityLog } from './Store/useActivityLog.jsx';
 import Catalog from './main/Catalog.jsx';
 import { Link } from 'react-router-dom';
 import Badge2 from './components/ui/Badge2.jsx';
+import EmployessPage from '../Page/EmployessPage.jsx';
 
-
-// const HomeP = () =>  { 
-//  const {projects , getProject, loadProject} =  ProjectCreator();
-//  const [notification , setNotifications] = useState([])
-
-//  const unreadCount = useActivityLog((state) => state.unreadCount);
-//   console.log('unread count is ' + unreadCount)
-//   const {socket} = Authenticatioin();
-//  const {getNotification , leaveNotification } = useActivityLog();
-
-
-
-//    useEffect(() => {
-//     getProject();
-//   }, [getProject]);
-
-
-
-
-
-//  useEffect(() => {
-//   console.log('INSIDE MAINBODY')
-
-    
-  
-
-//   if (!socket) return; // wait for socket
-//   if (!projects || projects.length === 0) return; // wait for projects
-  
-//   console.log('SOCKET' + socket)
-//   console.log('PROJECTS' + projects)
-//   getNotification(projects , socket);
-
-//   return () => leaveNotification(projects);
-// }, [projects, socket]);
-
-
-
-//   // console.log('unread count ' + unreadCount)
-
-
-
-
-//   return (<div className='flex-1'>
-
-// {   loadProject ?
-//       ( <div className="flex items-center justify-center h-[60vh]">
-//           <div className="w-16 h-16 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin" />
-//         </div>)
-//         :       
-//      (<div>
-//       <h2>Projects for Member</h2>
-//       {projects.length > 0 ? (
-//         <ul>
-//           {projects.map((project) => (
-//             <li key={project._id}>
-             
-//              <Card 
-//                   id={project._id}
-//                    title={project.title} 
-//                    dueDate={convertToString(project.dueDate)}
-//                    description={project.description} 
-//                    status={project.status}
-//                    createdBy={project.createdBy.fullName} 
-//                    progress={project.progress}
-//                    unreadCount={unreadCount?.[project._id] || 0}
-//                     />
-//             </li>
-//           ))}
-//         </ul>
-//       ) : (
-//         <p>No projects found.</p>
-//       )}
-
-      
-//     </div>)}
-  
-
-
-
-
-   
-     
-   
-
-   
-//     </div>) }
 
 
 const HomeP = () => {
   const { projects, getProject, loadProject } = ProjectCreator();
   const unreadCount = useActivityLog((state) => state.unreadCount);
   const { socket } = Authenticatioin();
-  const { getNotification, leaveNotification } = useActivityLog();
+  const { getNotification, leaveNotification,getUnreadCount } = useActivityLog();
 
   const [view, setView] = useState("card"); // "card" or "table"
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     getProject();
+    getUnreadCount();
   }, [getProject]);
 
   useEffect(() => {
@@ -286,8 +201,10 @@ const MainBody = () => {
        <Route path='/home' element = {<HomeP/>}/>
        <Route path="/home/detail/:id/*" element={<HomePage/>} />
        <Route path='/create_project' element = {<CreateProject/>}/>
+       <Route path='/employees' element = {<EmployessPage/>}/>
        <Route path='/message/*' element = {<MainMassage/>}/>
        <Route path='/catalog' element = {<Catalog/>}/>
+       {/* <Route path='/employeespage' element = {<EmployessPage/>}/> */}
       </Routes>
       </div>
 

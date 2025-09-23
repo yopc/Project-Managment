@@ -2,6 +2,7 @@ import {create} from 'zustand';
 import { axiosInstance } from '../lib/axios';
 import { io } from 'socket.io-client';
 import { toast } from 'react-toastify';
+import { Navigate } from 'react-router-dom';
 
 export const Authenticatioin = create((set , get ) => ({
     employees:[],
@@ -11,8 +12,25 @@ export const Authenticatioin = create((set , get ) => ({
     authUser:null,
     loadAllEmployee:false,
     socket:null,
+    resatePasswordRequestMessage:null,
+    loadRegistration:false,
     
-
+    register: async (formData) => {
+        set({loadRegistration:true})
+        try {
+        const res = await axiosInstance.post('/employee/register', formData);
+       
+        // toast.success("'User registered successfully'")
+        console.log(res.data.message);
+        toast.success(res.data.message)
+        } catch (error) {
+          console.error('error.response', error.response?.data.message); 
+          console.error('error.message:'+  error.message);          
+          toast.error(error.response?.data.message)  
+        }finally {
+           set({ loadRegistration: false });
+        }
+    },
     login:async (formData) => {
        try{
          const res = await axiosInstance.post('/employee/login' , formData)
@@ -22,6 +40,7 @@ export const Authenticatioin = create((set , get ) => ({
          console.log('=====>'+ res.data)
          get().connectSocket(); 
        }catch(error){
+         toast.error(error.response?.data.message) 
          console.log('error while loggin' + error)
        }
     },
@@ -118,10 +137,35 @@ export const Authenticatioin = create((set , get ) => ({
 
   // newSocket.connect();
   set({ socket: newSocket });
-},
+    },
 
 
-      disconnectSocket: () => {
+    disconnectSocket: () => {
         if (get().socket?.connected) get().socket.disconnect();
-      },
+    },  
+
+    
+    PasswordResateRequest:(email) => {
+      console.log('EMAIL' + email)
+      try {
+       const res =   axiosInstance.post('/employee/request-password-reset' , {email})
+       console.log(res.data)
+      //  set({resatePasswordRequestMessage:res.data.message})
+      } catch (error) {
+        console.log('error while sending password resate request' + error)
+      }
+    },
+    changePassword:(navigate , token , formData) => {
+      console.log('inside form data change password are: ' + formData)
+      try {
+        const res = axiosInstance.post(`/employee/reset-password/${token}` , formData)
+         navigate("/login");
+      } catch (error) {
+        console.log('error while changing password ' + error)
+      }
+    }
+
+
+
+
 }))

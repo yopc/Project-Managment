@@ -3,14 +3,22 @@ import logo from '../assets/images/logo.jpg'
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { Authenticatioin } from '../NewTraining/Store/AuthenticateUser';
+import { Link, useParams ,useNavigate} from 'react-router-dom';
 
-const CardPractice = () => {
+const ChangePassword = () => {
   const [formData, setFormData] = useState({  
-    email: '',
-    password: ''   
+    newPassword: '',
+    confirmPassword: ''   
   });
 
-  const {login} = Authenticatioin();
+  const {token} = useParams();
+  const navigate = useNavigate(); 
+  console.log('the token from use param is ' + token)
+
+
+
+
+  const {changePassword} = Authenticatioin();
 
   
 
@@ -20,14 +28,14 @@ const CardPractice = () => {
   };
 
   const handleSubmmit = async (e) => {
-    e.preventDefault();
-    
+    e.preventDefault();    
    
     // const res = await  axios.post('http://localhost:5000/employee/login', formData)
-    login(formData)
-   
+    await changePassword(navigate , token , formData)  
    
   }
+
+
 
   return (
     <div className='flex'>
@@ -35,32 +43,38 @@ const CardPractice = () => {
          <div className="flex flex-col w-72 gap-y-4 m-8">
    
       {/* Text Inputs */}
-     <h1>login page task</h1>
+      <p>Change Password</p>
       <input
-        type="text"
+        type="password"
         className="border-1 border-gray-400 h-10  px-2 py-1 rounded"
-        name="email"
-        placeholder="Email"
+        name="newPassword"
+        placeholder="New Password"
         onChange={handleChange}
-        value={formData.email}
+        value={formData.newPassword}
       />
       <input
-        type="text"
+        type="password"
         className="border-1 border-gray-400 h-10  px-2 py-1 rounded"
-        name="password"
-        placeholder="Password"
+        name="confirmPassword"
+        placeholder="Confirm Password"
         onChange={handleChange}
-        value={formData.password}
+        value={formData.confirmPassword}
       />
 
-      <p>Login to your credentials</p>
+      <Link to={'/login'}>
+       Login
+      </Link>
 
       <button
         onClick={handleSubmmit}
         className="bg-blue-500 h-10 text-white py-1 rounded hover:bg-blue-600 transition"
       >
-        Login
+        Change Password
       </button>
+
+       
+
+    
     </div>
       </div> 
             
@@ -77,4 +91,4 @@ const CardPractice = () => {
   );
 };
 
-export default CardPractice;
+export default ChangePassword;

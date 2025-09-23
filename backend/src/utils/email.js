@@ -28,6 +28,23 @@ export const sendVerificationEmail = async (email, token) => {
   });
 };
 
+export const sendPasswordResateEmail = async (email , token) => {
+
+   console.log('app pass: ' + process.env.APP_PASS);
+  console.log('email : ' + process.env.EMAIL_USER);
+   
+  const resetUrl = `http://localhost:5000/employee/reset-password/${token}`;
+
+  await transporter.sendMail({
+    to:email,
+    subject:"Password resate",
+    html:  `
+      <p>Please click the link below to resate your password:</p>
+      <a href="${resetUrl}">Resate Password</a>
+    `,
+  })
+}
+
 export const verfiyEmailForEmployee = async (email , token) =>{
   const url = `${process.env.CLIENT_URL}/employee/verfiyEmail?token${token}`;
   await transporter.sendMail({

@@ -1,10 +1,11 @@
 import React from 'react'
 import DynamicTable from '../DynamicTable'
-import TrainingTable from '../TrainingTable'
+import TaskTable from '../TaskTable'
 import DynamicInputList from '../DynamicInputList '
 import BulkTaskCreator from '../BulkTaskCreator'
 import { useParams } from 'react-router-dom'
 import { useState } from 'react'
+
 
 const Tasks = () => {
   const {id} =  useParams();
@@ -18,7 +19,7 @@ onClick={() => setCreateTask(!createTask)}>{
 }</button>
 {createTask && <BulkTaskCreator projectId={id}/>}
 
-<TrainingTable projectId={id}/>
+<TaskTable projectId={id}/>
     </div>
   )
 }

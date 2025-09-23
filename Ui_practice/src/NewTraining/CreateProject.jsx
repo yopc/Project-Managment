@@ -10,7 +10,7 @@ const CreateProject = () => {
     dueDate: "",
     member: ""
   });
-  const {createProject} =  ProjectCreator();
+  const {createProject,creationMsg} =  ProjectCreator();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -93,17 +93,11 @@ const CreateProject = () => {
 
         {/* Member */}
         </div>
-     <div className="flex-1"><div className="mb-6">
-          <label className="block text-gray-700 font-medium mb-2">Member</label>
-          <input
-            type="text"
-            name="member"
-            placeholder="Enter member name"
-            value={formData.member}
-            onChange={handleChange}
-            className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-          />
-        </div></div>
+     <div className="flex-1">
+      
+     { creationMsg && <span>{creationMsg}</span>}
+        
+        </div>
         </div>
         {/* Submit Button */}
         <div className="flex justify-end">

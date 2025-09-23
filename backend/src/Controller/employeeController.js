@@ -1,8 +1,8 @@
 import Employee from "../model/employee.js";
 import jwt from 'jsonwebtoken';
-import { sendVerificationEmail } from '../utils/email.js';
+import { sendVerificationEmail , sendPasswordResateEmail } from '../utils/email.js';
 import bcrypt from 'bcrypt'
-
+import crypto from 'crypto'
 
 export async function register(req, res) {
  const {  
@@ -22,6 +22,12 @@ export async function register(req, res) {
  
  const profilePicture = req.files?.profilePicture?.[0] || null;
  const SupplementaryFiles = req.files?.SupplementaryFile || [];
+    console.log('suplmentary file ')
+
+    SupplementaryFiles.forEach((file) => (
+      console.log('file name : ' + file.originalname)
+    ))
+
 
  
 
@@ -76,6 +82,8 @@ export async function register(req, res) {
       // Convert to base64 string with content type
       profilePictureBase64 = `data:${file.mimetype};base64,${file.buffer.toString('base64')}`;
     }
+   
+
 
     const newEmployee = new Employee({  
     email,
@@ -90,11 +98,11 @@ export async function register(req, res) {
     phoneNumber,
     role,
     profilePicture:profilePictureBase64,
-    SupplementaryFile: SupplementaryFiles.map(file => ({
-    filename: file.originalname,
-    contentType: file.mimetype,
-    data: file.buffer
+    SupplementaryFile: SupplementaryFiles.map((supfile) => ({
+    fileName: supfile.originalname,
+    data: `data:${supfile.mimetype};base64,${supfile.buffer.toString('base64')}`
   }))
+
   });
 
    await newEmployee.save();
@@ -103,16 +111,22 @@ export async function register(req, res) {
     expiresIn: "7d",
   });
 
-  res.cookie("jwt", token, {
-    maxAge: 7 * 24 * 60 * 60 * 1000,
-    httpOnly: true, // prevent XSS attacks,
-    sameSite: "strict", // prevent CSRF attacks
-    secure: process.env.NODE_ENV === "production",
-  });
+  // res.cookie("jwt", token, {
+  //   maxAge: 7 * 24 * 60 * 60 * 1000,
+  //   httpOnly: true, // prevent XSS attacks,
+  //   sameSite: "strict", // prevent CSRF attacks
+  //   secure: process.env.NODE_ENV === "production",
+  // });
+   try {
+    
+     await sendVerificationEmail(email, token);
+   } catch (error) {
+     console.log("error" + error)
+     res.status(500).json({ message: "Unable to send email please chack your email" });
+   }
 
-    await sendVerificationEmail(email, token);
+     res.status(200).json({ message: "Registered successfull please verify your email"});
 
-     res.status(201).json({ message: "Register successful. Verify your email." });
   } catch (error) {
     console.log("Error in signup controller", error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -173,7 +187,7 @@ export async function getAllEmployee(req , res){
   console.log('inside get all employee  function')
 
   try{
- const employee = await Employee.find().select('fullName email phoneNumber Directorate JobTitle profilePicture')
+ const employee = await Employee.find().select('fullName email phoneNumber Directorate JobTitle profilePicture SupplementaryFile bio')
 
  res.status(200).json({message:'user fetched successfully', employee})
 
@@ -205,5 +219,93 @@ export const checkAuth = (req, res) => {
   } catch (error) {
     console.log("Error in checkAuth controller", error.message);
     res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+export const requestPasswordReset = async (req , res) => {
+  try {
+   
+    const {email} = req.body;
+    
+    const employe = await Employee.findOne({email})
+   
+    if(!employe) res.status(404).json({message:"employee not found"})
+
+    
+    
+    const resetToken = crypto.randomBytes(32).toString("hex");
+
+    employe.resetPasswordToken = resetToken;
+    employe.resetPasswordExpire = Date.now() + 3600000; // 1 hour expiry
+
+    await employe.save();
+
+    sendPasswordResateEmail(email , resetToken)
+
+    res.json({ message: "Password reset email sent" });
+
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server error");
+  }
+}
+
+export const resetPassword = async (req, res) => {
+  console.log('inside resate password ')
+  try {
+    const {token} = req.params;
+    console.log('token : ' + token)
+    const { newPassword, confirmPassword } = req.body;
+
+    const employee = await Employee.findOne({
+      resetPasswordToken: token,
+      resetPasswordExpire: { $gt: Date.now() }, // token not expired
+    });
+
+    if (!employee) {
+      return res.status(400).json({ message: "Invalid or expired token" });
+    }
+
+    if (newPassword !== confirmPassword) {
+      return res.status(400).json({ message: "Passwords do not match" });
+    }
+
+    employee.password = await bcrypt.hash(newPassword , 10);
+    employee.resetPasswordToken = undefined;
+    employee.resetPasswordExpire = undefined;
+
+    await employee.save();
+
+     // Backend resetPassword
+     res.status(200).json({ message: "Password reset successful" });
+
+
+
+  } catch (error) {
+    console.error(err.message);
+    res.status(500).send("Server error");
+  }
+}
+
+export const verifyResetToken = async (req, res) => {
+  try {
+    const { token } = req.params;
+
+    const employee = await Employee.findOne({
+      resetPasswordToken: token,
+      resetPasswordExpire: { $gt: Date.now() }, // still valid
+    });
+
+    if (!employee) {
+      return res.redirect("http://localhost:5173/error?reason=expired"); 
+      // React error page
+    }
+
+    // Token is valid → redirect user into your frontend reset page
+    res.redirect(`http://localhost:5173/change-password/${token}`);
+
+  } catch (err) {
+    console.error(err.message);
+    res.redirect("http://localhost:5173/error?reason=server");
   }
 };

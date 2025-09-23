@@ -11,13 +11,16 @@ import React from 'react'
     
     const variantStyles = {
       default: "bg-gray-900 text-white hover:bg-gray-800 shadow dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-200",
+      blue: "bg-blue-900 text-white hover:bg-blue-800 shadow dark:bg-blue-50 dark:text-gray-900 dark:hover:bg-gray-200",
       outline: "border border-gray-300 bg-white hover:bg-gray-50 hover:text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:hover:bg-gray-700 dark:hover:text-gray-100",
-      ghost: "hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-gray-100"
+      ghost: "hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-gray-100",
+      humberger: "hover:bg-blue-100 hover:text-gray-900 dark:hover:bg-blue-800 dark:hover:text-gray-100"
     };
     
     const sizeStyles = {
       default: "h-10 px-4 py-2",
       sm: "h-8 rounded-md px-3",
+      vsm: "h-6 rounded-md px-2",
       lg: "h-11 rounded-md px-8"
     };
     

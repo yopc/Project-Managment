@@ -349,9 +349,9 @@ import {
   MoveDown,
   MoveUp
 } from "lucide-react";
-import useTaskStore from "./Store/taskStore";
+import useTaskStore from "./Store/taskStore.jsx";
 import { convertToString , validateData} from "./lib/dateCorrector.jsx";
-import { Authenticatioin } from "./Store/AuthenticateUser";
+import { Authenticatioin } from "./Store/AuthenticateUser.jsx";
 import {Link} from 'react-router-dom'
 import TaskDetail from "./HomePage/TaskDetail.jsx";
 
@@ -389,7 +389,7 @@ import TaskDetail from "./HomePage/TaskDetail.jsx";
   );
 };
 
-const TrainingTable = ({ projectId }) => {
+const TaskTable = ({ projectId }) => {
   const { tasks, getTaskByProject, updateTaskField } = useTaskStore();
 
   const [filter, setFilter] = useState("");
@@ -748,4 +748,4 @@ const TrainingTable = ({ projectId }) => {
   );
 };
 
-export default TrainingTable;
+export default TaskTable;

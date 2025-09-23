@@ -24,7 +24,7 @@ export async function createProject(req , res) {
        ],
      });
  
-     res.status(201).json(project);
+     res.status(201).json({message:"project created successfully"});
    } catch (error) {
      console.log(error);
      res.status(500).json({
@@ -169,11 +169,11 @@ export const getProjectDetails = async (req, res) => {
     }
 
 
-        const totalTasks = await Task.countDocuments({ project: projectId });
-        const completedTasks = await Task.countDocuments({ project: projectId, status: "Completed" });
+      //   const totalTasks = await Task.countDocuments({ project: projectId });
+      //   consst completedTasks = await Task.countDocuments({ project: projectId, status: "Completed" });
     
-        const calculatedProgress = totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0;
-      project.progress = calculatedProgress
+      //   const calculatedProgress = totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0;
+      // project.progress = calculatedProgress
 
     res.status(200).json(project);
   } catch (error) {

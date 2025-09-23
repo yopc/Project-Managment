@@ -53,13 +53,22 @@ const employeeSchema = new mongoose.Schema({
   },
   isVerified: { type: Boolean, default: false },
   profilePicture: String,
-SupplementaryFile: [
-  {
-    filename: { type: String },
-    data: { type: String }, // base64 encoded string
-    contentType: { type: String },
+  SupplementaryFile: [
+    {
+      fileName:  String ,
+      data:  String , // base64 encoded string
+      // contentType: { type: String },
+    }
+  ],
+
+  // SupplementaryFile:[String],
+
+  resetPasswordToken: {
+    type: String,
+  },
+  resetPasswordExpire: {
+    type: Date,
   }
-],
 
 });
 

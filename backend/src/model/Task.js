@@ -21,7 +21,10 @@ const taskSchema = new Schema(
     },
     assignees: [{ type: Schema.Types.ObjectId, ref: "Employee" }],
     // watchers: [{ type: Schema.Types.ObjectId, ref: "Employeer" }],
-    dueDate: { type: Date },
+    dueDate:{
+        type:Date,
+        default:Date.now
+      },
     completedAt: { type: Date },
     estimatedHours: { type: Number, min: 0 },
     actualHours: { type: Number, min: 0 },

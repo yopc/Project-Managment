@@ -70,7 +70,10 @@ const Card = ({ id, title, dueDate, description, status, createdBy, progress, un
         <h1 className="text-base font-semibold text-gray-900 font-roboto">{title}</h1>
         <div className="flex items-center gap-1 text-gray-500 text-sm">
           <CalendarDays size={16} />
-          <span>{dueDate}</span>
+          <span title="This is the deadline for completing the task">
+  {dueDate}
+</span>
+
         </div>
       </div>
 

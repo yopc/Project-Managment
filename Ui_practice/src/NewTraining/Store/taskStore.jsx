@@ -2,6 +2,7 @@
 import { create } from "zustand";
 import { axiosInstance } from '../lib/axios'
 import { toast } from "react-toastify";
+import { ProjectCreator } from "./ProjectCreator";
 const useTaskStore = create((set, get) => ({
   task:null,
   tasks:[],
@@ -97,12 +98,14 @@ const useTaskStore = create((set, get) => ({
         default:
           return;
       }
+      
       console.log('task id ============' + taskId)
       console.log('project id =========' + projectId)
       console.log('field  =============' + field)
       console.log('value ==============' + value)
       
       const res = await axiosInstance.post(route, { taskId, value });
+       await ProjectCreator.getState().getProjectById(projectId)
       toast.success("task updated successfully")
       // await getTaskByProject(projectId)
 

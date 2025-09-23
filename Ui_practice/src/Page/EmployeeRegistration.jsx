@@ -1,9 +1,15 @@
 import { useState } from "react";
 import React from 'react';
-import {FileText , ArrowDownToLine, FileArchive ,X} from 'lucide-react'
+import { Link } from "react-router-dom";
+import {FileText , ArrowDownToLine, FileArchive ,X, } from 'lucide-react'
 import axios from 'axios';
+import { toast } from "react-toastify";
+import { Authenticatioin } from "../NewTraining/Store/AuthenticateUser";
+import Button from "../NewTraining/components/ui/Button";
 
 const EmployeeRegistration = () => {
+
+  const {register , loadRegistration} = Authenticatioin()
 
  const [formData, setFormData] = useState({
   fullName: '',
@@ -80,17 +86,24 @@ const handleSubmit = async (e) => {
     data.append('SupplementaryFile', file); // Append all files
   });
 
-  try {
-    const res = await axios.post('http://localhost:5000/employee/register', data);
-    alert('User registered successfully');
-    console.log(res.data);
-  } catch (error) {
-    console.error('Error:', error.response?.data || error.message);
-  }
+  // try {
+  //   const res = await axios.post('http://localhost:5000/employee/register', data);
+  //   alert('User registered successfully');
+  //   toast.success(res.data)
+  //   console.log(res.data);
+  // } catch (error) {
+  //   console.error('Error:', error.response?.data || error.message);
+   
+  // }
+  await register(data)
 };
 
   return (
     <div className="p-4  h-screen mb-8 m-4">
+       <Link to="/home">
+            
+            <Button variant='blue' size='sm'>home</Button>
+            </Link>
       <div className="flex flex-col  gap-4  mx-auto  md:flex-row ">
         {/* Profile Card */}
         <div className='flex flex-col gap-1  flex-1'>
@@ -180,8 +193,14 @@ const handleSubmit = async (e) => {
           </select>
 
          
-          <button className="h-10 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded transition" onClick={handleSubmit}> 
-            Register
+          <button className="h-10 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded transition flex items-center justify-center" onClick={handleSubmit}> 
+       
+         <div className="flex items-center gap-3">
+        { loadRegistration && <div className="w-5 h-5 border-4 border-white border-t-transparent rounded-full animate-spin" />   
+         }
+         <span>Register</span>
+          
+         </div>
           </button>
         </div>
 

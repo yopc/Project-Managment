@@ -1,28 +1,29 @@
 import React, { useReducer, useState } from 'react'
 import './App.css'
-import { FaceIcon, ImageIcon, SunIcon } from "@radix-ui/react-icons"
+// import { FaceIcon, ImageIcon, SunIcon } from "@radix-ui/react-icons"
 import { Routes, Route, Navigate } from 'react-router-dom';
-import Sidebar from './component/Sidebar';
-import MainContent from './component/MainContent/MainContent';
+// import Sidebar from './component/Sidebar';
+// import MainContent from './component/MainContent/MainContent';
 import Context, { ToggleContext } from './component/Context';
-import SidebarTraining from './component/SidebarTraining';
-import UploadImage from './component/UploadImage';
-import FileUploader from './component/UploadMultipleDoc';
-import FileGallery from './component/FileGallery';
-import Signup from './Page/Signup';
-import UserList from './component/User';
-import CardPractice from './component/CardPractice';
-import EmployeeRegistration from './component/EmployeeRegistration';
+// import SidebarTraining from './component/SidebarTraining';
+// import UploadImage from './component/UploadImage';
+// import FileUploader from './component/UploadMultipleDoc';
+// import FileGallery from './component/FileGallery';
+// import Signup from './Page/Signup';
+// import UserList from './component/User';
+import EmployeeRegistration from './Page/EmployeeRegistration.jsx';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import VerificationSuccessfullPage from './component/VerificationSuccessfullPage';
-import Dashboard from './NewTraining/Dashboard.jsx';
+// import VerificationSuccessfullPage from './component/VerificationSuccessfullPage';
+// import Dashboard from './NewTraining/Dashboard.jsx';
 import Continer from './NewTraining/Continer.jsx';
-import PopupButton from '../src/component/PopupButton.jsx'
+// import PopupButton from '../src/component/PopupButton.jsx'
 import { Authenticatioin } from './NewTraining/Store/AuthenticateUser.jsx';
-import MainMassage from './NewTraining/HomePage/MainMassage.jsx';
+// import MainMassage from './NewTraining/HomePage/MainMassage.jsx';
 import { io } from 'socket.io-client';
 import { useEffect } from 'react';
+import ChangePassword from './Page/ChangePassword.jsx';
+import LoginPage from './Page/LoginPage.jsx';
 const socket = io("http://localhost:5000"); 
 
 export default function App() {
@@ -53,9 +54,9 @@ const {authUser} = Authenticatioin();
      <Route path="/*" element={authUser ? <Context>
       <Continer/>
   </Context> : <Navigate to="/login" />} />
-   <Route path="/login" element={!authUser ? <CardPractice /> : <Navigate to="/" />} />
+   <Route path="/login" element={!authUser ? <LoginPage /> : <Navigate to="/" />} />
    <Route path="/signup" element={ <EmployeeRegistration/>} />
-  
+   <Route path="/change-password/:token" element={<ChangePassword />} />
   </Routes>
  
   

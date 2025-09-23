@@ -72,6 +72,8 @@ export  const  validateData = (colName , value) => {
                return decoreStatus(value)
         case "priority":
              return decorePriority(value)
+        case "dueDate":
+              return new Date(value).toLocaleDateString();   
              //   case "assignees":
       //        return <Profile imageSrc={value.assignees.profilePicture} styleProp={'h-8 w-8'}/>
 
