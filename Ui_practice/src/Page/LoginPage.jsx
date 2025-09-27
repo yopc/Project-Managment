@@ -101,7 +101,10 @@ const LoginPage = () => {
         onClick={() => setForgete(!forgetPassword)}
         className="cursor-pointer text-gray-600 hover:text-indigo-600 hover:underline transition duration-200"
       >
-        Forgot password?
+        Forgot password?   <Link to='/signup'>
+            Register
+            
+            </Link>
       </p>
       <button
         onClick={handleSubmmit}
