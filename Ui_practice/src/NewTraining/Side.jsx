@@ -44,7 +44,7 @@ useEffect(() => {
    const { getUnreadCounts } = useMessage();
 
   useEffect(() => {
-    getUnreadCounts();  // 👈 fetch unread counts when sidebar mounts
+    getUnreadCounts(); 
   }, []);
   
 // const src = `data:${currentEmployee.profilePicture.contentType};base64,${currentEmployee.profilePicture.data}`

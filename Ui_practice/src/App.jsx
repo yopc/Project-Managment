@@ -1,25 +1,12 @@
 import React, { useReducer, useState } from 'react'
 import './App.css'
-// import { FaceIcon, ImageIcon, SunIcon } from "@radix-ui/react-icons"
 import { Routes, Route, Navigate } from 'react-router-dom';
-// import Sidebar from './component/Sidebar';
-// import MainContent from './component/MainContent/MainContent';
 import Context, { ToggleContext } from './component/Context';
-// import SidebarTraining from './component/SidebarTraining';
-// import UploadImage from './component/UploadImage';
-// import FileUploader from './component/UploadMultipleDoc';
-// import FileGallery from './component/FileGallery';
-// import Signup from './Page/Signup';
-// import UserList from './component/User';
 import EmployeeRegistration from './Page/EmployeeRegistration.jsx';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-// import VerificationSuccessfullPage from './component/VerificationSuccessfullPage';
-// import Dashboard from './NewTraining/Dashboard.jsx';
 import Continer from './NewTraining/Continer.jsx';
-// import PopupButton from '../src/component/PopupButton.jsx'
 import { Authenticatioin } from './NewTraining/Store/AuthenticateUser.jsx';
-// import MainMassage from './NewTraining/HomePage/MainMassage.jsx';
 import { io } from 'socket.io-client';
 import { useEffect } from 'react';
 import ChangePassword from './Page/ChangePassword.jsx';
@@ -69,39 +56,4 @@ const {authUser} = Authenticatioin();
   </>
     );
 }
-
-
-
-{/* <Signup/> */}
-  // <UploadImage/>
-  // <FileUploader/>
-  // <FileGallery/>
-
-  
-
-//  <Routes>
-//     <Route path="/email-verified" element={ <VerificationSuccessfullPage/>} />
-//      <Route path='/login' element={<CardPractice/>}/>
-//      <Route path='/employee' element={<FileGallery/>}/>
-//      <Route path='/home' element={<HomePage/>}/>
-//   </Routes>
-
-
-
-
-// perfectly working example
-
-  // <Context>
-
-  //  <div className='flex w-screen h-screen'>
-  //     <Sidebar/> 
-  //     {/* <SidebarTraining/> */}
-  //     {/* <MainContent/> */}
-  //       <Routes>
-  //     <Route path="/*" element={<MainContent />} />
-  //     <Route path="/" element={<Navigate to="/overview" replace />} />
-  //   </Routes>
-  //   </div>
-  //   </Context>
-
 

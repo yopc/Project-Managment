@@ -89,7 +89,7 @@ const LoginPage = () => {
         value={formData.email}
       />
       <input
-        type="text"
+        type="password"
         className="border-1 border-gray-400 h-10  px-2 py-1 rounded"
         name="password"
         placeholder="Password"

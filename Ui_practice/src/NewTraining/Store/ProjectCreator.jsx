@@ -10,7 +10,7 @@ export const ProjectCreator = create((set ,get) => ({
    errorMessage:null,
    projectDataForEmployee:null,
    allProjectData:null,
-   creationMsg,
+   creationMsg:null,
 
 
    setErrorMessage: (newMessage) => set({ errorMessage: newMessage }),

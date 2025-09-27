@@ -97,19 +97,7 @@ console.log('tasks' + tasks)
         <Button onClick={addTaskTitle}
        >
            + Add task
-        </Button>
-          {/* <button
-        
-        className="bg-blue-700  py-1 px-2 rounded-md font-roboto text-white">
-       
-      </button> */}
-
-      {/* <button
-        onClick={() => submitTasks(projectId)}
-        className="bg-green-500  py-1 px-2 rounded-md font-roboto text-white"
-      >
-        
-      </button>  */}
+        </Button>         
 
       <Button  onClick={() => submitTasks(projectId)} variant="secondary">
           Submit All Tasks

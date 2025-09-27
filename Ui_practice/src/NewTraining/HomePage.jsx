@@ -69,10 +69,6 @@ const HomePage = () => {
 
     
 
-
-    // const handleChange = (e) => {
-    //    setFormData({...formData,[ e.target.name]:e.target.value})
-    // }
     
     const handleChange = (e) => {
   const { name, value } = e.target;
@@ -144,13 +140,7 @@ const HomePage = () => {
 
           {/* Navigation links */}
          <div className='flex justify-between border-t'> 
-           {/* <div className='flex gap-4  border-gray-400 mx-4 py-2 text-sm'>
-            <Link to={`/home/detail/${id}/overview`} className='flex items-center gap-1 hover:text-blue-500 '><NotepadText size={18} /> Overview</Link>
-            <Link to={`/home/detail/${id}/tasks`} className='flex items-center gap-1 hover:text-blue-500'><LayoutList size={18} /> Tasks</Link>
-            <Link to={`/home/detail/${id}/calendar`} className='flex items-center gap-1 hover:text-blue-500'><CalendarCheck size={18} /> Calendar</Link>
-            <Link to={`/home/detail/${id}/workflow`} className='flex items-center gap-1 hover:text-blue-500'><Workflow size={18} /> Workflow</Link>
-            <Link to={`/home/detail/${id}/message`}className='flex items-center gap-1 hover:text-blue-500'><Bell size={18} /> Notification</Link>
-          </div> */}
+           
 
 
 

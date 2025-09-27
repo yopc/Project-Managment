@@ -145,17 +145,7 @@ export const useMessage = create((set, get) => ({
     }
   },
 
-  // When you enter a chat, set active user and clear that chat's unread
-  // setSelectedUser: (userId) => {
-  //   const { unreadBySender, unreadTotal } = get()
-  //   const n = unreadBySender[userId] || 0
-  //   const { [userId]: _drop, ...rest } = unreadBySender
-  //   set({
-  //     selectedUser: userId,
-  //     unreadBySender: rest,
-  //     unreadTotal: unreadTotal - n
-  //   })
-  // },
+
 
 
   setSelectedUser: async (userId) => {
@@ -187,7 +177,7 @@ export const useMessage = create((set, get) => ({
     const handler = (message) => {
       console.log('inside the handler')
       const active = get().selectedUser  // always fresh
-      // Append message to current view if it belongs to the open chat
+    
       if (message.senderId === active || message.receiverId === active) {
         set((state) => ({ messages: [...state.messages, message] }))
       }

@@ -107,6 +107,7 @@ const useTaskStore = create((set, get) => ({
       const res = await axiosInstance.post(route, { taskId, value });
        await ProjectCreator.getState().getProjectById(projectId)
       toast.success("task updated successfully")
+      get().getTaskById(taskId)
       // await getTaskByProject(projectId)
 
       return res.data;
@@ -147,6 +148,7 @@ const useTaskStore = create((set, get) => ({
     });
    console.log('after saving task')
     toast.success("Successfully added submitted file");
+    
 
     get().getTaskById(taskId)
   } catch (error) {

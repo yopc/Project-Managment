@@ -86,15 +86,7 @@ const handleSubmit = async (e) => {
     data.append('SupplementaryFile', file); // Append all files
   });
 
-  // try {
-  //   const res = await axios.post('http://localhost:5000/employee/register', data);
-  //   alert('User registered successfully');
-  //   toast.success(res.data)
-  //   console.log(res.data);
-  // } catch (error) {
-  //   console.error('Error:', error.response?.data || error.message);
-   
-  // }
+
   await register(data)
 };
 
@@ -211,21 +203,7 @@ const handleSubmit = async (e) => {
 
           <div className='flex flex-col gap-2 p-4 flex-1'>
             {/* EMPLOYEE SUPLMENTARY FILE */}
-        {/* <div className="border-s-teal-500 border-1 bg-white rounded-xl p-4 flex  justify-start text-white font-semibold text-lg flex-col">
-        <div>
-          <h1 className="text-center mb-4 text-xl">Employee Supplementary Files</h1>
-            <ul className="ml-4 max-h-64 overflow-y-auto">          
-           
-            <li className="flex justify-between w-96"> <div className="flex gap-1"> <FileText />  <span>File one</span> </div> <ArrowDownToLine /></li>
-            <li className="flex justify-between w-96"> <div className="flex gap-1"> <FileText />  <span>File one</span> </div> <ArrowDownToLine /></li>
-            <li className="flex justify-between w-96"> <div className="flex gap-1"> <FileText />  <span>File one</span> </div> <ArrowDownToLine /></li>
-            <li className="flex justify-between w-96"> <div className="flex gap-1"> <FileText />  <span>File one</span> </div> <ArrowDownToLine /></li>
-            
-          </ul>
-        </div>
-        
        
-        </div> */}
 
    <div className="bg-gradient-to-br from-white via-blue-700/5 to-blue-400/5 border border-gray-200 shadow-sm rounded-xl p-6 w-full max-w-2xl text-gray-800 font-medium flex-1">
    <form className="space-y-4">
@@ -258,15 +236,7 @@ const handleSubmit = async (e) => {
       </div>
 
       <div className="flex flex-col flex-1">
-        {/* <label htmlFor="gender" className="mb-1 text-sm text-gray-600">Gender</label>
-        <input
-          onChange={handleChange}
-          name="gender"
-          id="gender"
-          type="text"
-          placeholder="Gender"
-          className="border border-gray-300 h-10 px-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-        /> */}
+      
 
         <label htmlFor="gender" className="mb-1 text-sm text-gray-600">Gender:</label>
         <select  id="gender" name="gender" required
@@ -281,15 +251,7 @@ const handleSubmit = async (e) => {
 
     {/* Role */}
     <div className="flex flex-col">
-      {/* <label htmlFor="role" className="mb-1 text-sm text-gray-600">Role</label>
-      <input
-        onChange={handleChange}
-        name="role"
-        id="role"
-        type="text"
-        placeholder="Role"
-        className="border border-gray-300 h-10 px-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-      /> */}
+      
 
 
       <label htmlFor="role" className="mb-1 text-sm text-gray-600" >Role:</label>
@@ -305,15 +267,7 @@ const handleSubmit = async (e) => {
 
     {/* Employment Type */}
     <div className="flex flex-col">
-      {/* <label htmlFor="employmentType" className="mb-1 text-sm text-gray-600">Employment Type</label>
-      <input
-        onChange={handleChange}
-        name="employmentType"
-        id="employmentType"
-        type="text"
-        placeholder="Employment Type"
-        className="border border-gray-300 h-10 px-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-      /> */}
+     
 
 
       <label htmlFor="employmentType">Employment Type:</label>
@@ -349,23 +303,7 @@ const handleSubmit = async (e) => {
       />
     </div>
  
-  {/*
-  <ul className="max-h-64 overflow-y-auto space-y-2 pr-1">
-   {[...Array(4)].map((_, i) => (
-      <li
-        key={i}
-        className="flex justify-between items-center bg-gray-50 hover:bg-teal-100 transition-colors duration-200 p-3 rounded-lg shadow-sm"
-      >
-        <div className="flex gap-2 items-center text-gray-700">
-          <FileText className="text-teal-600" />
-          <span>File {i + 1}</span>
-        </div>
-        <button onClick={() => handleRemoveFile(index)}> 
-          <ArrowDownToLine className="text-teal-600 hover:text-teal-800 cursor-pointer" /></button>
-        
-      </li>
-    ))}
-  </ul> */}
+
 
   <ul className="max-h-64 overflow-y-auto space-y-2 pr-1">
   {selectedFiles.map((file, index) => (
@@ -387,14 +325,9 @@ const handleSubmit = async (e) => {
 
 </div>
 
-        {/* Registration Form */}
-       
-
-        {/* Highlight Card or Info Box */}
      
             
           </div>
-        {/* Profile Banner or Placeholder */}
        
       </div>
     </div>

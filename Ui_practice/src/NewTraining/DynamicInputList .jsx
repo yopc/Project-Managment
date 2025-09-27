@@ -2,28 +2,28 @@ import { CircleX } from "lucide-react";
 import React, { useState } from "react";
 
 const DynamicInputList = () => {
-  // State to hold all input values as an array
+  
   const [inputs, setInputs] = useState([""]);
 
-  // Handle input change
+ 
   const handleInputChange = (index, value) => {
     const newInputs = [...inputs];
     newInputs[index] = value;
     setInputs(newInputs);
   };
 
-  // Add a new input
+  
   const handleAddInput = () => {
     setInputs([...inputs, ""]);
   };
 
-  // Remove an input
+  
   const handleRemoveInput = (index) => {
     const newInputs = inputs.filter((_, i) => i !== index);
     setInputs(newInputs);
   };
 
-  // Optional: Submit data
+ 
   const handleSubmit = () => {
     console.log("Submitted data:", inputs);
   };
