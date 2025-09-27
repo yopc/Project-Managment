@@ -31,7 +31,6 @@ router.post('/description/update/:projectId' , protectRoute , updateTaskDescript
 router.post('/status/update/:projectId' , protectRoute , updateTaskStatus)
 router.post('/add/assigne/:projectId' , protectRoute , updateTaskAssignees)
 router.post('/priority/update/:projectId' , protectRoute , updateTaskPriority)
-router.post('/title/update/:projectId' , protectRoute , updateTaskTitle)
 router.post('/assigne/:taskId' , protectRoute , assignTaskToEmployee)
 router.post(
   '/submitFile/:taskId',
