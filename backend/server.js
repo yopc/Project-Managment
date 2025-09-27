@@ -110,13 +110,13 @@ app.use(cookieParser());
 
 
 
-app.use('/user', authRoute)
+app.use('/api/user', authRoute)
 // app.use('/upload', imageRouter)
-app.use('/employee', employeeRoute)
-app.use('/project', projectRouter)
-app.use('/task', taskRouter)  
-app.use('/activity', activityRouter)  
-app.use('/message', messageRouter)  
+app.use('/api/employee', employeeRoute)
+app.use('/api/project', projectRouter)
+app.use('/api/task', taskRouter)  
+app.use('/api/activity', activityRouter)  
+app.use('/api/message', messageRouter)  
 
 console.log('a server in side the server ')
 
