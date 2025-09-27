@@ -24,15 +24,20 @@ dotenv.config();
 const app = express();
 
 
-app.use(cors({ origin: 'http://localhost:5173' , 
-   credentials: true
+app.use(cors({ 
+  origin: process.env.NODE_ENV === 'production' 
+    ? ['https://project-managment-w2ui.onrender.com', 'https://project-managment-w2ui.onrender.com/']
+    : 'http://localhost:5173', 
+  credentials: true
 }));
 
 const server = http.createServer(app);
 export const io = new Server(server, {
   cors:{
-    origin:'http://localhost:5173',
-       methods: ["GET", "POST"],
+    origin: process.env.NODE_ENV === 'production' 
+      ? ['https://project-managment-w2ui.onrender.com', 'https://project-managment-w2ui.onrender.com/']
+      : 'http://localhost:5173',
+    methods: ["GET", "POST"],
   }
 })
 
