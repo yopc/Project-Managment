@@ -124,7 +124,7 @@ console.log('a server in side the server ')
 
 if(process.env.NODE_ENV === "production"){
   app.use(express.static(path.join(__dirname, "../Ui_practice/dist")))
-  app.get("/*", (req , res) => {
+  app.get("*", (req , res) => {
     res.sendFile(path.join(__dirname,"../Ui_practice","dist","index.html"))
   })
 }
