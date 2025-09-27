@@ -4,6 +4,9 @@ import { io } from 'socket.io-client';
 import { toast } from 'react-toastify';
 import { Navigate } from 'react-router-dom';
 
+
+const BASE_URL = import.meta.env.MODE === "development" ? "http://localhost:5000" : "/";
+
 export const Authenticatioin = create((set , get ) => ({
     employees:[],
     employee:null,

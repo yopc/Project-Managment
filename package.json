@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build":"",
-    "start": ""
+    "build":"npm install --prefix backend && npm install --prefix Ui_practice && npm run build --prefix Ui_practice",
+    "start": "npm run start --prefix backend"
   },
   "repository": {
     "type": "git",

@@ -12,7 +12,7 @@ import projectRouter from './src/Route/projectRouter.js'
 import taskRouter from './src/Route/taskRouter.js'
 import messageRouter from './src/Route/messageRoute.js'
 import http from'http'
-
+import path from 'path'
 import { Server } from 'socket.io';
 
 
@@ -99,6 +99,9 @@ io.on("connection", (socket) => {
 
 
 const port = process.env.PORT
+const __dirname = path.resolve();
+
+
 
 // Middleware
 app.use(express.json());
@@ -119,11 +122,12 @@ console.log('a server in side the server ')
 
 
 
-// Start server
-// app.listen(port, () => {
-//   console.log(`Server running at http://localhost:${port}`);
-
-// });
+if(process.env.NODE_ENV === "production"){
+  app.use(express.static(path.join(__dirname, "../Ui_practice/dist")))
+  app.get("*", (req , res) => {
+    res.sendFile(path.join(__dirname,"../Ui_practice","dist","index.html"))
+  })
+}
 
 server.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);  
