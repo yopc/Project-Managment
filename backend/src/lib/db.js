@@ -10,7 +10,10 @@ export async function connectDB(){
 try{
   const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/FullstackDB';
   console.log('MONGODB_URI environment variable:', process.env.MONGODB_URI ? 'SET' : 'NOT SET');
-  console.log('Using MongoDB URI:', mongoURI);
+  console.log('Raw MONGODB_URI value:', JSON.stringify(process.env.MONGODB_URI));
+  console.log('Using MongoDB URI:', JSON.stringify(mongoURI));
+  console.log('URI length:', mongoURI ? mongoURI.length : 'undefined');
+  console.log('URI starts with mongodb:', mongoURI ? mongoURI.startsWith('mongodb') : false);
   const connn = await mongoose.connect(mongoURI);
   console.log('database connected successfully');
 
