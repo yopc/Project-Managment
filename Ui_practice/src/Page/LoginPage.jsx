@@ -113,7 +113,58 @@ const LoginPage = () => {
       >
         Login
       </button>
-      <p>these is sample text </p>
+      <div className="bg-white rounded-xl border border-gray-200 p-5 max-w-md mx-auto shadow-sm relative">
+      {/* Optional Badge */}
+      <span className="absolute -top-3 right-4 bg-blue-500 text-white text-xs font-semibold px-3 py-1 rounded-full">
+        Sample
+      </span>
+      
+      <div className="space-y-3">
+        {/* Email */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-medium text-gray-600">Email:</span>
+            <span className="text-sm text-gray-800 font-mono">meselech.bekele@tech-ethiopia.com</span>
+          </div>
+          <button
+            onClick={() => handleCopy('example@gmail.com', 'email')}
+            className={`px-3 py-1 rounded-lg text-xs font-medium transition-all flex items-center gap-1 ${
+              copiedField === 'email'
+                ? 'bg-green-500 text-white'
+                : 'bg-gray-100 text-gray-600 hover:bg-blue-500 hover:text-white'
+            }`}
+          >
+            {copiedField === 'email' ? (
+              <><Check className="w-3 h-3" /> Copied</>
+            ) : (
+              <><Copy className="w-3 h-3" /> Copy</>
+            )}
+          </button>
+        </div>
+
+        {/* Password */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-medium text-gray-600">Password:</span>
+            <span className="text-sm text-gray-800 font-mono">123456</span>
+          </div>
+          <button
+            onClick={() => handleCopy('1234', 'password')}
+            className={`px-3 py-1 rounded-lg text-xs font-medium transition-all flex items-center gap-1 ${
+              copiedField === 'password'
+                ? 'bg-green-500 text-white'
+                : 'bg-gray-100 text-gray-600 hover:bg-blue-500 hover:text-white'
+            }`}
+          >
+            {copiedField === 'password' ? (
+              <><Check className="w-3 h-3" /> Copied</>
+            ) : (
+              <><Copy className="w-3 h-3" /> Copy</>
+            )}
+          </button>
+        </div>
+      </div>
+    </div>
     </div> 
             </div>}
    
