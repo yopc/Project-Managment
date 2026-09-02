@@ -3,7 +3,7 @@ import logo from '../assets/images/logo.jpg'
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { Authenticatioin } from '../NewTraining/Store/AuthenticateUser';
-import { X } from 'lucide-react';
+import { X , Copy, Check } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const LoginPage = () => {
@@ -21,7 +21,13 @@ const LoginPage = () => {
 
   const {login , PasswordResateRequest} = Authenticatioin();
 
-  
+   const [copiedField, setCopiedField] = useState(null);
+
+  const handleCopy = (text, field) => {
+    navigator.clipboard.writeText(text);
+    setCopiedField(field);
+    setTimeout(() => setCopiedField(null), 2000);
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;  
