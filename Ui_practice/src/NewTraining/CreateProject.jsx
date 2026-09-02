@@ -26,15 +26,15 @@ const CreateProject = () => {
     <div className="flex  m-2">
       <form
         onSubmit={handleSubmit}
-        className="bg-white shadow-xl  w-full rounded-2xl p-8   border border-gray-200"
+        className="bg-white shadow-xl  w-full rounded-2xl p-8 max-sm:p-4  border border-gray-200"
       >
         <h2 className="text-2xl font-bold mb-6 text-gray-800 border-b pb-3">
           Create New Project
         </h2>
 
 
-        <div className="flex gap-4 ">
-        <div className="flex-1"> 
+        <div className="flex flex-col md:flex-row gap-4 ">
+        <div className="flex-1 min-w-0"> 
        
 
         {/* Title */}
@@ -64,7 +64,7 @@ const CreateProject = () => {
               </div>
 
 
-              <div className="flex gap-4">
+              <div className="flex flex-col sm:flex-row gap-4">
                   <div className="mb-5 flex-1">
                     <label className="block text-gray-700 font-medium mb-2">Start Date</label>
                     <input
@@ -93,7 +93,7 @@ const CreateProject = () => {
 
         {/* Member */}
         </div>
-     <div className="flex-1">
+     <div className="flex-1 min-w-0">
       
      { creationMsg && <span>{creationMsg}</span>}
         

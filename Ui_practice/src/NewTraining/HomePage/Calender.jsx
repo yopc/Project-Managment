@@ -25,7 +25,7 @@ export default function Calendar({id}) {
   }));
 
   return (
-    <div className="p-6">
+    <div className="p-2 sm:p-6">
       <h1 className="text-xl font-bold mb-4">📅 Task Calendar</h1>
       <FullCalendar
         plugins={[dayGridPlugin, interactionPlugin]}

@@ -29,15 +29,15 @@ const DynamicInputList = () => {
   };
 
   return (
-    <div style={{ maxWidth: "400px", margin: "auto" }}>
+    <div style={{ maxWidth: "400px", margin: "auto", width: "100%", padding: "0 16px" }}>
       <h2>Dynamic Input List</h2>
       {inputs.map((value, index) => (
-        <div key={index} style={{ display: "flex", marginBottom: "8px" }}>
+        <div key={index} style={{ display: "flex", marginBottom: "8px", gap: "5px" }}>
           <input
             type="text"
             value={value}
             onChange={(e) => handleInputChange(index, e.target.value)}
-            style={{ flex: 1, padding: "6px" }}
+            style={{ flex: 1, padding: "6px", minWidth: "0" }}
             placeholder={`Item ${index + 1}`}
           />
           <button

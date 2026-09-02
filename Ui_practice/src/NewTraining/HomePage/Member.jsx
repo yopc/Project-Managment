@@ -52,7 +52,7 @@ import { useParams } from 'react-router-dom';
       <div className="flex items-center justify-center h-64">
         <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent border-solid rounded-full animate-spin"></div>
       </div>
-       :<div className='grid grid-cols-3grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
+       :<div className='grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
         { employees.map((employee) => (
        
         <div className="relative max-w-sm bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 p-4 flex flex-col border border-gray-100">

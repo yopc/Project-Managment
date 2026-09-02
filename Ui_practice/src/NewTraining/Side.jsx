@@ -52,9 +52,11 @@ useEffect(() => {
 
 return (
     <div
-      className={`h-screen flex flex-col justify-between  transition-all duration-300 bg-gradient-to-b from-slate-800 to-slate-900 text-white shadow-lg ${
-        toggle ? 'w-52' : 'w-16'
-      }`}
+      className={`flex-shrink-0 h-screen flex flex-col justify-between  transition-all duration-300 bg-gradient-to-b from-slate-800 to-slate-900 text-white shadow-lg overflow-x-hidden ${
+        toggle ? 'w-52 max-md:w-52' : 'w-16 max-md:w-16'
+      } max-md:fixed max-md:inset-y-0 max-md:left-0 max-md:z-50 max-md:shadow-2xl ${
+        toggle ? 'max-md:translate-x-0' : 'max-md:-translate-x-full'
+      } md:translate-x-0`}
     >
       <div>
 
@@ -106,10 +108,10 @@ return (
       <div className="p-4 border-t border-slate-700">
         <div className="flex flex-col items-center text-center">
           
-          {toggle ? 
+           {toggle ? 
             <>
               <Profile styleProp= {"w-10 h-10"} imageSrc={currentEmployee?.profilePicture}/>
-              <p className="text-xs mt-2 font-medium text-gray-300">{currentEmployee?.email}</p>
+              <p className="text-xs mt-2 font-medium text-gray-300 break-all">{currentEmployee?.email}</p>
               <p className="text-[10px] mt-1 text-gray-500 leading-tight">
                Interactive Project Management Solution with Real-Time Features
               </p>

@@ -24,7 +24,7 @@ const Dialog = ({ isOpen, onClose, title, children, footer , style }) => {
 
       {/* Modal content */}
       <div
-        className={`relative   mx-4 overflow-hidden rounded-2xl border border-slate-200 bg-white/90 shadow-2xl backdrop-blur-md ${style}`}
+        className={`relative   mx-4 max-w-full overflow-hidden rounded-2xl border border-slate-200 bg-white/90 shadow-2xl backdrop-blur-md ${style}`}
         onClick={stopPropagation}
       >
         {/* Header */}

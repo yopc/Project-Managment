@@ -587,10 +587,10 @@ const Catalog = () => {
                 key={i} 
                 className="group bg-gradient-to-r from-gray-50 to-gray-100 hover:from-indigo-50 hover:to-purple-50 rounded-2xl p-4 border border-gray-200 hover:border-indigo-200 transition-all duration-300 cursor-pointer"
               >
-                <div className="flex justify-between items-center">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-3 h-3 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full"></div>
-                    <span className="font-medium text-gray-800 group-hover:text-indigo-700 transition-colors duration-300">
+                <div className="flex flex-wrap justify-between items-center gap-2">
+                  <div className="flex items-center space-x-3 min-w-0">
+                    <div className="w-3 h-3 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex-shrink-0"></div>
+                    <span className="font-medium text-gray-800 group-hover:text-indigo-700 transition-colors duration-300 break-words">
                       {p.title}
                     </span>
                   </div>
@@ -598,7 +598,7 @@ const Catalog = () => {
                     <span className="text-sm text-gray-500 group-hover:text-indigo-600 transition-colors duration-300">
                       Due Date
                     </span>
-                    <span className="px-3 py-1 bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700 rounded-full text-sm font-medium group-hover:from-indigo-200 group-hover:to-purple-200 transition-all duration-300">
+                    <span className="px-3 py-1 bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700 rounded-full text-sm font-medium group-hover:from-indigo-200 group-hover:to-purple-200 transition-all duration-300 whitespace-nowrap">
                       {new Date(p.dueDate).toLocaleDateString()}
                     </span>
                   </div>

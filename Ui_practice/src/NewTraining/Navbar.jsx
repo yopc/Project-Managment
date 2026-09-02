@@ -19,8 +19,8 @@ const Navbar = () => {
 
   return (
     <div className='bg-neutral-100  border-gray-600 shadow w-full h-16 flex '>
-      <div className='flex justify-between items-center w-full px-4'>
-        <div className='flex items-center'>
+      <div className='flex justify-between items-center w-full px-4 gap-2'>
+        <div className='flex items-center min-w-0'>
               <Button onClick = {() => {
                     toggler()
                     console.log(toggle)
@@ -36,11 +36,11 @@ const Navbar = () => {
   
         </div>
 
-        <div className='flex items-center space-x-2'>
+        <div className='flex items-center space-x-2 flex-shrink-0'>
 
           
           {currentEmployee?.Directorate === "Human Resources" && currentEmployee?.role ==="manager" &&
-           <div className='space-x-2'>
+           <div className='space-x-2 hidden md:flex'>
             <Link to='/signup'>
             <Button variant='blue' size='sm'>add employee</Button>
             
@@ -53,40 +53,40 @@ const Navbar = () => {
            </div>
           }
            <button onClick={() => setShowProfile(!showProfile)}>
-            <Profile styleProp={'w-12 h-12'} imageSrc={currentEmployee?.profilePicture} />
+            <Profile styleProp={'w-12 h-12 max-sm:w-10 max-sm:h-10'} imageSrc={currentEmployee?.profilePicture} />
             
            </button>
           
 {showProfile &&  
-  <div className="absolute right-1 top-10 z-50 mt-6  bg-gray-100 font-roboto text-gray-500 border border-gray-600 rounded-xl shadow-lg p-6 flex flex-col space-y-2 gap-1">
+  <div className="absolute right-1 top-10 z-50 mt-6 bg-gray-100 font-roboto text-gray-500 border border-gray-600 rounded-xl shadow-lg p-6 flex flex-col space-y-2 gap-1 max-sm:right-0 max-sm:left-auto max-sm:w-[15rem] max-sm:text-xs">
   <div className="flex">
     <span className="w-32 text-sm font-semibold text-gray-500">Full Name:</span>
-    <span className="text-sm font-medium text-gray-800">{currentEmployee?.fullName}</span>
+    <span className="text-sm font-medium text-gray-800 break-words">{currentEmployee?.fullName}</span>
   </div>
 
   <div className="flex">
     <span className="w-32 text-sm font-semibold text-gray-500">Email:</span>
-    <span className="text-sm font-medium text-gray-800">{currentEmployee?.email}</span>
+    <span className="text-sm font-medium text-gray-800 break-all">{currentEmployee?.email}</span>
   </div>
 
   <div className="flex">
     <span className="w-32 text-sm font-semibold text-gray-500">Directorate:</span>
-    <span className="text-sm font-medium text-gray-800">{currentEmployee?.Directorate}</span>
+    <span className="text-sm font-medium text-gray-800 break-words">{currentEmployee?.Directorate}</span>
   </div>
 
   <div className="flex">
     <span className="w-32 text-sm font-semibold text-gray-500">Job Title:</span>
-    <span className="text-sm font-medium text-gray-800">{currentEmployee?.JobTitle}</span>
+    <span className="text-sm font-medium text-gray-800 break-words">{currentEmployee?.JobTitle}</span>
   </div>
 
   <div className="flex">
     <span className="w-32 text-sm font-semibold text-gray-500">Phone:</span>
-    <span className="text-sm font-medium text-gray-800">{currentEmployee?.phoneNumber}</span>
+    <span className="text-sm font-medium text-gray-800 break-words">{currentEmployee?.phoneNumber}</span>
   </div>
 
   <div className="flex">
     <span className="w-32 text-sm font-semibold text-gray-500">Role:</span>
-    <span className="text-sm font-medium text-gray-800">{currentEmployee?.role}</span>
+    <span className="text-sm font-medium text-gray-800 break-words">{currentEmployee?.role}</span>
   </div>
 
   

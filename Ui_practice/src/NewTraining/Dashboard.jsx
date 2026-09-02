@@ -6,10 +6,10 @@ import Catalog from './main/Catalog.jsx';
 
 const Home = () => (
   <div className='flex-1 h-screen bg-blue-300 flex justify-center items-start p-8'>
-    <div className='grid grid-cols-3 gap-6 overflow-auto'>
+    <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 overflow-auto w-full'>
       {project.map((element) => (
         <Link key={element.id} to={`detail/${element.id}`}>
-          <div className='bg-green-200 h-60 w-64 flex justify-center items-center flex-col space-y-4 rounded shadow-md hover:scale-105 transition'>
+          <div className='bg-green-200 h-60 w-64 max-w-full flex justify-center items-center flex-col space-y-4 rounded shadow-md hover:scale-105 transition'>
             <h1 className='text-xl font-bold'>{element.name}</h1>
             <h1>{element.duration}</h1>
             <h1>{element.mamber}</h1>

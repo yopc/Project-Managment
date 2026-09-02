@@ -22,7 +22,7 @@ const ProjectCard = ({ id, title, dueDate, description, status, createdBy, progr
   };
 
   return (
-    <div className="group bg-white rounded-3xl shadow-sm border border-gray-100 p-7 transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 hover:border-gray-200 relative overflow-hidden">
+    <div className="group bg-white rounded-3xl shadow-sm border border-gray-100 p-7 max-sm:p-4 transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 hover:border-gray-200 relative overflow-hidden">
       {/* Subtle gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-50/30 to-purple-50/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl"></div>
       

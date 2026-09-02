@@ -90,11 +90,11 @@ const HomePage = () => {
        
       <div className="flex-col bg-blue-950 text-white">
       
-          <div className='flex justify-between w-full px-4 py-1'>
-            <div className="flex items-center gap-3">
-              <div className='flex gap-1'>
-                <PanelsTopLeft color="#f2f2f2" strokeWidth={2} size={25} fill='#87cefa' />               
-                {projectDetail?.title}                
+          <div className='flex justify-between w-full px-4 py-1 gap-2'>
+            <div className="flex items-center gap-3 min-w-0">
+              <div className='flex gap-1 items-center min-w-0'>
+                <PanelsTopLeft color="#f2f2f2" strokeWidth={2} size={25} className='flex-shrink-0' fill='#87cefa' />               
+                <span className='truncate'>{projectDetail?.title}</span>                
               </div>
              <Badge status={projectDetail?.status}>               
               </Badge>
@@ -137,14 +137,14 @@ const HomePage = () => {
         {errorMessage && <span className='font-roboto text-sm text-red-300'>{errorMessage}</span>}
           </div>
           </Dialog>
-
           {/* Navigation links */}
-         <div className='flex justify-between border-t'> 
+         <div className='flex justify-between border-t overflow-x-auto scrollbar-hide'> 
            
 
 
 
-<div className="flex gap-4 border-gray-400 mx-4 py-2 text-sm">
+
+<div className="flex gap-4 border-gray-400 mx-4 py-2 text-sm whitespace-nowrap">
   <NavLink
     to={`/home/detail/${id}/overview`}
     className={({ isActive }) =>
@@ -195,7 +195,7 @@ const HomePage = () => {
          </div>
         </div>
 
-        <div className=" flex-1 p-4 overflow-y-auto">
+        <div className=" flex-1 p-4 overflow-y-auto overflow-x-hidden">
           <Routes>
             <Route path={`/overview`}element={<Overview id={id} />} />
             <Route path={`/`}element={<Overview id={id} />} />

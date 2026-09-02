@@ -69,7 +69,7 @@ const Message = ({id}) => {
    })
 
   return (
-    <div className='p-6 space-y-5 grid grid-cols-3 gap-x-1 '>
+    <div className='p-6 max-sm:p-3 grid grid-cols-1 sm:grid-cols-3 gap-4'>
 
       {
         activityForProject.map((a) => (

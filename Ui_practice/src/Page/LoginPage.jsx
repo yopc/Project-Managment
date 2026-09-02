@@ -50,12 +50,12 @@ const LoginPage = () => {
 
   return (
     <div className='flex'>
-     <div className='flex items-center justify-center flex-1'>
-         <div className="flex flex-col w-72 gap-y-4 m-8">
+     <div className='flex items-center justify-center flex-1 min-h-screen p-4'>
+         <div className="flex flex-col w-72 max-sm:w-full gap-y-4 m-8 max-sm:m-0 max-sm:max-w-sm">
 
           {forgetPassword ? <div>
-           
-               <div className="flex flex-col w-72 gap-y-4 m-8">
+            
+               <div className="flex flex-col w-72 max-sm:w-full gap-y-4 m-8">
 
       <input
         type="text"
@@ -85,7 +85,7 @@ const LoginPage = () => {
 
           </div> : <div>
             
-             <div className="flex flex-col w-72 gap-y-4 m-8">
+             <div className="flex flex-col w-72 max-sm:w-full gap-y-4 m-8">
     <p>Login to your credentials</p>
       <input
         type="text"
@@ -119,7 +119,7 @@ const LoginPage = () => {
       >
         Login
       </button>
-      <div className="bg-white rounded-xl border border-gray-200 p-5 max-w-md mx-auto shadow-sm relative my-10">
+      <div className="bg-white rounded-xl border border-gray-200 p-5 max-w-md mx-auto shadow-sm relative my-10 w-full">
       {/* Optional Badge */}
       <span className="absolute -top-3 right-4 bg-blue-500 text-white text-xs font-semibold px-3 py-1 rounded-full">
         Sample Email
@@ -127,10 +127,10 @@ const LoginPage = () => {
       
       <div className="space-y-3">
         {/* Email */}
-        <div className="flex items-center justify-between  gap-4">
-          <div className="flex items-center gap-2">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+          <div className="flex items-center gap-2 min-w-0">
             <span className="text-sm font-medium text-gray-600">Email:</span>
-            <span className="text-sm text-gray-800 font-mono  whitespace-nowrap ">meselech.bekele@tech-ethiopia.com</span>
+            <span className="text-sm text-gray-800 font-mono break-all">meselech.bekele@tech-ethiopia.com</span>
           </div>
           <button
             onClick={() => handleCopy('meselech.bekele@tech-ethiopia.com', 'email')}
@@ -182,7 +182,7 @@ const LoginPage = () => {
     </div>
       </div> 
             
-        <div className='flex bg-gradient-to-tr from-blue-950 via-blue-600 to-blue-700 300 flex-1 h-screen justify-center items-center'>
+        <div className='hidden md:flex bg-gradient-to-tr from-blue-950 via-blue-600 to-blue-700 300 flex-1 h-screen justify-center items-center'>
           <div className='w-64 h-72 rounded-lg shadow-2xl shadow-cyan-500 hover:shadow-white bg-white/20 backdrop-blur-md border border-white/30 '>
             <img src={logo} alt="logo" className="w-full h-full object-cover rounded-lg opacity-90" />
           </div>

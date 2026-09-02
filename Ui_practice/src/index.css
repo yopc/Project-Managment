@@ -13,3 +13,34 @@ body{
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Responsive base utilities */
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* FullCalendar mobile scaling (desktop untouched) */
+@media (max-width: 768px) {
+  .fc {
+    max-width: 100%;
+  }
+  .fc .fc-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: space-between;
+  }
+  .fc .fc-toolbar-title {
+    font-size: 1rem;
+  }
+  .fc .fc-view-harness {
+    overflow-x: auto;
+  }
+  .fc .fc-scrollgrid {
+    min-width: 320px;
+  }
+}

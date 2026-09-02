@@ -84,7 +84,7 @@ const ChatPage = () => {
 
   return (
 
-     <div className="flex flex-col h-screen bg-gray-100 relative p-0">
+     <div className="flex flex-col h-full bg-gray-100 relative p-0">
        <div className="sticky top-0 left-0 right-0 bg-gradient-to-r from-blue-500 to-indigo-400 shadow-md p-3 flex items-center justify-between rounded-b-2xl z-10">
   {/* Left side: Profile & name */}
   <div className="flex items-center gap-3">
@@ -130,9 +130,9 @@ const ChatPage = () => {
                 const data = file.substring(keyIndex)
 
                 if(data.startsWith('data:image/')){
-                   return <img src={data} className='size-96 border border-gray-200 rounded'/>
+                   return <img src={data} className='size-96 max-w-full h-auto object-contain max-sm:size-56 border border-gray-200 rounded'/>
                 }else{
-                  return <div className='flex gap-10 bg-blue-500 text-white font-roboto rounded-lg p-2'>
+                  return <div className='flex flex-wrap gap-3 bg-blue-500 text-white font-roboto rounded-lg p-2 items-center'>
                     <div className='flex gap-1'>
                      <File />
                      <h1 >{fileName}</h1>

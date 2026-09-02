@@ -68,7 +68,7 @@ console.log('project id' + projectId)
 console.log('tasks' + tasks)
 
   return (
-    <div className="space-y-2 m-2 w-96 border p-4 shadow-lg rounded-lg">
+    <div className="space-y-2 m-2 w-96 max-w-full border p-4 shadow-lg rounded-lg">
       <h2 className="text-lg text-blue-400 font-roboto  w-fit px-2 rounded-md ">Create Multiple Tasks for Project </h2>
 
       {taskTitles.map((title, index) => (
@@ -93,7 +93,7 @@ console.log('tasks' + tasks)
         </div>
       ))}
 
-      <div className="flex justify-between ">
+      <div className="flex flex-wrap justify-between gap-2 ">
         <Button onClick={addTaskTitle}
        >
            + Add task

@@ -10,9 +10,9 @@ const Card = ({ id, title, dueDate, description, status, createdBy, progress, un
     <div className="bg-white rounded-2xl shadow-md border border-gray-100 w-full max-w-md p-5 m-4 
                     transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
       {/* Header */}
-      <div className="flex justify-between items-start mb-3 h-10">
-        <h1 className="text-base font-semibold text-gray-900 font-roboto">{title}</h1>
-        <div className="flex items-center gap-1 text-gray-500 text-sm">
+      <div className="flex justify-between items-start mb-3 h-10 gap-2">
+        <h1 className="text-base font-semibold text-gray-900 font-roboto truncate">{title}</h1>
+        <div className="flex items-center gap-1 text-gray-500 text-sm flex-shrink-0">
           <CalendarDays size={16} />
           <span title="This is the deadline for completing the task">
   {dueDate}
@@ -22,7 +22,7 @@ const Card = ({ id, title, dueDate, description, status, createdBy, progress, un
       </div>
 
       {/* Description */}
-      <p className="text-sm text-gray-600 leading-relaxed mb-4 line-clamp-3 h-20">
+      <p className="text-sm text-gray-600 leading-relaxed mb-4 line-clamp-3 h-20 max-sm:h-auto">
         {description}
       </p>
 
@@ -38,9 +38,9 @@ const Card = ({ id, title, dueDate, description, status, createdBy, progress, un
         </span> */}
         <Badge2 status={status}/>
         
-        <div className="flex items-center gap-1 text-gray-500">
-          <User size={16} />
-          <span className="italic whitespace-nowrap">{createdBy}</span>
+        <div className="flex items-center gap-1 text-gray-500 min-w-0">
+          <User size={16} className="flex-shrink-0" />
+          <span className="italic whitespace-nowrap truncate">{createdBy}</span>
         </div>
       </div>
 

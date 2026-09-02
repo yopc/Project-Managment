@@ -12,15 +12,11 @@ const Continer = () => {
   const { toggle } = useContext(ToggleContext);
 
   return (
-    <div className='flex h-screen w-screen'>
-      
-
+    <div className='flex h-screen w-screen overflow-hidden'>
       <Side/>
-
-      <div className='flex-1 flex flex-col overflow-hidden'>
+      <div className='flex-1 flex flex-col overflow-hidden min-w-0'>
         <Navbar />
         <MainBody />
-        {/* <HomePage/> */}
       </div>
     </div>
   );

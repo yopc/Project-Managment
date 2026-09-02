@@ -302,7 +302,7 @@ import TextArea from '../components/ui/TextArea.jsx';
                         ))}
 
                          {selectedFiles.length > 0 && (
-                          <div className='flex justify-between items-center'>
+                          <div className='flex flex-wrap justify-start sm:justify-between items-center gap-2'>
                           <Button variant="gohst" className="w-fit" onClick={ async () => { await addSubmition(taskId, selectedFiles); setSelectedFiles([])}}>
                           <Upload className="h-4 w-4 mr-2" />
                           Submit Files

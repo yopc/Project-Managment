@@ -91,7 +91,7 @@ const handleSubmit = async (e) => {
 };
 
   return (
-    <div className="p-4  h-screen mb-8 m-4">
+    <div className="p-4  min-h-screen mb-8 m-4">
        <Link to="/home">
             
             <Button variant='blue' size='sm'>home</Button>
@@ -100,8 +100,8 @@ const handleSubmit = async (e) => {
         {/* Profile Card */}
         <div className='flex flex-col gap-1  flex-1'>
 
-          <div className="flex items-start gap-4 bg-white p-6 rounded-xl">
-          <div className="relative size-28 bg-blue-950 rounded-full flex-shrink-0 overflow-visible">
+          <div className="flex items-start gap-4 bg-white p-6 rounded-xl flex-wrap">
+          <div className="relative size-28 max-sm:size-20 bg-blue-950 rounded-full flex-shrink-0 overflow-visible">
                 {/* Profile Image or Placeholder */}
                 {previewUrl ? (
                   <img
@@ -288,8 +288,8 @@ const handleSubmit = async (e) => {
 
 
 
-   <div className="bg-white border-1  rounded-xl p-6 max-w-xl text-gray-800 font-medium text-base space-y-4">
-    <div className="flex justify-between"><h1 className="text-xl font-semibold text-teal-700 mb-2">Employee Supplementary Files</h1>
+   <div className="bg-white border-1  rounded-xl p-6 max-w-xl text-gray-800 font-medium text-base space-y-4 w-full">
+    <div className="flex flex-wrap justify-between items-center gap-2"><h1 className="text-xl font-semibold text-teal-700 mb-2">Employee Supplementary Files</h1>
     <label htmlFor = 'SupplementartyFile' className="bg-blue-300 px-3 flex items-center  rounded-full text-sm">Add file</label>
 
      <input

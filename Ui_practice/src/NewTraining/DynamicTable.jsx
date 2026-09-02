@@ -89,12 +89,12 @@ const DynamicEnterpriseTable = () => {
       <h2>Enterprise Spreadsheet Table</h2>
 
       {/* Controls */}
-      <div style={{ marginBottom: "10px" }}>
+      <div style={{ marginBottom: "10px", display: "flex", flexWrap: "wrap", gap: "10px", alignItems: "center" }}>
         <input
           placeholder="Filter..."
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
-          style={{ marginRight: "10px" }}
+          style={{ marginRight: "10px", maxWidth: "100%" }}
         />
         <button onClick={addRow}>➕ Add Row</button>
         <button onClick={addColumn} style={{ marginLeft: "10px" }}>
@@ -103,7 +103,7 @@ const DynamicEnterpriseTable = () => {
         <select
           onChange={(e) => setGroupBy(e.target.value)}
           value={groupBy}
-          style={{ marginLeft: "10px" }}
+          style={{ marginLeft: "10px", maxWidth: "100%" }}
         >
           <option value="">No Group</option>
           {Object.keys(rows[0]).map((col) => (
@@ -115,8 +115,9 @@ const DynamicEnterpriseTable = () => {
       </div>
 
       {/* Table */}
+      <div style={{ overflowX: "auto" }}>
       {Object.entries(groupedRows).map(([group, data]) => (
-        <div key={group} style={{ marginBottom: "20px" }}>
+        <div key={group} style={{ marginBottom: "20px", minWidth: "0" }}>
           {groupBy && <h3>{group}</h3>}
           <table
             border="1"
@@ -176,6 +177,7 @@ const DynamicEnterpriseTable = () => {
           </table>
         </div>
       ))}
+      </div>
     </div>
   );
 };

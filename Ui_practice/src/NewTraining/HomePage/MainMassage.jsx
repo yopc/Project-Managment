@@ -92,9 +92,9 @@ const MainMassage = () => {
   }, []);
 
   return (
-    <div className="flex h-screen bg-gray-50 pt-0">
+    <div className="flex flex-col md:flex-row h-screen bg-gray-50 pt-0">
       {/* Enhanced Sidebar */}
-      <div className='w-80 bg-white border-r border-gray-200 flex flex-col shadow-sm'>
+      <div className='w-full md:w-80 bg-white border-r border-gray-200 flex flex-col shadow-sm max-md:max-h-[45vh] md:flex-1'>
         {/* Header */}
         <div className="p-6 border-b border-gray-100 bg-white">
           <h2 className="text-xl font-semibold text-gray-800">Messages</h2>

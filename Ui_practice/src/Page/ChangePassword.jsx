@@ -39,8 +39,8 @@ const ChangePassword = () => {
 
   return (
     <div className='flex'>
-     <div className='flex items-center justify-center flex-1'>
-         <div className="flex flex-col w-72 gap-y-4 m-8">
+     <div className='flex items-center justify-center flex-1 min-h-screen p-4'>
+         <div className="flex flex-col w-72 max-sm:w-full gap-y-4 m-8 max-sm:m-0">
    
       {/* Text Inputs */}
       <p>Change Password</p>
@@ -78,7 +78,7 @@ const ChangePassword = () => {
     </div>
       </div> 
             
-        <div className='flex bg-gradient-to-tr from-blue-950 via-blue-600 to-blue-700 300 flex-1 h-screen justify-center items-center'>
+        <div className='hidden md:flex bg-gradient-to-tr from-blue-950 via-blue-600 to-blue-700 300 flex-1 h-screen justify-center items-center'>
           <div className='w-64 h-72 rounded-lg shadow-2xl shadow-cyan-500 hover:shadow-white bg-white/20 backdrop-blur-md border border-white/30 '>
             <img src={logo} alt="logo" className="w-full h-full object-cover rounded-lg opacity-90" />
           </div>
