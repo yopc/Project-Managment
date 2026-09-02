@@ -113,6 +113,7 @@ const LoginPage = () => {
       >
         Login
       </button>
+      <p>these is sample text </p>
     </div> 
             </div>}
    
