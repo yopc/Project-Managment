@@ -119,21 +119,21 @@ const LoginPage = () => {
       >
         Login
       </button>
-      <div className="bg-white rounded-xl border border-gray-200 p-5 max-w-md mx-auto shadow-sm relative">
+      <div className="bg-white rounded-xl border border-gray-200 p-5 max-w-md mx-auto shadow-sm relative my-10">
       {/* Optional Badge */}
       <span className="absolute -top-3 right-4 bg-blue-500 text-white text-xs font-semibold px-3 py-1 rounded-full">
-        Sample
+        Sample Email
       </span>
       
       <div className="space-y-3">
         {/* Email */}
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between  gap-4">
           <div className="flex items-center gap-2">
             <span className="text-sm font-medium text-gray-600">Email:</span>
-            <span className="text-sm text-gray-800 font-mono">meselech.bekele@tech-ethiopia.com</span>
+            <span className="text-sm text-gray-800 font-mono  whitespace-nowrap ">meselech.bekele@tech-ethiopia.com</span>
           </div>
           <button
-            onClick={() => handleCopy('example@gmail.com', 'email')}
+            onClick={() => handleCopy('meselech.bekele@tech-ethiopia.com', 'email')}
             className={`px-3 py-1 rounded-lg text-xs font-medium transition-all flex items-center gap-1 ${
               copiedField === 'email'
                 ? 'bg-green-500 text-white'
@@ -155,7 +155,7 @@ const LoginPage = () => {
             <span className="text-sm text-gray-800 font-mono">123456</span>
           </div>
           <button
-            onClick={() => handleCopy('1234', 'password')}
+            onClick={() => handleCopy('123456', 'password')}
             className={`px-3 py-1 rounded-lg text-xs font-medium transition-all flex items-center gap-1 ${
               copiedField === 'password'
                 ? 'bg-green-500 text-white'
