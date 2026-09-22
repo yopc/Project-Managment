@@ -73,17 +73,17 @@ const Message = ({id}) => {
 
       {
         activityForProject.map((a) => (
-          <div className='flex-col space-y-1 p-6 border border-gray-300 rounded-md relative'>
+          <div className='flex-col space-y-1 p-6 pt-10 border border-gray-300 rounded-md relative min-w-0'>
 
-            <div className='flex gap-2  p-1 absolute border border-grey-500 -top-4 left-4 bg-white  rounded-lg'>
+            <div className='flex gap-2 p-1 absolute border border-gray-500 -top-4 left-4 right-4 bg-white rounded-lg max-w-[calc(100%-2rem)] min-w-0'>
             <Profile imageSrc={a.user.profilePicture} styleProp={'h-8 w-8'}/>
-            <h1>{a.user.fullName}</h1>         
+            <h1 className='truncate'>{a.user.fullName}</h1>         
             {/* <h1>{a.parentProject}</h1>          */}
            
 
             </div>
         
-            <div className='text-sm'>{a.details.description}</div>          
+            <div className='text-sm break-words'>{a.details.description}</div>          
             {/* <h1 className=''>{a.resource.title}</h1>           */}
              <h3>{convertToString(a.createdAt)}</h3>
             

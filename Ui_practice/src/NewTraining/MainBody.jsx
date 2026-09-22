@@ -49,7 +49,7 @@ const HomeP = () => {
   }, [projects, searchTerm]);
 
   return (
-    <div className="flex-1 p-6">
+    <div className="flex-1 p-6 max-sm:p-4">
       {loadProject ? (
         <div className="flex items-center justify-center h-[60vh]">
           <div className="w-16 h-16 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin" />

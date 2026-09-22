@@ -27,14 +27,19 @@ export default function Calendar({id}) {
   return (
     <div className="p-2 sm:p-6">
       <h1 className="text-xl font-bold mb-4">📅 Task Calendar</h1>
-      <FullCalendar
-        plugins={[dayGridPlugin, interactionPlugin]}
-        initialView="dayGridMonth"
-        events={events}
-        eventColor="#4f46e5" // nice indigo color
-        eventTextColor="white"
-        height="80vh"
-      />
+      <div className="overflow-x-auto">
+        <div className="min-w-[320px]">
+          <FullCalendar
+            plugins={[dayGridPlugin, interactionPlugin]}
+            initialView="dayGridMonth"
+            events={events}
+            eventColor="#4f46e5" // nice indigo color
+            eventTextColor="white"
+            height="auto"
+            contentHeight="auto"
+          />
+        </div>
+      </div>
     </div>
   );
 }

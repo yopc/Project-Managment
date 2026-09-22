@@ -88,14 +88,16 @@ return(
 
         <div className="shadow-lg p-4 rounded-2xl bg-white font-roboto flex flex-col justify-center items-center overflow-x-auto">
             <h2 className="text-sm font-roboto mb-2">Number of Tasks by Employee</h2>
-            <div className="min-w-[500px] max-w-full">
-            <BarChart width={500} height={300} data={Array.isArray(taskCreatedBy) ? taskCreatedBy : []}>
+            <div className="w-full min-w-[280px] max-w-full">
+            <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={Array.isArray(taskCreatedBy) ? taskCreatedBy : []}>
             <CartesianGrid strokeDasharray="2 2" />
             <XAxis dataKey="name" />
             <YAxis allowDecimals={false} />
             <Tooltip />
             <Bar dataKey="value" fill="#ffc658" />
-          </BarChart> 
+          </BarChart>
+          </ResponsiveContainer>
           </div>
         </div>
     
@@ -135,8 +137,9 @@ return(
         <div className="shadow-lg p-4 rounded-2xl bg-white font-roboto flex flex-col justify-center items-center overflow-x-auto">
           <h2 className="text-sm font-roboto mb-2">Number of task  by CreatedBy Employee</h2>
 
-          <div className="min-w-[200px] max-w-full">
-          <PieChart width={200} height={240}>
+          <div className="w-full min-w-[220px] max-w-full">
+          <ResponsiveContainer width="100%" height={240}>
+          <PieChart>
             <Pie
             
              data={Array.isArray(taskCreatedBy) ? taskCreatedBy : []}
@@ -148,6 +151,7 @@ return(
             <Legend />
             <Tooltip />
           </PieChart>
+          </ResponsiveContainer>
           </div>
         </div>
 
@@ -160,8 +164,9 @@ return(
             <div className="shadow-lg p-4 rounded-2xl bg-white font-roboto flex flex-col justify-center items-start border border-gray-300 w-full overflow-x-auto">
 
                 <h2 className="text-sm font-roboto mb-2">Number of Tasks by Created Date</h2>
-               <div className="min-w-[900px] max-w-full">
-               <LineChart width={900} height={300} data={Array.isArray(taskCreatedAt) ? taskCreatedAt : []}>
+               <div className="w-full min-w-[280px] max-w-full">
+               <ResponsiveContainer width="100%" height={300}>
+               <LineChart data={Array.isArray(taskCreatedAt) ? taskCreatedAt : []}>
 
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="date" />
@@ -169,6 +174,7 @@ return(
                   <Tooltip />
                   <Line type="monotone" dataKey="value" stroke="#8884d8" />
                 </LineChart>
+                </ResponsiveContainer>
                 </div>
             </div>
 
@@ -176,8 +182,9 @@ return(
 
                <h2 className="text-sm font-roboto mb-2">Number of Tasks by Due Date</h2>
         
-              <div className="min-w-[900px] max-w-full">
-              <BarChart width={900} height={300} data={Array.isArray(taskDueDate) ? taskDueDate : []}>
+              <div className="w-full min-w-[280px] max-w-full">
+              <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={Array.isArray(taskDueDate) ? taskDueDate : []}>
 
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="date" />
@@ -185,6 +192,7 @@ return(
                 <Tooltip />
                 <Bar dataKey="value" fill="#82ca9d" />
               </BarChart>
+              </ResponsiveContainer>
               </div>
           </div>
 

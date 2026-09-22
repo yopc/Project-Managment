@@ -7,7 +7,7 @@ import Badge2 from "../NewTraining/components/ui/Badge2";
 
 const Card = ({ id, title, dueDate, description, status, createdBy, progress, unreadCount }) => {
   return (
-    <div className="bg-white rounded-2xl shadow-md border border-gray-100 w-full max-w-md p-5 m-4 
+    <div className="bg-white rounded-2xl shadow-md border border-gray-100 w-full p-5
                     transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
       {/* Header */}
       <div className="flex justify-between items-start mb-3 h-10 gap-2">

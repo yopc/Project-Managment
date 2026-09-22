@@ -193,7 +193,7 @@ import TextArea from '../components/ui/TextArea.jsx';
 
 
 
-   <div className="max-w-6xl mx-auto p-6 space-y-6">
+   <div className="max-w-6xl mx-auto p-4 sm:p-6 space-y-6 w-full min-w-0">
 <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
   {/* Left side */}
   <div className="space-y-2">
@@ -283,19 +283,19 @@ import TextArea from '../components/ui/TextArea.jsx';
                       </CardHeader>
                        {/* selected file preview */}
                        <CardContent className='space-y-3'>
-                        {selectedFiles.map((file, index) => (
-                          <div key={index} className='flex items-center justify-between p-4 border  border-gray-200 dark:border-gray-700 rounded-lg'> 
-                              <div className='flex items-center gap-3'>
-                                  <div className="h-10 w-10 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+{selectedFiles.map((file, index) => (
+                          <div key={index} className='flex items-center justify-between gap-3 p-4 border  border-gray-200 dark:border-gray-700 rounded-lg'> 
+                              <div className='flex items-center gap-3 min-w-0 flex-1'>
+                                  <div className="h-10 w-10 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center flex-shrink-0">
                                     <FileText className="h-5 w-5 text-gray-600 dark:text-gray-400" />
                                   </div>
 
-                                   <div>
-                                      <p className="font-medium text-gray-900 dark:text-gray-100">{file.name}</p>                                    
+                                   <div className='min-w-0'>
+                                      <p className="font-medium text-gray-900 dark:text-gray-100 break-all">{file.name}</p>                                    
                                     </div>
                               </div>
-                               
-                               <button onClick={() => handleRemoveFile(index)}>
+                              
+                               <button onClick={() => handleRemoveFile(index)} className='flex-shrink-0'>
                                 <CircleX/>                                
                                 </button>
                           </div>
@@ -356,19 +356,19 @@ import TextArea from '../components/ui/TextArea.jsx';
                                     const fileName = keyIndex !== -1 ? file.data.substring(0, keyIndex).trim() : `file-${index}`;
                                     const data = keyIndex !== -1 ? file.data.substring(keyIndex).trim() : file.data;
                                     return (
-                                      <div key={file.id} className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
-                                        <div className="flex items-center gap-3">
-                                          <div className="h-10 w-10 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+                                      <div key={file.id} className="flex items-center justify-between gap-3 p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+                                        <div className="flex items-center gap-3 min-w-0 flex-1">
+                                          <div className="h-10 w-10 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center flex-shrink-0">
                                             <FileText className="h-5 w-5 text-gray-600 dark:text-gray-400" />
                                           </div>
-                                          <div>
-                                            <p className="font-medium text-gray-900 dark:text-gray-100">{fileName}</p>
+                                          <div className="min-w-0">
+                                            <p className="font-medium text-gray-900 dark:text-gray-100 break-all">{fileName}</p>
                                             <p className="text-sm text-gray-600 dark:text-gray-400">
                                               Uploaded by {file.uploadedBy.fullName} on {convertToString(file.date)}
                                             </p>
                                           </div>
                                         </div>
-                                        <a href={data} download={fileName || `file-${index}`}>
+                                        <a href={data} download={fileName || `file-${index}`} className="flex-shrink-0">
                                           <Download className="h-4 w-4" />
                                         </a>
                                       </div>
@@ -389,19 +389,19 @@ import TextArea from '../components/ui/TextArea.jsx';
                                     const fileName = keyIndex !== -1 ? file.data.substring(0, keyIndex).trim() : `file-${index}`;
                                     const data = keyIndex !== -1 ? file.data.substring(keyIndex).trim() : file.data;
                                     return (
-                                      <div key={file.id} className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
-                                        <div className="flex items-center gap-3">
-                                          <div className="h-10 w-10 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+                                      <div key={file.id} className="flex items-center justify-between gap-3 p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+                                        <div className="flex items-center gap-3 min-w-0 flex-1">
+                                          <div className="h-10 w-10 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center flex-shrink-0">
                                             <FileText className="h-5 w-5 text-gray-600 dark:text-gray-400" />
                                           </div>
-                                          <div>
-                                            <p className="font-medium text-gray-900 dark:text-gray-100">{fileName}</p>
+                                          <div className="min-w-0">
+                                            <p className="font-medium text-gray-900 dark:text-gray-100 break-all">{fileName}</p>
                                             <p className="text-sm text-gray-600 dark:text-gray-400">
                                               Uploaded by {file.uploadedBy.fullName} on {convertToString(file.date)}
                                             </p>
                                           </div>
                                         </div>
-                                        <a href={data} download={fileName || `file-${index}`}>
+                                        <a href={data} download={fileName || `file-${index}`} className="flex-shrink-0">
                                           <Download className="h-4 w-4" />
                                         </a>
                                       </div>
