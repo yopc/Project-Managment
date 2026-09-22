@@ -1,18 +1,19 @@
 import React, { useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { Authenticatioin } from '../Store/AuthenticateUser';
 import Profile from '../../component/Profile';
 import { useState } from 'react';
 import { useRef } from 'react';
 import { useMessage } from '../Store/useMessage';
-import { Download, Paperclip , File } from 'lucide-react';
+import { Download, Paperclip, ArrowLeft, Send, File } from 'lucide-react';
 
 const ChatPage = () => {
     const {id} = useParams();
+    const navigate = useNavigate();
     const {employee , getEmployee} = Authenticatioin();
     const [selectedFiles , setSelectedFile] = useState([])
-    const [message, setMessage] = useState("");  
-    const {sendMessage,messages ,getMessage, selectedUser , setSelectedUser, subscribe, unsubscribeFromMessages, clearUnread} = useMessage();
+    const [message, setMessage] = useState("");
+    const {sendMessage,messages ,getMessage, setSelectedUser, subscribe} = useMessage();
     const [fileToSend , setFileToSend] = useState([])
 
      const messageEndRef = useRef(null);
@@ -25,14 +26,11 @@ const ChatPage = () => {
     subscribe()
     return () => {
       setSelectedUser(null)   // leaving chat => future msgs become unread again
-     
     }
   }, [id])
 
- 
-
     useEffect(() => {
-    if (messageEndRef.current && messages) {
+    if (messageEndRef.current) {
       messageEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
     }, [messages]);
@@ -64,161 +62,162 @@ const ChatPage = () => {
    const handleSend = async () => {
     if (!message && selectedFiles.length === 0) return;
 
-    console.log("Message:", message);
-    console.log("Files:", selectedFiles.map((f) => f.file));
-
-    
-    
     await sendMessage(message , fileToSend);
-    // TODO: send message + files to backend
 
-    // Clear inputs
-
-    console.log('after sending the file')
     setMessage("");
     selectedFiles.forEach(f => f.preview && URL.revokeObjectURL(f.preview));
     setSelectedFile([]);
-    setFileToSend([]); 
+    setFileToSend([]);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSend();
+    }
   };
 
 
   return (
+     <div className="flex flex-col h-full min-h-0 bg-gray-100 overflow-hidden">
 
-     <div className="flex flex-col h-full bg-gray-100 relative p-0">
-       <div className="sticky top-0 left-0 right-0 bg-gradient-to-r from-blue-500 to-indigo-400 shadow-md p-3 flex items-center justify-between rounded-b-2xl z-10">
-  {/* Left side: Profile & name */}
-  <div className="flex items-center gap-3">
-    <Profile imageSrc={employee?.profilePicture} styleProp={'h-10 w-10 rounded-full border-2 border-white shadow-sm'} />
-    <div>
-      <span className="block text-white font-semibold">{employee?.fullName}</span>
-     
-    </div>
-  </div>
+       {/* Header */}
+       <div className="flex-shrink-0 bg-gradient-to-r from-blue-500 to-indigo-400 shadow-md px-3 sm:px-4 py-2.5 flex items-center justify-between z-10">
+         {/* Left side: Back button, Profile & name */}
+         <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+           <button
+             onClick={() => navigate('/message')}
+             className="md:hidden flex-shrink-0 text-white hover:text-blue-100 transition-colors p-1 -ml-1"
+             aria-label="Back to conversations"
+           >
+             <ArrowLeft size={22} />
+           </button>
+           <Profile imageSrc={employee?.profilePicture} styleProp={'h-10 w-10 rounded-full border-2 border-white shadow-sm flex-shrink-0'} />
+           <div className="min-w-0">
+             <span className="block text-white font-semibold truncate">{employee?.fullName}</span>
+           </div>
+         </div>
 
-  {/* Right side: actions (example icons) */}
-  <div className="flex items-center gap-4 text-white">
-    <button className="hover:text-blue-200 transition-colors">
-      <i className="fas fa-search"></i>
-    </button>
-    <button className="hover:text-blue-200 transition-colors">
-      <i className="fas fa-ellipsis-v"></i>
-    </button>
-  </div>
-</div>
+         {/* Right side: actions */}
+         <div className="flex items-center gap-4 text-white flex-shrink-0">
+           <button className="hover:text-blue-200 transition-colors">
+             <i className="fas fa-search"></i>
+           </button>
+           <button className="hover:text-blue-200 transition-colors">
+             <i className="fas fa-ellipsis-v"></i>
+           </button>
+         </div>
+       </div>
 
-
-      {/* Chat messages */}
-      <div className="flex-1 p-4 overflow-y-auto  space-y-4 scrollbar-hide">        
-         {
-         
-          messages.map((m) => {
-            
+       {/* Chat messages */}
+       <div className="flex-1 min-h-0 p-3 sm:p-4 overflow-y-auto space-y-4 scrollbar-hide">
+          {
+          messages.map((m, i) => {
              const isSender = m.senderId === id;
 
-             return (             
-             
-            <div className={`space-y-3  flex  flex-col justify-end max-w-full ${ isSender? 'items-start': 'items-end'}`}
-                  ref={messageEndRef}>
-            {(m.length !==0 )  && <span    className={`px-4 py-2 rounded-2xl text-sm shadow-md max-w-[85%] break-words ${
-                isSender
-                  ? "bg-blue-500 text-white rounded-bl-none"
-                  : "bg-white text-gray-800 border  rounded-br-none"
-              }`}>{m.text}</span>}            
-               {m.files.map((file) => {
+             return (
+             <div key={i} className={`space-y-2 flex flex-col justify-end max-w-full ${ isSender? 'items-start': 'items-end'}`}>
+              {(m.text)  && <span className={`px-4 py-2 rounded-2xl text-sm shadow-md max-w-[85%] sm:max-w-[75%] break-words ${
+                  isSender
+                    ? "bg-blue-500 text-white rounded-bl-none"
+                    : "bg-white text-gray-800 border rounded-br-none"
+                }`}>{m.text}</span>}
+               {m.files.map((file, j) => {
                 const keyIndex =  file.indexOf("data")
                 const fileName = file.substring(0,keyIndex)
                 const data = file.substring(keyIndex)
 
                 if(data.startsWith('data:image/')){
-                   return <img src={data} className='w-full max-w-sm h-auto object-contain max-sm:max-w-[70vw] border border-gray-200 rounded'/>
+                   return <img key={j} src={data} className='w-full max-w-sm h-auto object-contain max-sm:max-w-[75vw] rounded-lg border border-gray-200'/>
                 }else{
-                  return <div className='flex flex-wrap gap-3 bg-blue-500 text-white font-roboto rounded-lg p-2 items-center max-w-full'>
-                    <div className='flex gap-1 min-w-0 items-center'>
-                     <File className='flex-shrink-0'/>
-                     <h1 className='break-all'>{fileName}</h1>
+                  return (
+                    <div key={j} className={`flex flex-wrap gap-2 rounded-2xl p-2.5 items-center max-w-full ${
+                      isSender ? "bg-blue-500 text-white rounded-br-none" : "bg-white border text-gray-800 rounded-bl-none"
+                    }`}>
+                      <div className='flex gap-1 min-w-0 items-center'>
+                       <File className='flex-shrink-0'/>
+                       <h1 className='break-all text-sm'>{fileName}</h1>
+                      </div>
+
+                      <a href={data} download={fileName} className={`flex-shrink-0 ${isSender ? 'text-white' : 'text-blue-500'}`}>
+                        <Download/>
+                      </a>
                     </div>
-                    
-                     
-                    <a href={data} download={fileName} className='flex-shrink-0'>                         
-                    <Download/></a>
-                        
-                        </div>
+                  )
                 }
-                
-                
                })}
-            </div>
-
-              )
-                      
-              })
+             </div>
+             )
+          })
          }
-      </div>
+         <div ref={messageEndRef} />
+       </div>
 
-      {/* Selected Files Preview */}
-      {selectedFiles.length > 0 && (
-        <div className="p-2 border-t bg-white flex flex-wrap gap-2">
-          {selectedFiles.map((fileObj, index) => (
-            <div key={index} className="relative w-20 h-20 border rounded-lg overflow-hidden flex items-center justify-center">
-              {fileObj.preview ? (
-                <img
-                  src={fileObj.preview}
-                  alt={fileObj.file.name}
-                  className="object-cover w-full h-full"
-                />
-              ) : (
-                <p className="text-xs text-gray-700 text-center p-1 break-words">
-                  {fileObj.file.name}
-                </p>
-              )}
-              <button
-                onClick={() => removeFile(index)}
-                className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center hover:bg-red-600"
-              >
-                ✕
-              </button>
-            </div>
-          ))}
-        </div>
-      )}
+       {/* Selected Files Preview */}
+       {selectedFiles.length > 0 && (
+         <div className="flex-shrink-0 p-2 border-t bg-white flex flex-wrap gap-2">
+           {selectedFiles.map((fileObj, index) => (
+             <div key={index} className="relative w-16 h-16 sm:w-20 sm:h-20 border rounded-lg overflow-hidden flex items-center justify-center">
+               {fileObj.preview ? (
+                 <img
+                   src={fileObj.preview}
+                   alt={fileObj.file.name}
+                   className="object-cover w-full h-full"
+                 />
+               ) : (
+                 <p className="text-xs text-gray-700 text-center p-1 break-words">
+                   {fileObj.file.name}
+                 </p>
+               )}
+               <button
+                 onClick={() => removeFile(index)}
+                 className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center hover:bg-red-600"
+               >
+                 ✕
+               </button>
+             </div>
+           ))}
+         </div>
+       )}
 
-      {/* Input Section */}
-      <div className="flex items-center p-3 border-t bg-white gap-2 sticky left-0 bottom-0 right-0">
-        <input
-          type="file"
-          name='file'
-          id="fileInput"
-          className="hidden"
-          onChange={handleFileChange}
-          multiple
-        />
-        <label
-          htmlFor="fileInput"
-          className="cursor-pointer px-3 py-2 bg-gray-200 rounded-lg hover:bg-gray-300"
-        >
-          <Paperclip/>
-        </label>
+       {/* Input Section */}
+       <div className="flex-shrink-0 flex items-center gap-2 bg-white px-2 sm:px-3 py-2 pb-[calc(env(safe-area-inset-bottom)+0.5rem)]">
+         <input
+           type="file"
+           name='file'
+           id="fileInput"
+           className="hidden"
+           onChange={handleFileChange}
+           multiple
+         />
+         <label
+           htmlFor="fileInput"
+           className="cursor-pointer flex-shrink-0 w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 flex items-center justify-center transition-colors"
+         >
+           <Paperclip size={20}/>
+         </label>
 
-        <input
-          type="text"
-          name="text"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          placeholder="Type a message..."
-          className="flex-1 min-w-0 border rounded-lg px-3 py-2"
-        />
+         <input
+           type="text"
+           name="text"
+           value={message}
+           onChange={(e) => setMessage(e.target.value)}
+           onKeyDown={handleKeyDown}
+           placeholder="Type a message..."
+           className="flex-1 min-w-0 border rounded-full px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-100"
+         />
 
-        <button
-          onClick={handleSend}
-          className="bg-blue-500 text-white px-3 sm:px-4 py-2 rounded-lg hover:bg-blue-600 flex-shrink-0"
-        >
-          Send
-        </button>
-      </div>
-    </div>
-   
+         <button
+           onClick={handleSend}
+           disabled={!message && selectedFiles.length === 0}
+           className="flex-shrink-0 w-10 h-10 rounded-full bg-blue-500 hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed text-white flex items-center justify-center transition-colors"
+           aria-label="Send message"
+         >
+           <Send size={18}/>
+         </button>
+       </div>
+     </div>
   )
 }
 
 export default ChatPage
-
