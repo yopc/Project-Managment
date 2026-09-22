@@ -4,6 +4,35 @@ import Project from "../model/project.js";
 import Task from '../model/Task.js'
 import mongoose from "mongoose";
 
+// Compute real progress (% completed) from existing Task documents only.
+// Returns a map { projectId: progress } for the given project ids.
+async function getProjectsProgressMap(projectIds) {
+  const ids = Array.from(new Set(projectIds.map(String)))
+    .filter((id) => mongoose.Types.ObjectId.isValid(id))
+    .map((id) => new mongoose.Types.ObjectId(id));
+
+  if (ids.length === 0) return {};
+
+  const stats = await Task.aggregate([
+    { $match: { project: { $in: ids } } },
+    {
+      $group: {
+        _id: "$project",
+        total: { $sum: 1 },
+        completed: {
+          $sum: { $cond: [{ $eq: ["$status", "Completed"] }, 1, 0] },
+        },
+      },
+    },
+  ]);
+
+  const map = {};
+  stats.forEach((s) => {
+    map[String(s._id)] = s.total > 0 ? Math.round((s.completed / s.total) * 100) : 0;
+  });
+  return map;
+}
+
 export async function createProject(req , res) {
 
  const { title, description, startDate, dueDate} = req.body;
@@ -91,11 +120,15 @@ export const getProjectDetails = async (req, res) => {
     }
 
 
-      //   const totalTasks = await Task.countDocuments({ project: projectId });
-      //   consst completedTasks = await Task.countDocuments({ project: projectId, status: "Completed" });
+//   const totalTasks = await Task.countDocuments({ project: projectId });
+    //   const completedTasks = await Task.countDocuments({ project: projectId, status: "Completed" });
     
-      //   const calculatedProgress = totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0;
-      // project.progress = calculatedProgress
+    //   const calculatedProgress = totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0;
+    // project.progress = calculatedProgress
+
+    // Always reflect the real progress based on existing task documents
+    const progressMap = await getProjectsProgressMap([projectId]);
+    project.progress = progressMap[String(projectId)] ?? 0;
 
     res.status(200).json(project);
   } catch (error) {
@@ -165,6 +198,12 @@ export const getProjectsByMember = async (req, res) => {
     if (!projects.length) {
       return res.status(404).json({ message: "No projects found for this member." });
     }
+
+    // Always reflect the real progress based on existing task documents
+    const progressMap = await getProjectsProgressMap(projects.map((p) => p._id));
+    projects.forEach((p) => {
+      p.progress = progressMap[String(p._id)] ?? 0;
+    });
 
     res.json(projects);
   } catch (error) {
@@ -327,15 +366,12 @@ export const  allProjectData = async (req , res) => {
         },
       ]);
 
-      const projectProgressCount = await Project.aggregate([
-      {
-        $project: {
-          _id: 0,
-          name: "$title",
-          value: "$progress",
-        },
-      },
-    ]);
+      const allProjects = await Project.find().select("_id title").lean();
+      const progressMap = await getProjectsProgressMap(allProjects.map((p) => p._id));
+      const projectProgressCount = allProjects.map((p) => ({
+        name: p.title,
+        value: progressMap[String(p._id)] ?? 0,
+      }));
 
     res.status(200).json({
       NumOfTotalProject,
@@ -380,20 +416,17 @@ export const projectDataForEmployee = async (req , res) => {
       ]);
 
 
-      const projectProgressForEmployee = await Project.aggregate([
-        {
-          $match: {
-            "members.user": employeeId,
-          },
-        },
-        {
-          $project: {
-            _id: 0,
-            name: "$title",
-            value: "$progress",
-          },
-        },
-      ]);
+      const employeeProjects = await Project.find({
+        "members.user": employeeId,
+      })
+        .select("_id title")
+        .lean();
+
+      const progressMap = await getProjectsProgressMap(employeeProjects.map((p) => p._id));
+      const projectProgressForEmployee = employeeProjects.map((p) => ({
+        name: p.title,
+        value: progressMap[String(p._id)] ?? 0,
+      }));
 
 
       const projectTitleVsDueDate = await Project.aggregate([
