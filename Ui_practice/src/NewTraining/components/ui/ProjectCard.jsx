@@ -36,7 +36,7 @@ const ProjectCard = ({ id, title, dueDate, description, status, createdBy, progr
       <div className="relative z-10">
         {/* Header */}
         <div className="flex justify-between items-start mb-4 gap-4">
-          <h2 className="text-xl font-bold text-gray-900 leading-tight group-hover:text-blue-600 transition-colors duration-300 line-clamp-2">
+          <h2 className="text-xl font-bold text-gray-900 leading-tight group-hover:text-blue-600 transition-colors duration-300 line-clamp-2 min-w-0">
             {title}
           </h2>
           <div className="text-right flex-shrink-0">

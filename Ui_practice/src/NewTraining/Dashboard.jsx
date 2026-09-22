@@ -5,11 +5,11 @@ import Catalog from './main/Catalog.jsx';
 
 
 const Home = () => (
-  <div className='flex-1 h-screen bg-blue-300 flex justify-center items-start p-8'>
+  <div className='flex-1 min-h-screen bg-blue-300 flex justify-center items-start p-4 sm:p-8'>
     <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 overflow-auto w-full'>
       {project.map((element) => (
         <Link key={element.id} to={`detail/${element.id}`}>
-          <div className='bg-green-200 h-60 w-64 max-w-full flex justify-center items-center flex-col space-y-4 rounded shadow-md hover:scale-105 transition'>
+          <div className='bg-green-200 h-60 w-full max-w-full flex justify-center items-center flex-col space-y-4 rounded shadow-md hover:scale-105 transition'>
             <h1 className='text-xl font-bold'>{element.name}</h1>
             <h1>{element.duration}</h1>
             <h1>{element.mamber}</h1>
@@ -20,7 +20,7 @@ const Home = () => (
   </div>
 );
 
-const About= () => <div className='flex-1 h-screen  bg-orange-300 flex justify-center items-center'>about</div>
+const About= () => <div className='flex-1 min-h-screen  bg-orange-300 flex justify-center items-center p-4'>about</div>
 const Detail= () => {
   const {id} =   useParams();
  const selectedProject =  project.find((element) => element.id ===  Number(id) )

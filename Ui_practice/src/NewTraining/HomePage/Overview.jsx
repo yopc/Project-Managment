@@ -640,7 +640,7 @@ const Overview = ({ id }) => {
           <div className="w-16 h-16 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin" />
         </div>
       ) : (
-        <div className="mx-auto max-w-7xl p-6 lg:p-10">
+        <div className="mx-auto max-w-7xl p-4 sm:p-6 lg:p-10">
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <div>
               <h1 className="text-2xl font-bold tracking-tight text-gray-900">{title}</h1>

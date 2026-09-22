@@ -55,12 +55,12 @@ import { useParams } from 'react-router-dom';
        :<div className='grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
         { employees.map((employee) => (
        
-        <div className="relative max-w-sm bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 p-4 flex flex-col border border-gray-100">
+<div className="relative w-full bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 p-4 flex flex-col border border-gray-100">
 
             {/* Checkbox - top right */}
             <input
                 name='employeeId'
-                type="checkbox"                                                                           
+                type="checkbox"                                                                               
                 className="absolute top-4 right-4 w-5 h-5 accent-blue-600 cursor-pointer"
                 checked = {selectedEmployees.some((emp) => emp.employeeId === employee._id)}
 
@@ -70,9 +70,9 @@ import { useParams } from 'react-router-dom';
 
             {/* Profile + Info */}
             <div className="flex flex-col items-start gap-4">
-                <div className='flex gap-3'>
+                <div className='flex gap-3 w-full min-w-0 pr-6'>
                     {/* Profile Image */}
-                    <div className="flex flex-col items-center">
+                    <div className="flex flex-col items-center flex-shrink-0">
                     <Profile
                         imageSrc={employee.profilePicture}
                         styleProp={'h-16 w-16 rounded-full border-4 border-blue-500 shadow-md'}
@@ -91,14 +91,14 @@ import { useParams } from 'react-router-dom';
                     </div>
 
                     {/* Details */}
-                    <div className="flex-1">
-                    <h2 className="text-lg font-semibold text-gray-800">{employee.fullName}</h2>
-                    <p className="text-sm text-gray-500 ">{employee.Directorate}</p>
+                    <div className="flex-1 min-w-0">
+                    <h2 className="text-lg font-semibold text-gray-800 break-words">{employee.fullName}</h2>
+                    <p className="text-sm text-gray-500 break-words">{employee.Directorate}</p>
 
                     {/* Contact Info */}
                     <div className="space-y-1">
                         <p className="text-sm text-gray-600 flex items-center">
-                        <span className="mr-2">📱</span> {employee.phoneNumber}
+                        <span className="mr-2">📱</span> <span className="break-all">{employee.phoneNumber}</span>
                         </p>
                        
                     
@@ -108,9 +108,9 @@ import { useParams } from 'react-router-dom';
                     
                     </div>
                </div>
-               <div>
+               <div className="w-full min-w-0">
                    <p className="text-sm text-gray-600 flex items-center">
-                        <span className="mr-2">📧</span> {employee.email}
+                        <span className="mr-2">📧</span> <span className="break-all">{employee.email}</span>
                         </p>
                </div>
 

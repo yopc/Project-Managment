@@ -117,9 +117,9 @@ const ChatPage = () => {
 
              return (             
              
-            <div className={`space-y-3  flex  flex-col justify-end ${ isSender? 'items-start': 'items-end'}`}
-                 ref={messageEndRef}>
-            {(m.length !==0 )  && <span    className={`px-4 py-2 rounded-2xl text-sm shadow-md ${
+            <div className={`space-y-3  flex  flex-col justify-end max-w-full ${ isSender? 'items-start': 'items-end'}`}
+                  ref={messageEndRef}>
+            {(m.length !==0 )  && <span    className={`px-4 py-2 rounded-2xl text-sm shadow-md max-w-[85%] break-words ${
                 isSender
                   ? "bg-blue-500 text-white rounded-bl-none"
                   : "bg-white text-gray-800 border  rounded-br-none"
@@ -130,16 +130,16 @@ const ChatPage = () => {
                 const data = file.substring(keyIndex)
 
                 if(data.startsWith('data:image/')){
-                   return <img src={data} className='size-96 max-w-full h-auto object-contain max-sm:size-56 border border-gray-200 rounded'/>
+                   return <img src={data} className='w-full max-w-sm h-auto object-contain max-sm:max-w-[70vw] border border-gray-200 rounded'/>
                 }else{
-                  return <div className='flex flex-wrap gap-3 bg-blue-500 text-white font-roboto rounded-lg p-2 items-center'>
-                    <div className='flex gap-1'>
-                     <File />
-                     <h1 >{fileName}</h1>
+                  return <div className='flex flex-wrap gap-3 bg-blue-500 text-white font-roboto rounded-lg p-2 items-center max-w-full'>
+                    <div className='flex gap-1 min-w-0 items-center'>
+                     <File className='flex-shrink-0'/>
+                     <h1 className='break-all'>{fileName}</h1>
                     </div>
                     
                      
-                    <a href={data} download={fileName}>                         
+                    <a href={data} download={fileName} className='flex-shrink-0'>                         
                     <Download/></a>
                         
                         </div>
@@ -205,12 +205,12 @@ const ChatPage = () => {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Type a message..."
-          className="flex-1 border rounded-lg px-3 py-2"
+          className="flex-1 min-w-0 border rounded-lg px-3 py-2"
         />
 
         <button
           onClick={handleSend}
-          className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+          className="bg-blue-500 text-white px-3 sm:px-4 py-2 rounded-lg hover:bg-blue-600 flex-shrink-0"
         >
           Send
         </button>

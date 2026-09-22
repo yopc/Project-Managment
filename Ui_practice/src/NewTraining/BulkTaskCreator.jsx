@@ -68,25 +68,26 @@ console.log('project id' + projectId)
 console.log('tasks' + tasks)
 
   return (
-    <div className="space-y-2 m-2 w-96 max-w-full border p-4 shadow-lg rounded-lg">
+    <div className="space-y-2 m-2 w-full sm:w-96 max-w-full border p-4 shadow-lg rounded-lg">
       <h2 className="text-lg text-blue-400 font-roboto  w-fit px-2 rounded-md ">Create Multiple Tasks for Project </h2>
 
       {taskTitles.map((title, index) => (
         <div
           key={index}
-          style={{ display: "flex", marginBottom: "8px", gap: "5px" }}
+          className="flex items-center gap-1 mb-2"
         >
           <input
             type="text"
             value={title}
             onChange={(e) => updateTaskTitle(index, e.target.value)}
             placeholder={`Task ${index + 1} title`}
-            // style={{ flex: 1, padding: "6px" }}
-            className="border-4 w-full h-10 outline-none rounded-md"
+            className="border-4 w-full min-w-0 h-10 outline-none rounded-md"
           />
           <Button
            onClick = {() => removeTaskTitle(index)}
-           variant="outline">          
+           variant="outline"
+           className="flex-shrink-0"
+          >          
              <CircleX color="red"/>
           </Button>
          

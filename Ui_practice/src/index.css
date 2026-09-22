@@ -10,6 +10,14 @@ body{
     font-family: "Open Sans", sans-serif;
 }
 
+/* Prevent horizontal page overflow on any screen size */
+html,
+body,
+#root {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
