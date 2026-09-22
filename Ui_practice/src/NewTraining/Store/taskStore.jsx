@@ -6,6 +6,8 @@ import { ProjectCreator } from "./ProjectCreator";
 const useTaskStore = create((set, get) => ({
   task:null,
   tasks:[],
+  loadingTasks:false,
+  tasksError:null,
   taskTitles: [""], // Default with one empty input
   priorityCount:{},
   statusCount:{},
@@ -65,12 +67,18 @@ const useTaskStore = create((set, get) => ({
     }
   },
   getTaskByProject: async (projectId) => {
+    set({ loadingTasks: true, tasksError: null });
     try{
      const res = await axiosInstance.get(`/task/projectTask/${projectId}`);
      console.log('task data ' + res.data)
-     set({tasks:res.data.tasks})
+     set({tasks:res.data.tasks ?? [], loadingTasks: false})
     }catch(error){
       console.log(error)
+      set({
+        tasks: [],
+        loadingTasks: false,
+        tasksError: error?.response?.data?.message || "Failed to load tasks"
+      })
     }
   },
   updateTaskField: async (projectId, taskId, field, value) => {

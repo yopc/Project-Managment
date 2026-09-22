@@ -49,7 +49,7 @@ import TaskDetail from "./HomePage/TaskDetail.jsx";
 };
 
 const TaskTable = ({ projectId }) => {
-  const { tasks, getTaskByProject, updateTaskField } = useTaskStore();
+  const { tasks, loadingTasks, tasksError, getTaskByProject, updateTaskField } = useTaskStore();
 
   const [filter, setFilter] = useState("");
   const [groupBy, setGroupBy] = useState("");
@@ -297,6 +297,22 @@ const TaskTable = ({ projectId }) => {
 
         {/* Table Card */}
         <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white/80 shadow-xl backdrop-blur-sm">
+          {loadingTasks ? (
+            <div className="flex items-center justify-center gap-3 py-16">
+              <div className="w-8 h-8 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin" />
+              <span className="text-sm text-slate-500">Loading tasks...</span>
+            </div>
+          ) : tasksError ? (
+            <div className="py-16 text-center">
+              <p className="text-base font-medium text-rose-600">Couldn't load tasks</p>
+              <p className="mt-1 text-sm text-slate-500">{tasksError}</p>
+            </div>
+          ) : tasks.length === 0 ? (
+            <div className="py-16 text-center">
+              <p className="text-base font-medium text-slate-700">No tasks for this project yet</p>
+              <p className="mt-1 text-sm text-slate-500">Use the "Create Task" button above to add the first one.</p>
+            </div>
+          ) : (
           <div className="overflow-x-auto">
             <table className="min-w-full border-collapse">
               <thead className="bg-gradient-to-r from-indigo-600 to-indigo-500 text-white">
@@ -401,6 +417,7 @@ const TaskTable = ({ projectId }) => {
               </tbody>
             </table>
           </div>
+          )}
         </div>
       </div>
     </div>
