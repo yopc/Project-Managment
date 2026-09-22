@@ -18,6 +18,13 @@ body,
   overflow-x: hidden;
 }
 
+/* App shell fills the visible viewport (mobile URL-bar safe) */
+html,
+body,
+#root {
+  height: 100%;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

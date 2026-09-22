@@ -7,40 +7,31 @@ import Badge2 from "../NewTraining/components/ui/Badge2";
 
 const Card = ({ id, title, dueDate, description, status, createdBy, progress, unreadCount }) => {
   return (
-    <div className="bg-white rounded-2xl shadow-md border border-gray-100 w-full p-5
+    <div className="bg-white rounded-2xl shadow-md border border-gray-100 w-full max-w-full p-4 sm:p-5
                     transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
       {/* Header */}
-      <div className="flex justify-between items-start mb-3 h-10 gap-2">
-        <h1 className="text-base font-semibold text-gray-900 font-roboto truncate">{title}</h1>
+      <div className="flex flex-wrap sm:flex-nowrap justify-between items-start mb-3 gap-2 min-w-0">
+        <h1 className="text-base font-semibold text-gray-900 font-roboto min-w-0 flex-1 line-clamp-2 sm:truncate">{title}</h1>
         <div className="flex items-center gap-1 text-gray-500 text-sm flex-shrink-0">
-          <CalendarDays size={16} />
-          <span title="This is the deadline for completing the task">
-  {dueDate}
-</span>
-
+          <CalendarDays size={16} className="shrink-0" />
+          <span title="This is the deadline for completing the task" className="whitespace-nowrap">
+            {dueDate}
+          </span>
         </div>
       </div>
 
       {/* Description */}
-      <p className="text-sm text-gray-600 leading-relaxed mb-4 line-clamp-3 h-20 max-sm:h-auto">
+      <p className="text-sm text-gray-600 leading-relaxed mb-4 line-clamp-3">
         {description}
       </p>
 
       {/* Status & Created By */}
-      <div className="flex justify-between items-center text-sm mb-4 ">
-        {/* <span
-          className={`px-3 py-1 rounded-full font-medium text-xs  whitespace-nowrap
-            ${status === "Completed" ? "bg-green-100 text-green-700" :
-              status === "In Progress" ? "bg-blue-100 text-blue-700" :
-              "bg-gray-100 text-gray-700"}`}
-        >
-          {status}
-        </span> */}
+      <div className="flex flex-wrap justify-between items-center gap-2 text-sm mb-4 min-w-0">
         <Badge2 status={status}/>
-        
+
         <div className="flex items-center gap-1 text-gray-500 min-w-0">
           <User size={16} className="flex-shrink-0" />
-          <span className="italic whitespace-nowrap truncate">{createdBy}</span>
+          <span className="italic truncate">{createdBy}</span>
         </div>
       </div>
 

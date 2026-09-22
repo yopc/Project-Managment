@@ -49,7 +49,7 @@ const HomeP = () => {
   }, [projects, searchTerm]);
 
   return (
-    <div className="flex-1 p-6 max-sm:p-4">
+          <div className="flex-1 min-w-0 p-4 sm:p-6 max-sm:p-4">
       {loadProject ? (
         <div className="flex items-center justify-center h-[60vh]">
           <div className="w-16 h-16 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin" />
@@ -61,9 +61,9 @@ const HomeP = () => {
             <h2 className="text-2xl font-bold text-gray-800">Projects for Member</h2>
 
             {/* Controls */}
-            <div className="flex items-center gap-3 w-full sm:w-auto">
+            <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
               {/* Search */}
-              <div className="relative flex-1 sm:flex-none">
+              <div className="relative flex-1 min-w-0 sm:min-w-[12rem] sm:flex-none">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
                 <input
                   type="text"
@@ -75,7 +75,7 @@ const HomeP = () => {
               </div>
 
               {/* View Switch */}
-              <div className="flex border rounded-lg overflow-hidden">
+              <div className="flex border rounded-lg overflow-hidden shrink-0">
                 <button
                   onClick={() => setView("card")}
                   className={`px-3 py-2 flex items-center gap-1 ${
@@ -102,7 +102,7 @@ const HomeP = () => {
           {filteredProjects.length > 0 ? (
             view === "card" ? (
               // GRID VIEW
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              <div className="grid gap-4 sm:gap-6 grid-cols-1 min-w-0 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {filteredProjects.map((project) => (
                   <Card
                     key={project._id}
@@ -191,7 +191,7 @@ const MainBody = () => {
 
   return (
 
-     <div className='flex-1  overflow-y-auto overflow-x-hidden border-4 '>
+     <div className='flex-1 min-w-0 overflow-y-auto overflow-x-hidden'>
       
 
       

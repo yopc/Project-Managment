@@ -56,7 +56,7 @@ useEffect(() => {
 
 return (
     <div
-      className={`flex-shrink-0 h-screen flex flex-col justify-between  transition-all duration-300 bg-gradient-to-b from-slate-800 to-slate-900 text-white shadow-lg overflow-x-hidden ${
+      className={`flex-shrink-0 h-full max-md:h-dvh flex flex-col justify-between  transition-all duration-300 bg-gradient-to-b from-slate-800 to-slate-900 text-white shadow-lg overflow-x-hidden ${
         toggle ? 'w-52 max-md:w-52' : 'w-16 max-md:w-16'
       } max-md:fixed max-md:inset-y-0 max-md:left-0 max-md:z-50 max-md:shadow-2xl ${
         toggle ? 'max-md:translate-x-0' : 'max-md:-translate-x-full'

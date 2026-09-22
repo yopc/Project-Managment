@@ -18,7 +18,7 @@ const Navbar = () => {
  }, [getCurrentEmployee])
 
   return (
-    <div className='bg-neutral-100  border-gray-600 shadow w-full h-16 flex '>
+    <div className='bg-neutral-100  border-gray-600 shadow w-full h-16 flex shrink-0'>
       <div className='flex justify-between items-center w-full px-4 gap-2'>
         <div className='flex items-center min-w-0'>
               <Button onClick = {() => {
