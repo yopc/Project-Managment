@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import React, { useContext } from 'react';
 import { ToggleContext } from '../component/Context';
-import { House, FolderCheck, MessageCircleMore } from 'lucide-react';
+import { House, FolderCheck, MessageCircleMore, X } from 'lucide-react';
 import logo from '../assets/images/logo.jpg';
 import Profile from '../component/Profile';
 import { Authenticatioin } from './Store/AuthenticateUser';
@@ -15,8 +15,12 @@ const navItems = [
 ];
 
 const Side = () => {
-  const { toggle } = useContext(ToggleContext);
+  const { toggle, toggler } = useContext(ToggleContext);
   const {currentEmployee , getCurrentEmployee} = Authenticatioin();
+
+  const closeOnMobile = () => {
+    if (window.innerWidth < 768) toggler();
+  };
 
   const { unreadCount , subscribe,unreadTotal} = useMessage();
 // const unreadCount = useMessage((state) => state.unreadCount);
@@ -61,7 +65,15 @@ return (
       <div>
 
       {/* Logo + Title */}
-      <div className="flex flex-col items-center py-6 px-4 gap-2">
+      <div className="relative flex flex-col items-center py-6 px-4 gap-2">
+        <button
+          onClick={toggler}
+          aria-label="Close menu"
+          className="absolute top-3 right-3 md:hidden p-1.5 rounded-md text-gray-300 hover:text-white hover:bg-slate-700 transition-colors"
+        >
+          <X size={20} />
+        </button>
+
         <img
           src={logo}
           alt="Logo"
@@ -79,6 +91,7 @@ return (
           <Link
           key={item.label}
           to={item.to}
+          onClick={closeOnMobile}
           className={`flex items-center   gap-3 p-3 rounded-md hover:bg-blue-600 hover:text-white transition-all duration-200 cursor-pointer `}
           >
             <div className='flex gap-2'>

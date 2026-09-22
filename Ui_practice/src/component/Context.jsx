@@ -6,9 +6,11 @@ function toggleReducer(state , action){
     }
 
 }
+const initialToggle = typeof window !== 'undefined' ? window.innerWidth >= 768 : true;
+
 export const ToggleContext = createContext();
 const Context = ({children}) => {
-  const [state , dispatch] =  useReducer(toggleReducer , {toggle:true})
+  const [state , dispatch] =  useReducer(toggleReducer , {toggle: initialToggle})
 
   function toggler(){
    dispatch({type:'toggle'})
